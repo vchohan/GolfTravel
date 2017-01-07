@@ -1,0 +1,32 @@
+<resources>
+    <!-- app name -->
+    <string name="app_name">Golf Travel</string>
+
+    <!-- page titles -->
+    <string name="home_page_title">Golf Travel</string>
+    <string name="login_page_title">Login</string>
+
+    <!-- welcome page -->
+    <string name="intro_page_title_one">Hi I am title ONE</string>
+    <string name="intro_page_title_two">Hi I am title TWO</string>
+    <string name="intro_page_title_three">Hi I am title THREE</string>
+    <string name="intro_page_title_four">Hi I am title FOUR</string>
+    <string name="intro_page_description_one">Hi I am description ONE. I can show what ever you want to say.</string>
+    <string name="intro_page_description_two">Hi I am description TWO. I can show what ever you want to say.</string>
+    <string name="intro_page_description_three">Hi I am description THREE. I can show what ever you want to say.</string>
+    <string name="intro_page_description_four">Hi I am description FOUR. I can show what ever you want to say.</string>
+    <string name="intro_page_skip_text">SKIP</string>
+    <string name="intro_page_next_text">NEXT</string>
+    <string name="intro_page_done_text">DONE</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+</resources>

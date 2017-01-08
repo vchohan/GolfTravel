@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 public class RegisterFragment extends android.support.v4.app.Fragment {
 
     public static final String TAG = RegisterFragment.class.getSimpleName();
+
+    private ImageView registerDismissButton;
 
     /**
      * The fragment argument representing the section number for this fragment.
@@ -36,6 +39,14 @@ public class RegisterFragment extends android.support.v4.app.Fragment {
     }
 
     private void initializeView(View rootView) {
+
+        registerDismissButton = (ImageView) rootView.findViewById(R.id.register_dismiss_button);
+        registerDismissButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
     }
 

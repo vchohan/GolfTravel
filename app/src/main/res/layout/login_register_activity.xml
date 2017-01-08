@@ -13,13 +13,39 @@
             android:scaleType="centerCrop" />
 
     <!-- login / register buttons container-->
+
+    <TextView
+            android:id="@+id/app_logo_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GOLF TRAVEL"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="@color/colorWhite"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp" />
+
+    <TextView
+            android:id="@+id/app_logo_sub_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your T-time at your finger tips. "
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp" />
+
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:weightSum="2"
-            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="150dp"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true">
 
         <LinearLayout

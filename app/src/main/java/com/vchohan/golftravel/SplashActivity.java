@@ -14,6 +14,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity);
 
+//        startAnimation();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -23,5 +25,9 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    private void startAnimation() {
+
     }
 }

@@ -125,7 +125,7 @@ public class IntroActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         sharedPreferencesManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(IntroActivity.this, LoginActivity.class));
+        startActivity(new Intent(IntroActivity.this, LoginRegisterActivity.class));
         finish();
     }
 

@@ -24,21 +24,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
                 android:name=".IntroActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
                 android:name=".LoginRegisterActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
                 android:name=".MainActivity"
                 android:label="@string/home_page_title" />
 
+        <activity
+                android:name=".LoginActivity"
+                android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+                android:name=".RegisterActivity"
+                android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

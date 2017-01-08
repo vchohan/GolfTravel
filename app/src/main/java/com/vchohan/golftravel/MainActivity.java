@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TAG = MainActivity.class.getSimpleName();
+
     private ViewPager mViewPager;
 
     private TabLayout mTabLayout;

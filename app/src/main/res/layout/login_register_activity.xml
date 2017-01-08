@@ -10,8 +10,9 @@
             android:id="@+id/gif_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
+    <!-- login / register buttons container-->
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -61,6 +62,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </RelativeLayout>

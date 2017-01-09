@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/register_activity"
         android:layout_width="match_parent"
@@ -53,78 +53,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                <!-- other register options container-->
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:layout_gravity="center">
-
-                    <!-- register with google button container-->
-                    <LinearLayout
-                            android:id="@+id/login_google"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_margin="20dp"
-                            android:gravity="center_vertical"
-                            android:background="@color/colorRed500">
-
-                        <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_margin="10dp"
-                                android:src="@drawable/icon_google_logo" />
-
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Register with Google"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/colorWhite" />
-
-                    </LinearLayout>
-
-                    <!-- register with facebook button container-->
-                    <LinearLayout
-                            android:id="@+id/login_facebook"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_margin="20dp"
-                            android:gravity="center_vertical"
-                            android:background="@color/colorIndigo500">
-
-                        <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_margin="10dp"
-                                android:src="@drawable/icon_facebook_logo" />
-
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Register with Facebook"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/colorWhite" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <View
-                        android:id="@+id/divider_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_above="@+id/footer_container"
-                        android:alpha=".5"
-                        android:background="@android:color/white" />
-
                 <!-- register with email container-->
                 <LinearLayout
                         android:orientation="vertical"
@@ -132,13 +60,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:layout_gravity="center">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="---------- or register with email ----------"
-                            android:textColor="@color/colorWhite" />
 
                     <LinearLayout
                             android:orientation="horizontal"
@@ -231,10 +152,90 @@
                             android:padding="10dp" />
                 </LinearLayout>
 
+                <View
+                        android:id="@+id/divider_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_above="@+id/footer_container"
+                        android:alpha=".5"
+                        android:background="@android:color/white" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center"
+                        android:text="---------- or register with ----------"
+                        android:textColor="@color/colorWhite" />
+
+                <!-- other register options container-->
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:layout_gravity="center">
+
+                    <!-- register with google button container-->
+                    <LinearLayout
+                            android:id="@+id/login_google"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            android:gravity="center_vertical"
+                            android:background="@color/colorRed500">
+
+                        <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_margin="10dp"
+                                android:src="@drawable/icon_google_logo" />
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Register with Google"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorWhite" />
+
+                    </LinearLayout>
+
+                    <!-- register with facebook button container-->
+                    <LinearLayout
+                            android:id="@+id/login_facebook"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            android:gravity="center_vertical"
+                            android:background="@color/colorIndigo500">
+
+                        <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_margin="10dp"
+                                android:src="@drawable/icon_facebook_logo" />
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Register with Facebook"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorWhite" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

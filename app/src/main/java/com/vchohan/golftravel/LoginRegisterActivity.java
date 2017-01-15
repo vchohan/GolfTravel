@@ -2,19 +2,12 @@ package com.vchohan.golftravel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-public class LoginRegisterActivity extends AppCompatActivity {
+public class LoginRegisterActivity extends BaseActivity {
 
     public static final String TAG = LoginRegisterActivity.class.getSimpleName();
-
-    private ImageView gifImageView;
 
     private Button loginPageButton, registerPageButton;
 
@@ -23,13 +16,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_register_activity);
 
-        gifImageView = (ImageView) findViewById(R.id.gif_image_view);
-
-        Glide.with(this)
-            .load(R.drawable.login_image)
-            .asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE)
-            .crossFade()
-            .into(gifImageView);
+        setupLoginRegisterBackgroundGif();
 
         loginPageButton = (Button) findViewById(R.id.login_page_button);
         loginPageButton.setOnClickListener(new View.OnClickListener() {

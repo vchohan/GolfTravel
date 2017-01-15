@@ -19,14 +19,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String TAG = RegisterActivity.class.getSimpleName();
-
-    private ImageView registerGifImageView;
 
     private EditText mFirstName;
 
@@ -51,13 +46,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
 
-        registerGifImageView = (ImageView) findViewById(R.id.register_gif_image_view);
-
-        Glide.with(this)
-            .load(R.drawable.login_image)
-            .asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE)
-            .crossFade()
-            .into(registerGifImageView);
+        setupLoginRegisterBackgroundGif();
 
         mFirstName = (EditText) findViewById(R.id.register_first_name);
         mLastName = (EditText) findViewById(R.id.register_last_name);

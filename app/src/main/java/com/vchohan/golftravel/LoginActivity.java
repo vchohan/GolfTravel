@@ -23,18 +23,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class LoginActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     public static final String TAG = LoginActivity.class.getSimpleName();
-
-    private ImageView loginGifImageView;
 
     private TextView mStatusTextView;
 
@@ -57,12 +51,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        loginGifImageView = (ImageView) findViewById(R.id.login_gif_image_view);
-        Glide.with(this)
-            .load(R.drawable.login_image)
-            .asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE)
-            .crossFade()
-            .into(loginGifImageView);
+        setupLoginRegisterBackgroundGif();
 
         mStatusTextView = (TextView) findViewById(R.id.status);
         mDetailTextView = (TextView) findViewById(R.id.detail);

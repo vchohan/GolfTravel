@@ -6,6 +6,7 @@
         android:layout_height="match_parent"
         tools:context="com.vchohan.golftravel.LoginRegisterActivity">
 
+    <!-- layout image background-->
     <ImageView
             android:id="@+id/gif_image_view"
             android:layout_width="match_parent"
@@ -13,7 +14,6 @@
             android:scaleType="centerCrop" />
 
     <!-- login / register buttons container-->
-
     <TextView
             android:id="@+id/app_logo_text"
             android:layout_width="wrap_content"

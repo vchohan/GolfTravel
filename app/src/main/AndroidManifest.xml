@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.vchohan.golftravel">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <!-- <application -->
     <application
             android:allowBackup="true"
@@ -33,16 +28,20 @@
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-                android:name=".MainActivity"
-                android:label="@string/home_page_title" />
-
-        <activity
                 android:name=".LoginActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+                android:name=".RegisterActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
-                android:name=".RegisterActivity"
+                android:name=".SomeActivity"
+                android:label="@string/home_page_title" />
+
+        <activity
+                android:name=".EmailPasswordActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>

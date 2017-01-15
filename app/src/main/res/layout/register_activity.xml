@@ -140,7 +140,7 @@
                             android:textColorHint="@color/colorWhite" />
 
                     <Button
-                            android:id="@+id/login_page_button"
+                            android:id="@+id/register_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"

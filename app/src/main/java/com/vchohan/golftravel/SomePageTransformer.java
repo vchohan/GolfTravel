@@ -3,7 +3,7 @@ package com.vchohan.golftravel;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-public class MainPageTransformer implements ViewPager.PageTransformer {
+public class SomePageTransformer implements ViewPager.PageTransformer {
 
     @Override
     public void transformPage(View page, float position) {

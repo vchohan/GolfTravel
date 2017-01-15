@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class MainViewPagerAdapter extends FragmentPagerAdapter {
+public class SomeViewPagerAdapter extends FragmentPagerAdapter {
 
-    public MainViewPagerAdapter(FragmentManager fragmentManager) {
+    public SomeViewPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 
@@ -15,11 +15,11 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return MainFragment.newInstance(Color.parseColor("#00BCD4"), position); // cyan
+                return SomeFragment.newInstance(Color.parseColor("#00BCD4"), position); // cyan
             case 1:
-                return MainFragment.newInstance(Color.parseColor("#F44336"), position); // red
+                return SomeFragment.newInstance(Color.parseColor("#F44336"), position); // red
             default:
-                return MainFragment.newInstance(Color.parseColor("#4CAF50"), position); // green
+                return SomeFragment.newInstance(Color.parseColor("#4CAF50"), position); // green
         }
     }
 

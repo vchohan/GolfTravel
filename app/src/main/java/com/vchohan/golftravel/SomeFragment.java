@@ -11,7 +11,7 @@ import android.widget.TextView;
  * Created by vchohan on 1/6/17.
  */
 
-public class MainFragment extends Fragment {
+public class SomeFragment extends Fragment {
 
     private static final String BACKGROUND_COLOR = "backgroundColor";
 
@@ -21,8 +21,8 @@ public class MainFragment extends Fragment {
 
 //    private TextView title, description;
 
-    public static MainFragment newInstance(int backgroundColor, int page) {
-        MainFragment frag = new MainFragment();
+    public static SomeFragment newInstance(int backgroundColor, int page) {
+        SomeFragment frag = new SomeFragment();
         Bundle b = new Bundle();
         b.putInt(BACKGROUND_COLOR, backgroundColor);
         b.putInt(PAGE, page);
@@ -62,13 +62,13 @@ public class MainFragment extends Fragment {
         int layoutResId;
         switch (mPage) {
             case 0:
-                layoutResId = R.layout.main_fragment;
+                layoutResId = R.layout.some_fragment;
                 break;
             case 1:
-                layoutResId = R.layout.main_fragment;
+                layoutResId = R.layout.some_fragment;
                 break;
             default:
-                layoutResId = R.layout.main_fragment;
+                layoutResId = R.layout.some_fragment;
         }
 
         // Inflate the layout resource file

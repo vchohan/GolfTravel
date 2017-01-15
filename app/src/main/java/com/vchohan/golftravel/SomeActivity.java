@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class SomeActivity extends AppCompatActivity {
 
-    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = SomeActivity.class.getSimpleName();
 
     private ViewPager mViewPager;
 
@@ -21,15 +21,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.some_activity);
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
 
         // Set an Adapter on the ViewPager
-        mViewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager()));
+        mViewPager.setAdapter(new SomeViewPagerAdapter(getSupportFragmentManager()));
 
         // Set a PageTransformer
-        mViewPager.setPageTransformer(false, new MainPageTransformer());
+        mViewPager.setPageTransformer(false, new SomePageTransformer());
 
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mTabLayout.setupWithViewPager(mViewPager, true);
@@ -45,14 +45,14 @@ public class MainActivity extends AppCompatActivity {
         footerSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "skip", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SomeActivity.this, "skip", Toast.LENGTH_SHORT).show();
             }
         });
 
         footerDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "done", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SomeActivity.this, "done", Toast.LENGTH_SHORT).show();
             }
         });
 

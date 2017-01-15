@@ -29,7 +29,7 @@
                     android:weightSum="1">
 
                 <ImageView
-                        android:id="@+id/register_dismiss_button"
+                        android:id="@+id/app_bar_dismiss_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
@@ -111,7 +111,7 @@
                                     android:textColor="@color/colorWhite" />
 
                             <ImageView
-                                    android:id="@+id/register_profile_image"
+                                    android:id="@+id/register_profile_photo"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_gravity="center"

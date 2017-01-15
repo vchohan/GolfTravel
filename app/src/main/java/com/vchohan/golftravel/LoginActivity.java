@@ -26,8 +26,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private ImageView loginGifImageView;
 
-    private ImageView loginDismissButton;
-
     private TextView mStatusTextView;
 
     private TextView mDetailTextView;
@@ -58,9 +56,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mPasswordField = (EditText) findViewById(R.id.login_password_input);
 
         findViewById(R.id.login_button).setOnClickListener(this);
-        findViewById(R.id.logout_button).setOnClickListener(this);
 
-        setupLoginPage();
+        setupAppBarDismissButton();
         initializeFirebaseAuth();
 
     }
@@ -79,16 +76,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
-    }
-
-    private void setupLoginPage() {
-        loginDismissButton = (ImageView) findViewById(R.id.login_dismiss_button);
-        loginDismissButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     private void initializeFirebaseAuth() {
@@ -180,8 +167,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
 
-        if (user != null){
-            Intent mainIntent = new Intent(LoginActivity.this, SomeActivity.class);
+        if (user != null) {
+            Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
             mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(mainIntent);
         }
@@ -193,8 +180,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (i == R.id.login_button) {
             Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.logout_button) {
-            signOut();
         }
     }
 

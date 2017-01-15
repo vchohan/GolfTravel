@@ -23,16 +23,19 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 public class LoginActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     public static final String TAG = LoginActivity.class.getSimpleName();
-
-    private TextView mStatusTextView;
-
-    private TextView mDetailTextView;
 
     private EditText mEmailField;
 
@@ -46,27 +49,56 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
 
     private GoogleApiClient mGoogleApiClient;
 
+    private LoginButton mLoginButton;
+
+    private CallbackManager callbackManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.login_activity);
 
         setupLoginRegisterBackgroundGif();
 
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
         mEmailField = (EditText) findViewById(R.id.login_email_input);
         mPasswordField = (EditText) findViewById(R.id.login_password_input);
 
         findViewById(R.id.login_email).setOnClickListener(this);
         findViewById(R.id.login_google).setOnClickListener(this);
+//        findViewById(R.id.login_facebook).setOnClickListener(this);
 
         setupAppBarDismissButton();
 
         configureGoogleSignIn();
         initializeFirebaseAuth();
 
+        callbackManager = CallbackManager.Factory.create();
+        mLoginButton = (LoginButton) findViewById(R.id.login_button);
+        mLoginButton.setReadPermissions("email");
+
+        LoginManager.getInstance().registerCallback(callbackManager,
+            new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    // App code
+                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(mainIntent);
+                }
+
+                @Override
+                public void onCancel() {
+                    // App code
+                }
+
+                @Override
+                public void onError(FacebookException exception) {
+                    // App code
+                }
+            });
     }
+
 
     // [START on_start_add_listener]
     @Override
@@ -147,10 +179,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                     }
 
-                    // [START_EXCLUDE]
-                    if (!task.isSuccessful()) {
-                        mStatusTextView.setText(R.string.auth_failed);
-                    }
                     hideProgressDialog();
                     // [END_EXCLUDE]
                 }
@@ -243,6 +271,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                 // [END_EXCLUDE]
             }
         }
+
+        // this call back is for facebook authentication
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {

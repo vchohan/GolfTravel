@@ -47,6 +47,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.register_activity);
 
         setupLoginRegisterBackgroundGif();
+        setupAppBarDismissButton();
 
         mFirstName = (EditText) findViewById(R.id.register_first_name);
         mLastName = (EditText) findViewById(R.id.register_last_name);
@@ -56,7 +57,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         findViewById(R.id.register_button).setOnClickListener(this);
 
-        setupAppBarDismissButton();
         initializeFirebaseAuth();
 
         mProgressDialog = new ProgressDialog(this);

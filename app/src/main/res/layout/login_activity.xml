@@ -144,40 +144,22 @@
 
                     </LinearLayout>
 
-                    <!--&lt;!&ndash; login with facebook button container&ndash;&gt;-->
-                    <!--<LinearLayout-->
-                            <!--android:id="@+id/login_facebook"-->
-                            <!--android:orientation="horizontal"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="50dp"-->
-                            <!--android:layout_margin="20dp"-->
-                            <!--android:gravity="center_vertical"-->
-                            <!--android:background="@color/colorIndigo500">-->
+                    <!-- login with facebook button container-->
+                    <LinearLayout
+                            android:id="@+id/login_facebook"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            android:gravity="center_vertical"
+                            android:background="@color/colorIndigo500">
 
-                        <!--<ImageView-->
-                                <!--android:layout_width="30dp"-->
-                                <!--android:layout_height="30dp"-->
-                                <!--android:layout_margin="10dp"-->
-                                <!--android:src="@drawable/icon_facebook_logo" />-->
+                        <com.facebook.login.widget.LoginButton
+                                android:id="@+id/login_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
 
-                        <!--<TextView-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:gravity="center"-->
-                                <!--android:text="Login with Facebook"-->
-                                <!--android:textSize="20sp"-->
-                                <!--android:textStyle="bold"-->
-                                <!--android:textColor="@color/colorWhite" />-->
-
-                    <!--</LinearLayout>-->
-
-                    <com.facebook.login.widget.LoginButton
-                            android:id="@+id/login_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginBottom="30dp" />
+                    </LinearLayout>
 
                 </LinearLayout>
 

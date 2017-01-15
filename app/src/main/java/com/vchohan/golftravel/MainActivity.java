@@ -2,10 +2,13 @@ package com.vchohan.golftravel;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -18,12 +21,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth = null;
+
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     private DatabaseReference mDatabaseUsers;
 
@@ -58,6 +62,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAuth = FirebaseAuth.getInstance();
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseUsers.keepSynced(true);
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+
+
+                } else {
+                    Intent intent = new Intent (MainActivity.this, LoginActivity.class);
+                    intent.putExtra("logout", true);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
     }
 
     @Override
@@ -121,14 +141,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void logout() {
-        if (mAuth != null) {
-            mAuth.signOut();
-        } else {
-            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-            if(accessToken != null){
-                LoginManager.getInstance().logOut();
-            }
-        }
+        mAuth.signOut();
+        LoginManager.getInstance().logOut();
 
         finish();
     }

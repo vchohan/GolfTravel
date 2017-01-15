@@ -44,10 +44,6 @@
         <activity
                 android:name=".SomeActivity"
                 android:label="@string/home_page_title" />
-        <activity
-                android:name=".EmailPasswordActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
                 android:name=".MainActivity"

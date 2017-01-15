@@ -135,6 +135,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                     }
                     hideProgressDialog();
+                    finish();
                 }
             });
     }
@@ -179,9 +180,8 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         Toast.makeText(LoginActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
                     }
-                    // [START_EXCLUDE]
                     hideProgressDialog();
-                    // [END_EXCLUDE]
+                    finish();
                 }
             });
     }
@@ -249,6 +249,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
                         Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                     }
                     hideProgressDialog();
+                    finish();
                 }
             });
     }
@@ -325,12 +326,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.login_email) {
-            Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
             emailSignIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.login_google) {
             googleSignIn();
-        } else if (i == R.id.login_facebook) {
-            configureFacebookLogin();
         }
     }
 }

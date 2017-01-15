@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void logout() {
         mAuth.signOut();
         LoginManager.getInstance().logOut();
-
         finish();
     }
 }

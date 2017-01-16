@@ -26,6 +26,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -53,6 +55,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private String selectImageOptions;
 
+
     private FirebaseAuth mAuth;
 
     private DatabaseReference mDatabaseUsers;
@@ -76,10 +79,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 selectPhotoFrom();
-//                Intent galleryIntent = new Intent();
-//                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-//                galleryIntent.setType("image/*");
-//                startActivityForResult(galleryIntent, GALLERY_REQUEST);
             }
         });
 
@@ -258,51 +257,36 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
-//            mImageUri = data.getData();
-//            CropImage.activity(mImageUri)
-//                .setGuidelines(CropImageView.Guidelines.ON)
-//                .setCropShape(CropImageView.CropShape.OVAL)
-//                .setAspectRatio(1, 1)
-//                .start(this);
-//        }
-//
-//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-//            if (resultCode == RESULT_OK) {
-//                Uri resultUri = result.getUri();
-//                Glide.with(getApplicationContext()).load(resultUri)
-//                    .crossFade()
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .into(mProfilePhoto);
-//
-//                // Loading profile image
-//                Glide.with(getApplicationContext()).load(resultUri)
-//                    .crossFade()
-//                    .thumbnail(0.5f)
-//                    .bitmapTransform(new CircleTransform(getApplicationContext()))
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .into(mProfilePhoto);
-//
-//
-//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-//                Exception error = result.getError();
-//            }
-//        }
-
         if (requestCode == GALLERY_REQUEST || requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            if (data != null) {
-                try {
-                    mImageUri = data.getData();
-                    CropImage.activity(mImageUri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .setAspectRatio(1, 1)
-                        .start(this);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                mProfilePhoto.setImageURI(mImageUri);
+            mImageUri = data.getData();
+            CropImage.activity(mImageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .setAspectRatio(1, 1)
+                .start(this);
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                Glide.with(getApplicationContext()).load(resultUri)
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(mProfilePhoto);
+
+                // Loading profile image
+                Glide.with(getApplicationContext()).load(resultUri)
+                    .crossFade()
+                    .thumbnail(0.5f)
+                    .bitmapTransform(new CircleTransform(getApplicationContext()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(mProfilePhoto);
+
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                Log.d(TAG, "Crop Image:", error);
             }
         }
     }

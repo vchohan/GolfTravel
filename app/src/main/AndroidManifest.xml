@@ -62,8 +62,8 @@
         </activity>
 
         //this for cropping images in a circular shape
-        <activity
-                android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+                android:theme="@style/Base.Theme.AppCompat"/>
 
         <activity
                 android:name=".SomeActivity"

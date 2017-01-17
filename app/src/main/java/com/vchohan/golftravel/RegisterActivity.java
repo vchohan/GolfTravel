@@ -1,6 +1,7 @@
 package com.vchohan.golftravel;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -8,6 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -55,7 +57,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private String selectImageOptions;
 
-
     private FirebaseAuth mAuth;
 
     private DatabaseReference mDatabaseUsers;
@@ -69,6 +70,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         setupLoginRegisterBackgroundGif();
         setupAppBarDismissButton();
+        initializeFirebaseAuth();
 
         mFirstName = (EditText) findViewById(R.id.register_first_name);
         mLastName = (EditText) findViewById(R.id.register_last_name);
@@ -89,15 +91,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         findViewById(R.id.register_button).setOnClickListener(this);
 
-        initializeFirebaseAuth();
-
         mProgressDialog = new ProgressDialog(this);
     }
 
     private void initializeFirebaseAuth() {
         mAuth = FirebaseAuth.getInstance();
-        mStorage = FirebaseStorage.getInstance().getReference().child("ProfilePhotos");
-        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("user");
+        mStorage = FirebaseStorage.getInstance().getReference().child("profilePhoto");
     }
 
     private void createAccount(final String firstName, final String lastName, String email, String password) {
@@ -110,35 +110,57 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mProgressDialog.setMessage("Please wait while we register your account.");
         mProgressDialog.show();
 
-        // [START create_user_with_email]
-        mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                // if sign in fails, display a message to the user. If sign in succeeds
+                // the auth state listener will be notified and logic to handle the
+                // signed in user can be handled in the listener.
+                if (!task.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
+                } else if (task.isSuccessful()) {
+                    // look for uid and set user first and last name.
+                    String userId = mAuth.getCurrentUser().getUid();
+                    DatabaseReference currentUserDatabase = mDatabaseUsers.child(userId);
+                    currentUserDatabase.child("firstName").setValue(firstName);
+                    currentUserDatabase.child("lastName").setValue(lastName);
+
+                    // method for setting user profile photo.
+                    submitProfilePhoto();
+                }
+                hideProgressDialog();
+            }
+        });
+    }
+
+    private void submitProfilePhoto() {
+        final String userId = mAuth.getCurrentUser().getUid();
+
+        if (mImageUri != null) {
+            showProgressDialog();
+
+            StorageReference filePath = mStorage.child(mImageUri.getLastPathSegment());
+            filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    String downloadUri = taskSnapshot.getDownloadUrl().toString();
+                    mDatabaseUsers.child(userId).child("profilePhoto").setValue(downloadUri);
 
-                    // If sign in fails, display a message to the user. If sign in succeeds
-                    // the auth state listener will be notified and logic to handle the
-                    // signed in user can be handled in the listener.
-                    if (!task.isSuccessful()) {
-                        Toast.makeText(RegisterActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
-                    } else if (task.isSuccessful()) {
-                        String userId = mAuth.getCurrentUser().getUid();
+                    mProgressDialog.dismiss();
 
-                        DatabaseReference currentUserDatabase = mDatabaseUsers.child(userId);
-                        currentUserDatabase.child("firstName").setValue(firstName);
-                        currentUserDatabase.child("lastName").setValue(lastName);
-                        currentUserDatabase.child("image").setValue("default");
+                    Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(mainIntent);
 
-                        mProgressDialog.dismiss();
-
-                        Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
-                        mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(mainIntent);
-                    }
-                    hideProgressDialog();
+                    Toast.makeText(RegisterActivity.this, "Registration successfully", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            String toastText = "No photo was selected";
+            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean validateForm() {
@@ -146,29 +168,49 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         String firstName = mFirstName.getText().toString();
         if (TextUtils.isEmpty(firstName)) {
-            mEmailField.setError("Required.");
+            mFirstName.setError("Required.");
             valid = false;
         } else {
-            mEmailField.setError(null);
+            mFirstName.setError(null);
         }
 
         String lastName = mLastName.getText().toString();
         if (TextUtils.isEmpty(lastName)) {
+            mLastName.setError("Required.");
+            valid = false;
+        } else {
+            mLastName.setError(null);
+        }
+
+        String email = mEmailField.getText().toString();
+        if (TextUtils.isEmpty(email)) {
             mEmailField.setError("Required.");
             valid = false;
+        } else if (!isEmailValid(email)) {
+            mEmailField.setError(getString(R.string.error_invalid_email));
         } else {
             mEmailField.setError(null);
         }
 
         String password = mPasswordField.getText().toString();
-        if (TextUtils.isEmpty(password)) {
-            mPasswordField.setError("Required.");
+        if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordField.setError(getString(R.string.error_invalid_password));
             valid = false;
         } else {
             mPasswordField.setError(null);
         }
 
         return valid;
+    }
+
+    private boolean isEmailValid(String email) {
+        //TODO: Replace this with your own logic
+        return email.contains("@");
+    }
+
+    private boolean isPasswordValid(String password) {
+        //TODO: Replace this with your own logic
+        return password.length() > 4;
     }
 
     @Override

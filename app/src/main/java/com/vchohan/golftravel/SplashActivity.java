@@ -23,14 +23,11 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent splashIntent = new Intent(SplashActivity.this, IntroActivity.class);
+                splashIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(splashIntent);
 
                 finish();
             }
         }, SPLASH_TIME_OUT);
-    }
-
-    private void startAnimation() {
-
     }
 }

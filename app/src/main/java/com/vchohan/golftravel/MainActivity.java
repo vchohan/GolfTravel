@@ -2,8 +2,11 @@ package com.vchohan.golftravel;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +19,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
@@ -28,6 +36,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DatabaseReference mDatabaseUsers;
 
+    private View mNavigationHeaderView;
+
+    private ImageView navProfilePhoto;
+
+    private TextView navProfileName, navProfileEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +51,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setContentView(R.layout.main_activity);
 
-        setupToolBarAndNavigationDrawer();
-
         initializeFirebase();
 
+        setupToolBarAndNavigationDrawer();
+
         logoutFacebook();
+    }
+
+    private void initializeFirebase() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("user");
+        mDatabaseUsers.keepSynced(true);
     }
 
     private void setupToolBarAndNavigationDrawer() {
@@ -56,6 +76,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // navigation view header
+        mNavigationHeaderView = navigationView.getHeaderView(0);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // display Name, email from google on nav header
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+
+            navProfileName = (TextView) mNavigationHeaderView.findViewById(R.id.nav_profile_name);
+            navProfileName.setText(name);
+
+            navProfileEmail = (TextView) mNavigationHeaderView.findViewById(R.id.nav_profile_email);
+            navProfileEmail.setText(email);
+        }
+
+        if (mAuth.getCurrentUser() != null) {
+            final String userId = mAuth.getCurrentUser().getUid();
+            mDatabaseUsers.child(userId).child("profilePhoto").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    navProfilePhoto = (ImageView) mNavigationHeaderView.findViewById(R.id.nav_profile_photo);
+
+                    String image = dataSnapshot.getValue(String.class);
+
+                    // loading nav profile image
+                    Glide.with(getApplicationContext())
+                        .load(image)
+                        .bitmapTransform(new CircleTransform(getApplicationContext()))
+                        .crossFade()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .thumbnail(0.5f)
+                        .into(navProfilePhoto);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            mDatabaseUsers.child(userId).child("firstName").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    navProfileName = (TextView) mNavigationHeaderView.findViewById(R.id.nav_profile_name);
+                    navProfileName.setText(dataSnapshot.getValue(String.class));
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -106,12 +181,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void initializeFirebase() {
-        mAuth = FirebaseAuth.getInstance();
-        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
-        mDatabaseUsers.keepSynced(true);
     }
 
     private void logout() {

@@ -1,6 +1,5 @@
 package com.vchohan.golftravel;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -9,9 +8,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -32,8 +28,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DatabaseReference mDatabaseUsers;
 
-    private GoogleApiClient mGoogleApiClient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +37,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setContentView(R.layout.main_activity);
 
+        setupToolBarAndNavigationDrawer();
+
+        initializeFirebase();
+
+        logoutFacebook();
+    }
+
+    private void setupToolBarAndNavigationDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,26 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
-        mDatabaseUsers.keepSynced(true);
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-
-
-                } else {
-                    Intent intent = new Intent (MainActivity.this, LoginActivity.class);
-                    intent.putExtra("logout", true);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        };
     }
 
     @Override
@@ -135,13 +108,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void initializeFirebase() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseUsers.keepSynced(true);
+    }
+
     private void logout() {
-        if (mAuth.getCurrentUser() != null) {
-            mAuth.signOut();
-        } else {
-            LoginManager.getInstance().logOut();
-        }
+        mAuth.signOut();
+        LoginManager.getInstance().logOut();
         finish();
+    }
+
+    private void logoutFacebook() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+
+                } else {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.putExtra("logout", true);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
     }
 
     @Override

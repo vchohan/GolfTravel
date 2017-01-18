@@ -68,11 +68,10 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
 
         setupLoginRegisterBackgroundGif();
         setupAppBarDismissButton();
+        initializeFirebaseAuth();
 
         mEmailField = (EditText) findViewById(R.id.login_email_input);
         mPasswordField = (EditText) findViewById(R.id.login_password_input);
-
-        initializeFirebaseAuth();
 
         findViewById(R.id.login_email).setOnClickListener(this);
         findViewById(R.id.login_google).setOnClickListener(this);

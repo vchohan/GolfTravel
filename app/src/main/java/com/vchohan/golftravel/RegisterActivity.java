@@ -11,7 +11,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +19,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,6 +33,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
@@ -63,6 +69,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private StorageReference mStorage;
 
+    private static final int PERMISSION_REQUEST_CODE = 200;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +99,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         findViewById(R.id.register_button).setOnClickListener(this);
 
-        mProgressDialog = new ProgressDialog(this);
     }
 
     private void initializeFirebaseAuth() {
@@ -213,19 +220,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return password.length() > 4;
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.register_button) {
-            createAccount(
-                mFirstName.getText().toString().trim(),
-                mLastName.getText().toString().trim(),
-                mEmailField.getText().toString().trim(),
-                mPasswordField.getText().toString().trim());
-        }
-    }
-
     private void selectPhotoFrom() {
+        // check and request camera and gallery permissions
+        if (checkPermission()) {
+            Toast.makeText(this, "Permission already granted.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Please request permission.", Toast.LENGTH_LONG).show();
+        }
+
+        if (!checkPermission()) {
+            requestPermission();
+        } else {
+            Toast.makeText(this, "Permission already granted.", Toast.LENGTH_LONG).show();
+        }
+
+        // open select photo options alert dialog
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Photo!");
@@ -249,32 +258,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
         });
         builder.show();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == GALLERY_REQUEST) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Now user should be able to use camera
-                switch (requestCode) {
-                    case CameraUtility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                            if (selectImageOptions.equals("Take Photo")) {
-                                cameraIntent();
-                            } else if (selectImageOptions.equals("Choose from Library")) {
-                                galleryIntent();
-                            }
-                        } else {
-                            //code for deny
-                        }
-                        break;
-                }
-            } else {
-                // Your app will not have this permission.
-                String errorText = "Permission was denied to access your camera, please visit app settings to allow permission";
-                Toast.makeText(this, errorText, Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     private void cameraIntent() {
@@ -334,9 +317,85 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.register_button) {
+            createAccount(
+                mFirstName.getText().toString().trim(),
+                mLastName.getText().toString().trim(),
+                mEmailField.getText().toString().trim(),
+                mPasswordField.getText().toString().trim());
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         if (mProfilePhoto != null) {
             outState.putParcelable(URI, mImageUri);
         }
+    }
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
+        int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
+
+        return result == PackageManager.PERMISSION_GRANTED
+            && result1 == PackageManager.PERMISSION_GRANTED
+            && result2 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
+            PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean readAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeAccepted = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+
+                    String permissionCameraGranted = "Permission Granted. GolfTravel can now access camera.";
+                    String permissonReadWriteGranted = "Permission Granted. GolfTravel can now access gallery.";
+                    String permissionDenied = "Camera or Gallery Permission Denied. Please visit app settings to allow permissions";
+                    if (cameraAccepted) {
+                        Toast.makeText(this, permissionCameraGranted, Toast.LENGTH_LONG).show();
+                    } else if (readAccepted && writeAccepted) {
+                        Toast.makeText(this, permissonReadWriteGranted, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, permissionDenied, Toast.LENGTH_LONG).show();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
+                                showMessageOKCancel("Allow access to camera or gallery to take a photo.",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermissions(new String[]{ACCESS_FINE_LOCATION},
+                                                    PERMISSION_REQUEST_CODE);
+                                            }
+                                        }
+                                    });
+                                return;
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(RegisterActivity.this)
+            .setMessage(message)
+            .setPositiveButton("OK", okListener)
+            .setNegativeButton("Cancel", null)
+            .create()
+            .show();
     }
 }

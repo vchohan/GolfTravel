@@ -17,9 +17,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -30,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -56,6 +59,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private CoordinatorLayout coordinatorLayout;
 
+    private ViewPager mViewPager;
+
+    private TabLayout mTabLayout;
+
+    private TextView footerSkip, footerDone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +79,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         logoutFacebook();
         requestLocationPermission();
         locationPermission();
+
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+
+        // Set an Adapter on the ViewPager
+        mViewPager.setAdapter(new SomeViewPagerAdapter(getSupportFragmentManager()));
+
+        // Set a PageTransformer
+        mViewPager.setPageTransformer(false, new SomePageTransformer());
+
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mTabLayout.setupWithViewPager(mViewPager, true);
+
+        footerSkip = (TextView) findViewById(R.id.footer_skip);
+        footerDone = (TextView) findViewById(R.id.footer_done);
+
+        setupText();
+    }
+
+    private void setupText() {
+
+        footerSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "skip", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        footerDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "done", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void initializeFirebase() {

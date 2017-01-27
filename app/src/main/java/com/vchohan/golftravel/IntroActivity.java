@@ -40,7 +40,7 @@ public class IntroActivity extends AppCompatActivity {
 
         // Checking for first time launch - before calling setContentView()
         sharedPreferencesManager = new SharedPreferencesManager(this);
-        if (!sharedPreferencesManager.isFirstTimeLaunch()) {
+        if (sharedPreferencesManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();
         }

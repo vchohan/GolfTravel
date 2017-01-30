@@ -3,7 +3,6 @@ package com.vchohan.golftravel;
 import android.app.ProgressDialog;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -53,15 +52,7 @@ public class BaseActivity extends AppCompatActivity {
             .into(mLoginRegisterLayoutBackground);
     }
 
-    public void setupAppBarDismissButton() {
-        appBarDismissButton = (ImageView) findViewById(R.id.app_bar_dismiss_button);
-        appBarDismissButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    public BaseAppBar getAppBar() {
+        return (BaseAppBar) findViewById(R.id.app_bar);
     }
-
-
 }

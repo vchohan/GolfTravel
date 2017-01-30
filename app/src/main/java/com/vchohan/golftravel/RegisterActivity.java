@@ -76,8 +76,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
 
+        setupAppBar();
         setupLoginRegisterBackgroundGif();
-        setupAppBarDismissButton();
         initializeFirebaseAuth();
 
         mFirstName = (EditText) findViewById(R.id.register_first_name);
@@ -99,6 +99,19 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         findViewById(R.id.register_button).setOnClickListener(this);
 
+    }
+
+    public void setupAppBar() {
+        BaseAppBar appBar = getAppBar();
+        appBar.setTitleText(getResources().getString(R.string.register_page_title));
+        appBar.setTitleTextColor(R.color.colorWhite);
+        appBar.setLeftButtonIcon(R.drawable.ic_clear_white_24dp);
+        appBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initializeFirebaseAuth() {

@@ -66,8 +66,8 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
 
         setContentView(R.layout.login_activity);
 
+        setupAppBar();
         setupLoginRegisterBackgroundGif();
-        setupAppBarDismissButton();
         initializeFirebaseAuth();
 
         mEmailField = (EditText) findViewById(R.id.login_email_input);
@@ -79,6 +79,19 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
 
         configureGoogleSignIn();
         configureFacebookLogin();
+    }
+
+    public void setupAppBar() {
+        BaseAppBar appBar = getAppBar();
+        appBar.setTitleText(getResources().getString(R.string.login_page_title));
+        appBar.setTitleTextColor(R.color.colorWhite);
+        appBar.setLeftButtonIcon(R.drawable.ic_clear_white_24dp);
+        appBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initializeFirebaseAuth() {

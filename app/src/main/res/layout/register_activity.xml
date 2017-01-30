@@ -24,29 +24,10 @@
                 android:layout_height="match_parent">
 
             <!-- app bar container-->
-            <LinearLayout
+            <com.vchohan.golftravel.BaseAppBar
+                    android:id="@+id/app_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
-
-                <ImageView
-                        android:id="@+id/app_bar_dismiss_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:src="@drawable/ic_clear_white_24dp"
-                        android:layout_weight="0" />
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="REGISTER"
-                        android:textSize="20sp"
-                        android:textColor="@color/colorWhite"
-                        android:layout_weight="0" />
-
-            </LinearLayout>
+                    android:layout_height="wrap_content" />
 
             <!-- register page container-->
             <LinearLayout

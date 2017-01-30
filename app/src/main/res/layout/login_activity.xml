@@ -24,7 +24,7 @@
 
             <!-- app bar container-->
             <com.vchohan.golftravel.BaseAppBar
-                    android:id="@+id/app_bar"
+                    android:id="@+id/base_app_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

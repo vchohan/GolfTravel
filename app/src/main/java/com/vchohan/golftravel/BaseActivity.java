@@ -53,6 +53,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public BaseAppBar getAppBar() {
-        return (BaseAppBar) findViewById(R.id.app_bar);
+        return (BaseAppBar) findViewById(R.id.base_app_bar);
     }
 }

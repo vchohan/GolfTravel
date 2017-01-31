@@ -30,7 +30,7 @@ public class IntroActivity extends AppCompatActivity {
 
     private int[] layouts;
 
-    private Button btnSkip, btnNext;
+    private Button buttonSkip, buttonNext;
 
     private SharedPreferencesManager sharedPreferencesManager;
 
@@ -40,7 +40,7 @@ public class IntroActivity extends AppCompatActivity {
 
         // Checking for first time launch - before calling setContentView()
         sharedPreferencesManager = new SharedPreferencesManager(this);
-        if (sharedPreferencesManager.isFirstTimeLaunch()) {
+        if (!sharedPreferencesManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();
         }
@@ -54,8 +54,8 @@ public class IntroActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.footer_button_skip);
-        btnNext = (Button) findViewById(R.id.footer_button_next);
+        buttonSkip = (Button) findViewById(R.id.footer_button_skip);
+        buttonNext = (Button) findViewById(R.id.footer_button_next);
 
         // layouts of all welcome sliders
         layouts = new int[]{
@@ -76,14 +76,14 @@ public class IntroActivity extends AppCompatActivity {
 
         mViewPager.setPageTransformer(false, new IntroPageTransformer());
 
-        btnSkip.setOnClickListener(new View.OnClickListener() {
+        buttonSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchHomeScreen();
             }
         });
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // checking for last page
@@ -139,12 +139,12 @@ public class IntroActivity extends AppCompatActivity {
             // changing the next button text 'NEXT' / 'Get Started...'
             if (position == layouts.length - 1) {
                 // last page. make button text to Get Started...
-                btnNext.setText(getString(R.string.intro_page_done_text));
-                btnSkip.setVisibility(View.INVISIBLE);
+                buttonNext.setText(getString(R.string.intro_page_done_text));
+                buttonSkip.setVisibility(View.INVISIBLE);
             } else {
                 // still pages are left
-                btnNext.setText(getString(R.string.intro_page_next_text));
-                btnSkip.setVisibility(View.VISIBLE);
+                buttonNext.setText(getString(R.string.intro_page_next_text));
+                buttonSkip.setVisibility(View.VISIBLE);
             }
         }
 

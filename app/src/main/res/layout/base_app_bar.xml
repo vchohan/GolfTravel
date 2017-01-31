@@ -11,11 +11,11 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:weightSum="1">
 
         <LinearLayout
-                android:id="@+id/left_app_bar_container"
+                android:id="@+id/left_button_container"
                 android:orientation="vertical"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -25,7 +25,7 @@
                     android:id="@+id/left_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="10dp" />
 
         </LinearLayout>
 
@@ -41,12 +41,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:textSize="20sp"/>
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"/>
 
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/right_app_bar_container"
+                android:id="@+id/right_button_container"
                 android:orientation="vertical"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -56,10 +58,18 @@
                     android:id="@+id/right_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="5dp" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+            android:id="@+id/app_bar_divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGrey300"
+            android:layout_alignBottom="@+id/app_bar_container"
+            android:visibility="gone"/>
 
 </RelativeLayout>

@@ -34,6 +34,7 @@
     <color name="colorOrange900">#E65100</color>
 
     <color name="colorGrey100">#F5F5F5</color>
+    <color name="colorGrey300">#E0E0E0</color>
     <color name="colorGrey500">#9E9E9E</color>
     <color name="colorGrey700">#616161</color>
     <color name="colorGrey900">#212121</color>

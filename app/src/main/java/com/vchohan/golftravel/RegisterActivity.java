@@ -106,7 +106,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         appBar.setTitleText(getResources().getString(R.string.register_page_title));
         appBar.setTitleTextColor(R.color.colorWhite);
         appBar.setLeftButtonIcon(R.drawable.ic_clear_white_24dp);
-        appBar.setOnClickListener(new View.OnClickListener() {
+        appBar.setLeftButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

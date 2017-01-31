@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -15,12 +16,15 @@ public class BaseAppBar extends LinearLayout {
 
     private RelativeLayout mRootLayout;
 
+    private LinearLayout mLeftButtonContainer, mRightButtonContainer;
+
     private ImageView mLeftButton;
 
     private TextView mAppBarTitle;
 
     private ImageView mRightButton;
 
+    private View mAppBarDivider;
 
     public BaseAppBar(Context context) {
         super(context);
@@ -38,12 +42,16 @@ public class BaseAppBar extends LinearLayout {
     }
 
     private void inti(Context context) {
-       inflate(context, R.layout.base_app_bar, this);
+        inflate(context, R.layout.base_app_bar, this);
 
         mRootLayout = (RelativeLayout) findViewById(R.id.app_bar_root_layout);
+        mLeftButtonContainer = (LinearLayout) findViewById(R.id.left_button_container);
+        mRightButtonContainer = (LinearLayout) findViewById(R.id.right_button_container);
         mLeftButton = (ImageView) findViewById(R.id.left_button);
         mAppBarTitle = (TextView) findViewById(R.id.app_bar_title);
         mRightButton = (ImageView) findViewById(R.id.right_button);
+        mAppBarDivider = findViewById(R.id.app_bar_divider);
+
     }
 
     public void setImageViewIcon(ImageView imageView, Integer drawableID) {
@@ -58,8 +66,16 @@ public class BaseAppBar extends LinearLayout {
         setImageViewIcon(mLeftButton, drawableID);
     }
 
+    public void setLeftButtonClickListener(OnClickListener clickListener) {
+        mLeftButtonContainer.setOnClickListener(clickListener);
+    }
+
     public void setRightButtonIcon(Integer drawableID) {
         setImageViewIcon(mRightButton, drawableID);
+    }
+
+    public void setRightButtonClickListener(OnClickListener clickListener) {
+        mRightButtonContainer.setOnClickListener(clickListener);
     }
 
     public void setTitleText(String title) {
@@ -74,5 +90,21 @@ public class BaseAppBar extends LinearLayout {
 
     public void setTitleTextColor(int colorID) {
         mAppBarTitle.setTextColor(ContextCompat.getColor(getContext(), colorID));
+    }
+
+    public void showAppBarDivider() {
+        if (mAppBarDivider.getVisibility() == VISIBLE) {
+            return;
+        }
+
+        mAppBarDivider.setVisibility(VISIBLE);
+    }
+
+    public void hideAppBarDivider() {
+        if (mAppBarDivider.getVisibility() == GONE) {
+            return;
+        }
+
+        mAppBarDivider.setVisibility(GONE);
     }
 }

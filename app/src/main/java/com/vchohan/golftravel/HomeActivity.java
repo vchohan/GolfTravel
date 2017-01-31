@@ -27,8 +27,23 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
+        setupAppBar();
+
         mAuth = FirebaseAuth.getInstance();
 
+        setupFloatingActionMenu();
+        createCustomAnimation();
+    }
+
+    public void setupAppBar() {
+        BaseAppBar appBar = getAppBar();
+        appBar.setTitleText(getResources().getString(R.string.home_page_title));
+        appBar.setTitleTextColor(R.color.colorRed900);
+        appBar.setRightButtonIcon(R.drawable.circular_image);
+        appBar.showAppBarDivider();
+    }
+
+    private void setupFloatingActionMenu() {
         mFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         mSettings = (FloatingActionButton) findViewById(R.id.menu_settings);
         mProfile = (FloatingActionButton) findViewById(R.id.menu_profile);
@@ -51,8 +66,6 @@ public class HomeActivity extends BaseActivity {
 
             }
         });
-
-        createCustomAnimation();
     }
 
     private void createCustomAnimation() {

@@ -1,12 +1,16 @@
 package com.vchohan.golftravel;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.github.clans.fab.FloatingActionMenu;
+
 public class ScrollingActivity extends BaseActivity {
+
+    FloatingActionMenu materialDesignFAM;
+
+    com.github.clans.fab.FloatingActionButton floatingActionButton1, floatingActionButton2, floatingActionButton3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,14 +20,46 @@ public class ScrollingActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 //        setupAppBar();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
+//                Intent intent = new Intent(ScrollingActivity.this, HomeActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        setupFloatingActionMenu();
+    }
+
+    private void setupFloatingActionMenu() {
+
+        materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
+        floatingActionButton1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_settings);
+        floatingActionButton2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_profile);
+        floatingActionButton3 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.mwnu_logout);
+
+        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu first item clicked
+
             }
         });
+        floatingActionButton2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu second item clicked
+
+            }
+        });
+        floatingActionButton3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu third item clicked
+
+            }
+        });
+
     }
 
     public void setupAppBar() {

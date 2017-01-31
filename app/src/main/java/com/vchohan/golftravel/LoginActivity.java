@@ -328,7 +328,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            Intent mainIntent = new Intent(LoginActivity.this, ScrollingActivity.class);
+            Intent mainIntent = new Intent(LoginActivity.this, HomeActivity.class);
             mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(mainIntent);
         }

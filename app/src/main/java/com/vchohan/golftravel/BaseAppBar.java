@@ -44,11 +44,13 @@ public class BaseAppBar extends LinearLayout {
 
     public BaseAppBar(Context context) {
         super(context);
+        if (!isInEditMode())
         inti(context);
     }
 
     public BaseAppBar(Context context, AttributeSet attrs) {
         super(context, attrs);
+        if (!isInEditMode())
         inti(context);
     }
 

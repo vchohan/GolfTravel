@@ -10,17 +10,23 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends BaseActivity {
 
@@ -32,11 +38,9 @@ public class HomeActivity extends BaseActivity {
 
     private FloatingActionButton mSettings, mProfile, mLogout;
 
-    private CustomGauge mTemperatureGauge, mGolfFactor;
+    private TabLayout mTabLayout;
 
-    private TextView mTemperatureText;
-
-    int i;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +51,15 @@ public class HomeActivity extends BaseActivity {
 
         setContentView(R.layout.home_activity);
 
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        setupViewPager(mViewPager);
+
+        mTabLayout = (TabLayout) findViewById(R.id.tab_view);
+        mTabLayout.setupWithViewPager(mViewPager);
+
         setupAppBar();
-
-        setupGaugeView();
-
         setupFloatingActionMenu();
         createCustomAnimation();
-
         logoutFacebook();
     }
 
@@ -67,54 +73,41 @@ public class HomeActivity extends BaseActivity {
     }
 
     //TODO: Implement View Pager here
-
-    private void setupGaugeView() {
-        Button button = (Button) findViewById(R.id.button);
-
-        mTemperatureGauge = (CustomGauge) findViewById(R.id.gauge2);
-        mGolfFactor = (CustomGauge) findViewById(R.id.gauge3);
-
-        mTemperatureText = (TextView) findViewById(R.id.textView2);
-        mTemperatureText.setText(Integer.toString(mTemperatureGauge.getValue()));
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                new Thread() {
-                    public void run() {
-                        for (i = 0; i < 100; i++) {
-                            try {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        mTemperatureGauge.setValue(200 + i * 5);
-                                        mGolfFactor.setValue(i);
-
-                                        mTemperatureText.setText(Integer.toString(mGolfFactor.getValue()));
-                                    }
-                                });
-                                Thread.sleep(50);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }.start();
-            }
-
-        });
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new GolfFactorFragment(), "Golf Factor");
+        adapter.addFragment(new TeeTimeFragment(), "Tee Time");
+        viewPager.setAdapter(adapter);
     }
 
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-    }
+    class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
     private void setupFloatingActionMenu() {
@@ -208,5 +201,15 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

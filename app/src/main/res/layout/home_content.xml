@@ -66,7 +66,7 @@
                 app:gaugeSweepAngle="180"
                 app:gaugeDividerSize="1"
                 app:gaugeDividerColor="@color/colorOrange500"
-                app:gaugeDividerStep="10"
+                app:gaugeDividerStep="20"
                 app:gaugeDividerDrawFirst="false"
                 app:gaugeDividerDrawLast="true" />
 

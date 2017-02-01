@@ -59,8 +59,9 @@ public class HomeActivity extends BaseActivity {
 
     public void setupAppBar() {
         BaseAppBar appBar = getAppBar();
+        appBar.setBackgroundColor(getResources().getColor(R.color.colorRed500));
         appBar.setTitleText(getResources().getString(R.string.home_page_title));
-        appBar.setTitleTextColor(R.color.colorRed900);
+        appBar.setTitleTextColor(R.color.colorWhite);
         appBar.setProfilePhoto();
         appBar.showAppBarDivider();
     }

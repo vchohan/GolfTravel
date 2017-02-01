@@ -6,70 +6,71 @@
         android:layout_height="match_parent"
         tools:context="com.vchohan.golftravel.BaseAppBar">
 
-    <LinearLayout
-            android:id="@+id/app_bar_container"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:weightSum="1">
-
         <LinearLayout
-                android:id="@+id/left_button_container"
-                android:orientation="vertical"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_weight="0">
-
-            <ImageView
-                    android:id="@+id/left_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:id="@+id/app_bar_title_container"
-                android:orientation="vertical"
+                android:id="@+id/app_bar_container"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:weightSum="1">
 
-            <TextView
-                    android:id="@+id/app_bar_title"
+            <LinearLayout
+                    android:id="@+id/left_button_container"
+                    android:orientation="vertical"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0">
+
+                <ImageView
+                        android:id="@+id/left_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/app_bar_title_container"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textAllCaps="true"/>
+                    android:layout_height="50dp"
+                    android:layout_weight="1">
+
+                <TextView
+                        android:id="@+id/app_bar_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:textAllCaps="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/right_button_container"
+                    android:orientation="vertical"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0">
+
+                <ImageView
+                        android:id="@+id/right_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-                android:id="@+id/right_button_container"
-                android:orientation="vertical"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_weight="0">
-
-            <ImageView
-                    android:id="@+id/right_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <View
-            android:id="@+id/app_bar_divider"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/colorGrey300"
-            android:layout_alignBottom="@+id/app_bar_container"
-            android:visibility="gone"/>
+        <View
+                android:id="@+id/app_bar_divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorGrey300"
+                android:layout_alignBottom="@+id/app_bar_container"
+                android:visibility="gone"/>
 
 </RelativeLayout>

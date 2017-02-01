@@ -1,5 +1,12 @@
 package com.vchohan.golftravel;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -9,6 +16,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class BaseAppBar extends LinearLayout {
 
@@ -25,6 +37,10 @@ public class BaseAppBar extends LinearLayout {
     private ImageView mRightButton;
 
     private View mAppBarDivider;
+
+    private FirebaseAuth mAuth = null;
+
+    private DatabaseReference mDatabaseUsers;
 
     public BaseAppBar(Context context) {
         super(context);
@@ -52,6 +68,7 @@ public class BaseAppBar extends LinearLayout {
         mRightButton = (ImageView) findViewById(R.id.right_button);
         mAppBarDivider = findViewById(R.id.app_bar_divider);
 
+        initializeFirebase();
     }
 
     public void setImageViewIcon(ImageView imageView, Integer drawableID) {
@@ -106,5 +123,38 @@ public class BaseAppBar extends LinearLayout {
         }
 
         mAppBarDivider.setVisibility(GONE);
+    }
+
+    private void initializeFirebase() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("user");
+        mDatabaseUsers.keepSynced(true);
+    }
+
+    public void setProfilePhoto() {
+        if (mAuth.getCurrentUser() != null) {
+            final String userId = mAuth.getCurrentUser().getUid();
+            mDatabaseUsers.child(userId).child("profilePhoto").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    String image = dataSnapshot.getValue(String.class);
+
+                    // loading nav profile image
+                    Glide.with(getApplicationContext())
+                        .load(image)
+                        .bitmapTransform(new CircleTransform(getApplicationContext()))
+                        .crossFade()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .thumbnail(0.5f)
+                        .into(mRightButton);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 }

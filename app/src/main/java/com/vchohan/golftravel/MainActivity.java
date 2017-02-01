@@ -32,7 +32,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -63,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private TabLayout mTabLayout;
 
-    private TextView footerSkip, footerDone;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,30 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mTabLayout.setupWithViewPager(mViewPager, true);
-
-        footerSkip = (TextView) findViewById(R.id.footer_skip);
-        footerDone = (TextView) findViewById(R.id.footer_done);
-
-        setupText();
     }
 
-    private void setupText() {
-
-        footerSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "skip", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        footerDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "done", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 
     private void initializeFirebase() {
         mAuth = FirebaseAuth.getInstance();

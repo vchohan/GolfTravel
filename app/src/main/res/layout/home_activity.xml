@@ -10,6 +10,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+    <include
+            layout="@layout/home_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/base_app_bar" />
+
     <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/material_design_android_floating_action_menu"
             android:layout_width="wrap_content"

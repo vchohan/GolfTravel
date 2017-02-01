@@ -9,6 +9,8 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
 import com.github.clans.fab.FloatingActionButton;
@@ -22,6 +24,12 @@ public class HomeActivity extends BaseActivity {
 
     private FirebaseAuth mAuth = null;
 
+    private CustomGauge mTemperatureGauge, mGolfFactor;
+
+    private TextView mTemperatureText;
+
+    int i;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +39,59 @@ public class HomeActivity extends BaseActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        setupGaugeView();
+
         setupFloatingActionMenu();
         createCustomAnimation();
+    }
+
+    private void setupGaugeView() {
+        Button button = (Button) findViewById(R.id.button);
+
+        mTemperatureGauge = (CustomGauge) findViewById(R.id.gauge2);
+        mGolfFactor = (CustomGauge) findViewById(R.id.gauge3);
+
+        mTemperatureText = (TextView) findViewById(R.id.textView2);
+        mTemperatureText.setText(Integer.toString(mTemperatureGauge.getValue()));
+
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new Thread() {
+                    public void run() {
+                        for (i = 0; i < 100; i++) {
+                            try {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        mTemperatureGauge.setValue(200 + i * 5);
+                                        mGolfFactor.setValue(i);
+
+                                        mTemperatureText.setText(Integer.toString(mGolfFactor.getValue()));
+                                    }
+                                });
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }.start();
+            }
+
+        });
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public void setupAppBar() {

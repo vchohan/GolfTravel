@@ -11,9 +11,9 @@
             android:id="@+id/tab_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="@color/colorRed500"
+            app:tabTextColor="@color/colorRed300"
             app:tabBackground="@drawable/tab_color_selector"
-            app:tabSelectedTextColor="@color/colorWhite"
+            app:tabSelectedTextColor="@color/colorRed900"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed"
             app:tabGravity="fill" />

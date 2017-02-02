@@ -51,6 +51,8 @@ public class HomeActivity extends BaseActivity {
 
         setContentView(R.layout.home_activity);
 
+        mAuth = FirebaseAuth.getInstance();
+
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(mViewPager);
 
@@ -119,18 +121,16 @@ public class HomeActivity extends BaseActivity {
         mSettings.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO something when floating action menu first item clicked
-
             }
         });
         mProfile.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {//TODO something when floating action menu second item clicked
-
+            public void onClick(View v) {
+                //TODO something when floating action menu second item clicked
             }
         });
         mLogout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 logout();
-
             }
         });
     }

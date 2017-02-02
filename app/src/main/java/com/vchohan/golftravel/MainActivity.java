@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.vchohan.baseui.CircleTransform;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 

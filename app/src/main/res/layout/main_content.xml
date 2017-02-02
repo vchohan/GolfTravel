@@ -62,7 +62,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                    <com.vchohan.golftravel.CustomGauge
+                    <com.vchohan.baseui.CustomGauge
                             android:id="@+id/weather_gauge"
                             android:layout_width="wrap_content"
                             android:layout_height="150dp"
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp">
 
-                <com.vchohan.golftravel.CustomGauge
+                <com.vchohan.baseui.CustomGauge
                         android:id="@+id/golf_factor_gauge"
                         android:layout_width="wrap_content"
                         android:layout_height="200dp"

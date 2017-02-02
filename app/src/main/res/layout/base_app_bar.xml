@@ -4,7 +4,7 @@
         android:id="@+id/app_bar_root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.vchohan.golftravel.BaseAppBar">
+        tools:context="com.vchohan.baseui.com.vchohan.golftravel.BaseAppBar">
 
         <LinearLayout
                 android:id="@+id/app_bar_container"

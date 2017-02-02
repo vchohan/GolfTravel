@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.baseui;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -10,10 +10,6 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-
-/**
- * Created by vchohan on 11/20/16.
- */
 
 public class CameraUtility {
 

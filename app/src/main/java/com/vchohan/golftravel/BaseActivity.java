@@ -16,9 +16,6 @@ public class BaseActivity extends AppCompatActivity {
     public ImageView mLoginRegisterLayoutBackground;
 
     @VisibleForTesting
-    public ImageView appBarDismissButton;
-
-    @VisibleForTesting
     public ProgressDialog mProgressDialog;
 
     public void showProgressDialog() {

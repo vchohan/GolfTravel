@@ -11,9 +11,9 @@ public class GolfFactorFragment extends Fragment {
 
     public static final String TAG = GolfFactorFragment.class.getSimpleName();
 
-    private CustomGauge mTemperatureGauge, mGolfFactorGauge;
+    private CustomGauge mWeatherGauge, mGolfFactorGauge;
 
-    private TextView mTemperatureText, mGolfFactorText;
+    private TextView mWeatherText, mGolfFactorText;
 
     int i;
 
@@ -39,11 +39,11 @@ public class GolfFactorFragment extends Fragment {
 
     private void setupGaugeView(View rootView) {
 
-        mTemperatureGauge = (CustomGauge) rootView.findViewById(R.id.weather_gauge);
+        mWeatherGauge = (CustomGauge) rootView.findViewById(R.id.weather_gauge);
         mGolfFactorGauge = (CustomGauge) rootView.findViewById(R.id.golf_factor_gauge);
 
-        mTemperatureText = (TextView) rootView.findViewById(R.id.weather_text);
-        mTemperatureText.setText(Integer.toString(mTemperatureGauge.getValue()));
+        mWeatherText = (TextView) rootView.findViewById(R.id.weather_text);
+        mWeatherText.setText(Integer.toString(mWeatherGauge.getValue()));
 
         mGolfFactorText = (TextView) rootView.findViewById(R.id.golf_factor_text);
         mGolfFactorText.setText(Integer.toString(mGolfFactorGauge.getValue()));
@@ -56,10 +56,10 @@ public class GolfFactorFragment extends Fragment {
                             @Override
                             public void run() {
 
-                                mTemperatureGauge.setValue(200 + i * 5);
+                                mWeatherGauge.setValue(200 + i * 5);
                                 mGolfFactorGauge.setValue(i);
 
-                                mTemperatureText.setText(Integer.toString(mTemperatureGauge.getValue()));
+                                mWeatherText.setText(Integer.toString(mWeatherGauge.getValue()));
                                 mGolfFactorText.setText(Integer.toString(mGolfFactorGauge.getValue()));
                             }
                         });

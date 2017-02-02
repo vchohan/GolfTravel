@@ -27,7 +27,7 @@ public class TeeTimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.home_tee_time_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.tee_time_fragment, container, false);
 
         return rootView;
     }

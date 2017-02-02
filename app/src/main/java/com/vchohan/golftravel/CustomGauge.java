@@ -17,31 +17,52 @@ public class CustomGauge extends View {
     private static final int DEFAULT_LONG_POINTER_SIZE = 1;
 
     private Paint mPaint;
+
     private float mStrokeWidth;
+
     private int mStrokeColor;
+
     private RectF mRect;
+
     private String mStrokeCap;
+
     private int mStartAngle;
+
     private int mSweepAngle;
+
     private int mStartValue;
+
     private int mEndValue;
+
     private int mValue;
+
     private double mPointAngle;
+
     private int mPoint;
+
     private int mPointSize;
+
     private int mPointStartColor;
+
     private int mPointEndColor;
+
     private int mDividerColor;
+
     private int mDividerSize;
+
     private int mDividerStepAngle;
+
     private int mDividersCount;
+
     private boolean mDividerDrawFirst;
+
     private boolean mDividerDrawLast;
 
     public CustomGauge(Context context) {
         super(context);
         init();
     }
+
     public CustomGauge(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomGauge, 0, 0);
@@ -61,7 +82,8 @@ public class CustomGauge extends View {
 
         // pointer size and color
         setPointSize(a.getInt(R.styleable.CustomGauge_gaugePointSize, 0));
-        setPointStartColor(a.getColor(R.styleable.CustomGauge_gaugePointStartColor, ContextCompat.getColor(context, android.R.color.white)));
+        setPointStartColor(
+            a.getColor(R.styleable.CustomGauge_gaugePointStartColor, ContextCompat.getColor(context, android.R.color.white)));
         setPointEndColor(a.getColor(R.styleable.CustomGauge_gaugePointEndColor, ContextCompat.getColor(context, android.R.color.white)));
 
         // divider options
@@ -91,12 +113,14 @@ public class CustomGauge extends View {
         mPaint.setStrokeWidth(mStrokeWidth);
         mPaint.setAntiAlias(true);
         if (!TextUtils.isEmpty(mStrokeCap)) {
-            if (mStrokeCap.equals("BUTT"))
+            if (mStrokeCap.equals("BUTT")) {
                 mPaint.setStrokeCap(Paint.Cap.BUTT);
-            else if (mStrokeCap.equals("ROUND"))
+            } else if (mStrokeCap.equals("ROUND")) {
                 mPaint.setStrokeCap(Paint.Cap.ROUND);
-        } else
+            }
+        } else {
             mPaint.setStrokeCap(Paint.Cap.BUTT);
+        }
         mPaint.setStyle(Paint.Style.STROKE);
         mRect = new RectF();
 
@@ -108,18 +132,16 @@ public class CustomGauge extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float padding = getStrokeWidth();
-        float size = getWidth()<getHeight() ? getWidth() : getHeight();
-        float width = size - (2*padding);
-        float height = size - (2*padding);
+        float size = getWidth() < getHeight() ? getWidth() : getHeight();
+        float width = size - (2 * padding);
+        float height = size - (2 * padding);
 //        float radius = (width > height ? width/2 : height/2);
-        float radius = (width < height ? width/2 : height/2);
+        float radius = (width < height ? width / 2 : height / 2);
 
-
-
-        float rectLeft = (getWidth() - (2*padding))/2 - radius + padding;
-        float rectTop = (getHeight() - (2*padding))/2 - radius + padding;
-        float rectRight = (getWidth() - (2*padding))/2 - radius + padding + width;
-        float rectBottom = (getHeight() - (2*padding))/2 - radius + padding + height;
+        float rectLeft = (getWidth() - (2 * padding)) / 2 - radius + padding;
+        float rectTop = (getHeight() - (2 * padding)) / 2 - radius + padding;
+        float rectRight = (getWidth() - (2 * padding)) / 2 - radius + padding + width;
+        float rectBottom = (getHeight() - (2 * padding)) / 2 - radius + padding + height;
 
         mRect.set(rectLeft, rectTop, rectRight, rectBottom);
 
@@ -128,19 +150,19 @@ public class CustomGauge extends View {
         canvas.drawArc(mRect, mStartAngle, mSweepAngle, false, mPaint);
         mPaint.setColor(mPointStartColor);
         mPaint.setShader(new LinearGradient(getWidth(), getHeight(), 0, 0, mPointEndColor, mPointStartColor, Shader.TileMode.CLAMP));
-        if (mPointSize>0) {//if size of pointer is defined
-            if (mPoint > mStartAngle + mPointSize/2) {
-                canvas.drawArc(mRect, mPoint - mPointSize/2, mPointSize, false, mPaint);
-            }
-            else { //to avoid excedding start/zero point
+        if (mPointSize > 0) {//if size of pointer is defined
+            if (mPoint > mStartAngle + mPointSize / 2) {
+                canvas.drawArc(mRect, mPoint - mPointSize / 2, mPointSize, false, mPaint);
+            } else { //to avoid excedding start/zero point
                 canvas.drawArc(mRect, mPoint, mPointSize, false, mPaint);
             }
-        }
-        else { //draw from start point to value point (long pointer)
-            if (mValue==mStartValue) //use non-zero default value for start point (to avoid lack of pointer for start/zero value)
+        } else { //draw from start point to value point (long pointer)
+            if (mValue == mStartValue) //use non-zero default value for start point (to avoid lack of pointer for start/zero value)
+            {
                 canvas.drawArc(mRect, mStartAngle, DEFAULT_LONG_POINTER_SIZE, false, mPaint);
-            else
+            } else {
                 canvas.drawArc(mRect, mStartAngle, mPoint - mStartAngle, false, mPaint);
+            }
         }
 
         if (mDividerSize > 0) {
@@ -149,7 +171,7 @@ public class CustomGauge extends View {
             int i = mDividerDrawFirst ? 0 : 1;
             int max = mDividerDrawLast ? mDividersCount + 1 : mDividersCount;
             for (; i < max; i++) {
-                canvas.drawArc(mRect, mStartAngle + i* mDividerStepAngle, mDividerSize, false, mPaint);
+                canvas.drawArc(mRect, mStartAngle + i * mDividerStepAngle, mDividerSize, false, mPaint);
             }
         }
 
@@ -157,7 +179,7 @@ public class CustomGauge extends View {
 
     public void setValue(int value) {
         mValue = value;
-        mPoint = (int) (mStartAngle + (mValue-mStartValue) * mPointAngle);
+        mPoint = (int) (mStartAngle + (mValue - mStartValue) * mPointAngle);
         invalidate();
     }
 

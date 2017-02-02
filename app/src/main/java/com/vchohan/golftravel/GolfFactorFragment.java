@@ -50,13 +50,13 @@ public class GolfFactorFragment extends Fragment {
 
         new Thread() {
             public void run() {
-                for (i = 0; i < 100; i++) {
+                for (i = 0; i <= 100; i++) {
                     try {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                mWeatherGauge.setValue(200 + i * 5);
+                                mWeatherGauge.setValue(i);
                                 mGolfFactorGauge.setValue(i);
 
                                 mWeatherText.setText(Integer.toString(mWeatherGauge.getValue()));

@@ -78,7 +78,7 @@ public class CustomGauge extends View {
 
         // scale (from mStartValue to mEndValue)
         setStartValue(a.getInt(R.styleable.CustomGauge_gaugeStartValue, 0));
-        setEndValue(a.getInt(R.styleable.CustomGauge_gaugeEndValue, 1000));
+        setEndValue(a.getInt(R.styleable.CustomGauge_gaugeEndValue, 100));
 
         // pointer size and color
         setPointSize(a.getInt(R.styleable.CustomGauge_gaugePointSize, 0));

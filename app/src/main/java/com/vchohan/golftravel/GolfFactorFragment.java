@@ -10,12 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vchohan.baseui.CustomGauge;
-import com.vchohan.baseui.ExpandableWeightLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,9 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 
     int i;
 
-    private LinearLayout mSetGolfFactorButton;
+    private LinearLayout mSetGolfFactorButton, mExpandLayout;
 
-    private ExpandableWeightLayout mExpandLayout;
+    private boolean isExpanded = false;
 
     private ImageView mImageToggle;
 
@@ -58,10 +59,10 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         setupGaugeView(rootView);
 
         mSetGolfFactorButton = (LinearLayout) rootView.findViewById(R.id.set_golf_factor_button);
-        mExpandLayout = (ExpandableWeightLayout) rootView.findViewById(R.id.expandableLayout);
+        mExpandLayout = (LinearLayout) rootView.findViewById(R.id.golf_factor_expandable_Layout);
         mSetGolfFactorButton.setOnClickListener(this);
         mImageToggle = (ImageView) rootView.findViewById(R.id.toggle_up_down_view);
-        mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+        mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
 
         mViewPager = (ViewPager) rootView.findViewById(R.id.golf_factor_view_pager);
         setupViewPager(mViewPager);
@@ -115,16 +116,41 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.set_golf_factor_button:
                 createGolfFactorView();
-                mExpandLayout.toggle();
                 break;
         }
     }
 
     private void createGolfFactorView() {
-        if (mExpandLayout.isExpanded()) {
-            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+        if (isExpanded) {
+            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
+            animateCollapseLayout();
         } else {
-            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_up_white_24dp);
+            animateExpandLayout();
+        }
+    }
+
+    public void animateExpandLayout() {
+        if (mExpandLayout != null) {
+            isExpanded = true;
+            mExpandLayout.setVisibility(LinearLayout.VISIBLE);
+            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.jump_from_down);
+            animation.setDuration(500);
+            mExpandLayout.setAnimation(animation);
+            mExpandLayout.animate();
+            animation.start();
+        }
+    }
+
+    public void animateCollapseLayout() {
+        if (mExpandLayout != null) {
+            isExpanded = false;
+            mExpandLayout.setVisibility(LinearLayout.INVISIBLE);
+            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.jump_to_down);
+            animation.setDuration(500);
+            mExpandLayout.setAnimation(animation);
+            mExpandLayout.animate();
+            animation.start();
         }
     }
 

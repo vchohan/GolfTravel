@@ -119,6 +119,8 @@ public class HomeActivity extends BaseActivity {
         mSettings.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO something when floating action menu first item clicked
+                Intent mapIntent = new Intent (HomeActivity.this, MapsActivity.class);
+                startActivity(mapIntent);
             }
         });
         mProfile.setOnClickListener(new View.OnClickListener() {

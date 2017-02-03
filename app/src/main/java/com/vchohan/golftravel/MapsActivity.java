@@ -20,14 +20,13 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
@@ -78,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void setupAppBar() {
-        mBaseAppBar = (BaseAppBar) findViewById(R.id.base_app_bar);
+        mBaseAppBar = getAppBar();
         mBaseAppBar.setBackgroundColor(getResources().getColor(R.color.colorRed500));
         mBaseAppBar.setLeftButtonIcon(R.drawable.ic_arrow_back_white_24dp);
         mBaseAppBar.setLeftButtonClickListener(new View.OnClickListener() {
@@ -104,7 +103,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return true;
     }
-
 
     /**
      * Manipulates the map once available.
@@ -337,5 +335,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // You can add here other case statements according to your requirement.
         }
     }
-
 }

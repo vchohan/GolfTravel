@@ -1,5 +1,6 @@
 package com.vchohan.golftravel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,7 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 
     int i;
 
-    private LinearLayout mSetGolfFactorButton, mExpandLayout;
+    private LinearLayout mSetGolfFactorButton, mExpandLayout, mBokkTeeTimeButton;
 
     private boolean isExpanded = false;
 
@@ -55,12 +56,11 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.golf_factor_fragment, container, false);
-
         setupGaugeView(rootView);
 
         mSetGolfFactorButton = (LinearLayout) rootView.findViewById(R.id.set_golf_factor_button);
-        mExpandLayout = (LinearLayout) rootView.findViewById(R.id.golf_factor_expandable_Layout);
         mSetGolfFactorButton.setOnClickListener(this);
+        mExpandLayout = (LinearLayout) rootView.findViewById(R.id.golf_factor_expandable_Layout);
         mImageToggle = (ImageView) rootView.findViewById(R.id.toggle_up_down_view);
         mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
 
@@ -69,6 +69,9 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 
         mTabLayout = (TabLayout) rootView.findViewById(R.id.golf_factor_tab_view);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mBokkTeeTimeButton = (LinearLayout) rootView.findViewById(R.id.book_tee_time_button);
+        mBokkTeeTimeButton.setOnClickListener(this);
 
         return rootView;
     }
@@ -115,12 +118,15 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.set_golf_factor_button:
-                createGolfFactorView();
+                setGolfFactorView();
+                break;
+            case R.id.book_tee_time_button:
+                launchBookTeeTime();
                 break;
         }
     }
 
-    private void createGolfFactorView() {
+    private void setGolfFactorView() {
         if (isExpanded) {
             mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
             animateCollapseLayout();
@@ -145,7 +151,7 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
     public void animateCollapseLayout() {
         if (mExpandLayout != null) {
             isExpanded = false;
-            mExpandLayout.setVisibility(LinearLayout.INVISIBLE);
+            mExpandLayout.setVisibility(LinearLayout.GONE);
             Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.jump_to_down);
             animation.setDuration(500);
             mExpandLayout.setAnimation(animation);
@@ -191,5 +197,11 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    private void launchBookTeeTime() {
+        Intent bookTeeTimeIntent = new Intent(getContext(), MapsActivity.class);
+        bookTeeTimeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(bookTeeTimeIntent);
     }
 }

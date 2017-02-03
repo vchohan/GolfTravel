@@ -6,30 +6,34 @@
         android:layout_height="match_parent"
         tools:context="com.vchohan.golftravel.BaseAppBar">
 
+    <!-- App Bar Layoutr-->
         <LinearLayout
                 android:id="@+id/app_bar_container"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:weightSum="1">
 
+            <!-- App Bar Left Button Container -->
             <LinearLayout
                     android:id="@+id/left_button_container"
                     android:orientation="vertical"
-                    android:layout_width="50dp"
+                    android:layout_width="60dp"
                     android:layout_height="50dp"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
                     android:layout_weight="0">
 
+                <!-- App Bar Left Button -->
                 <ImageView
                         android:id="@+id/left_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp" />
+                        android:padding="10dp" />
 
             </LinearLayout>
 
+            <!-- App Bar Title Container -->
             <LinearLayout
                     android:id="@+id/app_bar_title_container"
                     android:orientation="vertical"
@@ -37,34 +41,41 @@
                     android:layout_height="50dp"
                     android:layout_weight="1">
 
+                <!-- App Bar Title -->
                 <TextView
                         android:id="@+id/app_bar_title"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:gravity="center"
+                        android:textStyle="bold"
                         android:textSize="20sp"
                         android:textAllCaps="true"/>
 
             </LinearLayout>
 
+            <!-- App Bar Right Button Container -->
             <LinearLayout
                     android:id="@+id/right_button_container"
                     android:orientation="vertical"
-                    android:layout_width="50dp"
+                    android:layout_width="60dp"
                     android:layout_height="50dp"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
                     android:layout_weight="0">
 
+                <!-- App Bar Left Button -->
                 <ImageView
                         android:id="@+id/right_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp" />
+                        android:padding="5dp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
+    <!-- App Bar Border Viewhb-->
         <View
                 android:id="@+id/app_bar_divider"
                 android:layout_width="match_parent"

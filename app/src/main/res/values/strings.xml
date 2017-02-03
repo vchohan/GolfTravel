@@ -10,6 +10,7 @@
     <string name="home_page_title">Golf Travel</string>
     <string name="login_page_title">Login</string>
     <string name="register_page_title">Register</string>
+    <string name="map_view_title">Golf Course</string>
 
     <!-- welcome page -->
     <string name="intro_page_title_one">Hi I am title ONE</string>

@@ -32,6 +32,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
 
+    private BaseAppBar mBaseAppBar;
+
     private GoogleMap mMap;
 
     private double latitude;
@@ -53,7 +55,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.map_activity);
+
+        setupAppBar();
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
@@ -71,6 +75,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
             .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    public void setupAppBar() {
+        mBaseAppBar = (BaseAppBar) findViewById(R.id.base_app_bar);
+        mBaseAppBar.setBackgroundColor(getResources().getColor(R.color.colorRed500));
+        mBaseAppBar.setLeftButtonIcon(R.drawable.ic_arrow_back_white_24dp);
+        mBaseAppBar.setLeftButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapsActivity.super.onBackPressed();
+            }
+        });
+        mBaseAppBar.setTitleText(getResources().getString(R.string.map_view_title));
+        mBaseAppBar.setTitleTextColor(R.color.colorWhite);
+        mBaseAppBar.showAppBarDivider();
     }
 
     private boolean CheckGooglePlayServices() {

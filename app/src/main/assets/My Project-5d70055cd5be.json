@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "gifted-monitor-157619",
+  "private_key_id": "5d70055cd5bea23eaeefa9a99c06e94cd134b49a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDGwsDnAGS9oOEa\n9To3krP0PUdTIRZXw0mqIp565MrlOZR2UTV5z1Yy2tNNO/AdAQGEsxLi/jEZsUfg\n0c6C3wzykxe15TiXN9uivFOuzF+DuPxN5WLFEs4Xsj5YVWWKYPlw4L3JvaXqRJUX\nx/RaIVFycHE8S+KHI4hTNyUmaXFTumjqklZRdHgQiSVoyvKbooccJ/0oXIgj2q6Z\nqOZTTWBmrb5gM829/3IuV7PuRoat/cZ4MKuOsL06giiqVq0eY2OtNetpK6kPqGPM\n6ez/v+t2zOioQ/rhCZ+U5KHkT5w1gfB++4jQnlHypIc8Im/XiQS8q4hO9KCsztCK\nERkREzY3AgMBAAECggEAXo9LDNtQEjNWxOeEEepWeM0qgK8OHSTIiAu+UANHT/Sr\n3/pUsaXlgX4/5s+sNXBEE6jKRHngTDPeWWQXloWdeE5oil4KJU8qy+pC+bc7fcRl\nLH4EFnQS3o0rQgUmsMXgBka1pCP4qlKEh/LWGocdY4+BH8mOdPJ/qe9jWjnx8321\nYCBiZybRQtNo3trfc9hO/kLAwaEehVGRv8VEkKvIDUqKVkSrKY9GJ+qQObVUE6i1\nW+FG001sf+gnVbH9lU7z0+F8HREihwQg9Yoz9nhsqBHEASZR+rlLNW4a31Mu44MA\ntVm+C1XLA9DjlmuCsQ8wK+MU08g5Qt1nN23DprTWWQKBgQD3Rxg1e0Cx9RhvCT3W\nOzP5QGGa2yp+cKY8hlEqMPTJQemEAvHRRNWvGehNR+byap+EBx51XtcCPyjk83Za\nX2+rSbyZV0+3Kl3QhNNuTzeBwBdJcF0eyLBaqUM39zzt1NxS3HwioV+uXTZMjgJN\nscSSuqhlyiWysl9uPUwxfID1FQKBgQDNxY2h52CLDQZrdQH8q2FzhbJPDXk9TOY9\nEq+Li0Rk+/Ay99LC23UfK0E/asrUF8eT1D4PGXVAAhWS6mMiEhjQnILBMkoJZLDO\nbxIbNCmztlg/8U/n4p/IapTCOExsyP0juFWUPMspVqcXyEirISEb4KJEk+QQP7HZ\nO4sZ15UpGwKBgDJh2OvkrfzUTGMrRd8lduR9GqX7q7/RYf2I/HaVPPrYpCSSmQSj\nespPhAZi9QpFcTTsYmdVqIc7qTBk7qNhOJZ00qmHoaVXS4AV4CJkn5GfOt9qtn50\nM4J1ZE294TswGKgFZoGD0cPsGAknEg8UflHLGE6NDntHXqxObvzSOlA1AoGBAKkC\n22shBW4Qu7YlPAWRqpBdPvCpa2yLLgz5vRALyph7SnZCkW0VHiUEvSneiEweYAGu\n8W4rhd+WFqw+MkB4xsMJ2mfe62q9tm9IUYHgnWQLoH6csPoQbRcLW7YO0c8EYs8l\nB72jFWeV0da53d4Zbv1by0wygL9L4cNAoecO6GgDAoGBALeqH74l6Wh99kDD7Z63\nfcE5ql9ZRdWV2nd+0WcCkXnDAWtFRKe6iE16n3GbrPVOsdr/v7MSovQ3wF+mrIBE\nkHO+LKRsFs0wdyCC9+V/e7POuMP6k2i1B+SklQGe6EmD7oWo7jnaXlK0W0hD3gIH\nIpa5QFPATPuPQLTnF4cCOJOX\n-----END PRIVATE KEY-----\n",
+  "client_email": "golf-travel@gifted-monitor-157619.iam.gserviceaccount.com",
+  "client_id": "108850971486628759418",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/golf-travel%40gifted-monitor-157619.iam.gserviceaccount.com"
+}

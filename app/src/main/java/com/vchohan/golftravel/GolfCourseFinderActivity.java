@@ -12,6 +12,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -109,9 +110,8 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
     }
 
     private void setGeoCodeView() {
-        geo_autocomplete_clear = (ImageView) findViewById(R.id.geo_autocomplete_clear);
-
         geo_autocomplete = (DelayAutoCompleteTextView) findViewById(R.id.geo_autocomplete);
+        geo_autocomplete_clear = (ImageView) findViewById(R.id.geo_autocomplete_clear);
         geo_autocomplete.setThreshold(THRESHOLD);
         geo_autocomplete.setAdapter(new GeoAutoCompleteAdapter(this)); // 'this' is Activity instance
 
@@ -217,6 +217,8 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_retro);
+        mMap.setMapStyle(style);
 
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

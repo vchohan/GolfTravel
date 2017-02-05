@@ -6,11 +6,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
@@ -29,9 +29,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.github.clans.fab.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.List;
@@ -66,6 +68,8 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
     private DelayAutoCompleteTextView geo_autocomplete;
 
     private ImageView geo_autocomplete_clear;
+
+    private FloatingActionButton mCurrentLocation, mSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,6 +224,23 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_retro);
         mMap.setMapStyle(style);
 
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        mCurrentLocation = (FloatingActionButton) findViewById(R.id.current_location);
+        mCurrentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                onLocationChanged(mLastLocation);
+                CameraUpdate cameraUpdate = null;
+                Location location = mMap.getMyLocation();
+                if (location != null) {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
+                    mMap.animateCamera(cameraUpdate);
+                }
+            }
+        });
+
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
@@ -233,7 +254,7 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
             mMap.setMyLocationEnabled(true);
         }
 
-        Button btnRestaurant = (Button) findViewById(R.id.search_nearby);
+        LinearLayout btnRestaurant = (LinearLayout) findViewById(R.id.search_nearby);
         btnRestaurant.setOnClickListener(new View.OnClickListener() {
             String Restaurant = "restaurant";
             @Override
@@ -276,7 +297,6 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
     }
 
     private String getUrl(double latitude, double longitude, String nearbyPlace) {
-
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=" + latitude + "," + longitude);
         googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
@@ -308,7 +328,7 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
         //move map camera
@@ -329,7 +349,6 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 
     public boolean checkLocationPermission() {

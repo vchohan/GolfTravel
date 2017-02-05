@@ -12,18 +12,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    <Button
-            android:id="@+id/search_nearby"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Search Nearby"
-            android:layout_below="@+id/base_app_bar"/>
-
     <!-- map view container -->
     <include
             layout="@layout/golf_course_map_search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/search_nearby"/>
+            android:layout_below="@+id/base_app_bar"/>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,49 +15,114 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             tools:context="com.vchohan.golftravel.GolfCourseFinderActivity" />
 
-    <!-- search view container -->
+    <!-- search view / fab -->
     <LinearLayout
             android:id="@+id/search_view"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:weightSum="5">
+            android:layout_height="match_parent">
 
+        <!-- nearby search -->
         <LinearLayout
+                android:id="@+id/search_nearby"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:weightSum="3">
-
-            <com.vchohan.golftravel.DelayAutoCompleteTextView
-                    android:id="@+id/geo_autocomplete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="flagNoExtractUi|actionSearch"
-                    android:inputType="textCapSentences"
-                    android:hint="Search here"
-                    android:dropDownWidth="match_parent"
-                    android:layout_weight="1"/>
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:background="#99B71C1C"
+                android:weightSum="4">
 
             <ImageView
-                    android:id="@+id/geo_autocomplete_clear"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_clear_black_24dp"
-                    android:visibility="visible"
-                    android:layout_weight="2"/>
+                    android:padding="10dp"
+                    android:src="@drawable/ic_location_searching_white_24dp"
+                    android:layout_weight="3"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search Golf Course Nearby"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:layout_weight="1"/>
 
         </LinearLayout>
 
-        <ImageView
-                android:id="@+id/search_button"
+        <!-- search view container -->
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_search_black_24dp"
-                android:onClick="onMapSearch"
-                android:layout_weight="4"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:weightSum="2">
+
+            <!-- search bar view / clear button -->
+            <RelativeLayout
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:layout_weight="2">
+
+                <com.vchohan.golftravel.DelayAutoCompleteTextView
+                        android:id="@+id/geo_autocomplete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="flagNoExtractUi|actionSearch"
+                        android:inputType="textCapSentences"
+                        android:hint="Search here"
+                        android:dropDownWidth="match_parent" />
+
+                <ImageView
+                        android:id="@+id/geo_autocomplete_clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_clear_black_24dp"
+                        android:visibility="visible"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
+            <!-- search button -->
+            <ImageView
+                    android:id="@+id/search_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_search_black_24dp"
+                    android:onClick="onMapSearch"
+                    android:layout_weight="0"/>
+
+        </LinearLayout>
+
+        <!-- floating action buttons container -->
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_gravity="bottom|right"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true">
+
+            <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/current_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_location_searching_white_24dp"
+                    fab:fab_colorNormal="@color/colorRed500"
+                    fab:fab_colorRipple="@color/colorRed900"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:src="@drawable/ic_search_white_24dp"
+                    fab:fab_colorNormal="@color/colorRed500"
+                    fab:fab_colorRipple="@color/colorRed900"/>
+        </LinearLayout>
 
     </LinearLayout>
 

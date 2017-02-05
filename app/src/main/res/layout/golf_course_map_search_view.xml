@@ -4,7 +4,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.vchohan.golftravel.MapsActivity">
+        tools:context="com.vchohan.golftravel.GolfCourseFinderActivity">
 
     <!-- map view -->
     <fragment xmlns:tools="http://schemas.android.com/tools"
@@ -12,10 +12,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            tools:context="com.vchohan.golftravel.MapsActivity" />
+            tools:context="com.vchohan.golftravel.GolfCourseFinderActivity" />
 
     <!-- search view container -->
     <LinearLayout
+            android:id="@+id/search_view"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

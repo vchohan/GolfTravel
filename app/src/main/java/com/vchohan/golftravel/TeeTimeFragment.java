@@ -49,7 +49,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void launchBookTeeTime() {
-        Intent bookTeeTimeIntent = new Intent(getContext(), MapsActivity.class);
+        Intent bookTeeTimeIntent = new Intent(getContext(), GolfCourseFinderActivity.class);
         bookTeeTimeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(bookTeeTimeIntent);
     }

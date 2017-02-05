@@ -4,7 +4,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.vchohan.golftravel.MapsActivity">
+        tools:context="com.vchohan.golftravel.GolfCourseFinderActivity">
 
     <!-- app bar container -->
     <com.vchohan.golftravel.BaseAppBar
@@ -12,11 +12,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+    <Button
+            android:id="@+id/search_nearby"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search Nearby"
+            android:layout_below="@+id/base_app_bar"/>
+
     <!-- map view container -->
     <include
-            layout="@layout/map_search_view"
+            layout="@layout/golf_course_map_search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/base_app_bar" />
-
+            android:layout_below="@+id/search_nearby"/>
+    
 </LinearLayout>

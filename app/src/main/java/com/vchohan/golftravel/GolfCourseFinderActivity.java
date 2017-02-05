@@ -28,13 +28,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
 
-public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
+public class GolfCourseFinderActivity extends BaseActivity implements OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
@@ -68,7 +69,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.map_activity);
+        setContentView(R.layout.golf_course_finder_activity);
 
         setupAppBar();
         setGeoCodeView();
@@ -98,7 +99,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
         mBaseAppBar.setLeftButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MapsActivity.super.onBackPressed();
+                GolfCourseFinderActivity.super.onBackPressed();
             }
         });
         mBaseAppBar.setTitleText(getResources().getString(R.string.map_view_title));
@@ -167,7 +168,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
     }
 
     public void onMapSearch(View view) {
-
         DelayAutoCompleteTextView locationSearch = (DelayAutoCompleteTextView) findViewById(R.id.geo_autocomplete);
         String location = locationSearch.getText().toString();
         List<Address> addressList = null;
@@ -231,25 +231,23 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
             mMap.setMyLocationEnabled(true);
         }
 
-//        Button btnRestaurant = (Button) findViewById(R.id.btnRestaurant);
-//        btnRestaurant.setOnClickListener(new View.OnClickListener() {
-//            String Restaurant = "restaurant";
-//
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("onClick", "Button is Clicked");
-//                mMap.clear();
-//                String url = getUrl(latitude, longitude, Restaurant);
-//                Object[] DataTransfer = new Object[2];
-//                DataTransfer[0] = mMap;
-//                DataTransfer[1] = url;
-//                Log.d("onClick", url);
-//                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-//                getNearbyPlacesData.execute(DataTransfer);
-//                Toast.makeText(MapsActivity.this, "Nearby Restaurants", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
+        Button btnRestaurant = (Button) findViewById(R.id.search_nearby);
+        btnRestaurant.setOnClickListener(new View.OnClickListener() {
+            String Restaurant = "restaurant";
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mMap.clear();
+                String url = getUrl(latitude, longitude, Restaurant);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(GolfCourseFinderActivity.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
@@ -308,13 +306,13 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-        Toast.makeText(MapsActivity.this, "Your Current Location", Toast.LENGTH_LONG).show();
+        Toast.makeText(GolfCourseFinderActivity.this, "Your Current Location", Toast.LENGTH_LONG).show();
 
         Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
 

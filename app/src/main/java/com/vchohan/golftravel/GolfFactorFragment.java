@@ -1,6 +1,5 @@
 package com.vchohan.golftravel;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -70,9 +69,6 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         mTabLayout = (TabLayout) rootView.findViewById(R.id.golf_factor_tab_view);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        mBokkTeeTimeButton = (LinearLayout) rootView.findViewById(R.id.book_tee_time_button);
-        mBokkTeeTimeButton.setOnClickListener(this);
-
         return rootView;
     }
 
@@ -119,9 +115,6 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.set_golf_factor_button:
                 setGolfFactorView();
-                break;
-            case R.id.book_tee_time_button:
-                launchBookTeeTime();
                 break;
         }
     }
@@ -197,11 +190,5 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-    private void launchBookTeeTime() {
-        Intent bookTeeTimeIntent = new Intent(getContext(), MapsActivity.class);
-        bookTeeTimeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(bookTeeTimeIntent);
     }
 }

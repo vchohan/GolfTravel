@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.vchohan.golftravel.MapsActivity">
+
+    <!-- map view -->
+    <fragment xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            tools:context="com.vchohan.golftravel.MapsActivity" />
+
+    <!-- search view container -->
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:weightSum="5">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="3">
+
+            <com.vchohan.golftravel.DelayAutoCompleteTextView
+                    android:id="@+id/geo_autocomplete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="flagNoExtractUi|actionSearch"
+                    android:inputType="textCapSentences"
+                    android:hint="Search here"
+                    android:dropDownWidth="match_parent"
+                    android:layout_weight="1"/>
+
+            <ImageView
+                    android:id="@+id/geo_autocomplete_clear"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_clear_black_24dp"
+                    android:visibility="visible"
+                    android:layout_weight="2"/>
+
+        </LinearLayout>
+
+        <ImageView
+                android:id="@+id/search_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_search_black_24dp"
+                android:onClick="onMapSearch"
+                android:layout_weight="4"/>
+
+    </LinearLayout>
+
+</FrameLayout>

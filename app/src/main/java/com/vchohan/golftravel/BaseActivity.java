@@ -1,6 +1,8 @@
 package com.vchohan.golftravel;
 
 import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -17,6 +19,13 @@ public class BaseActivity extends AppCompatActivity {
 
     @VisibleForTesting
     public ProgressDialog mProgressDialog;
+
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.scale_up, R.anim.scale_down);
+    }
 
     public void showProgressDialog() {
         if (mProgressDialog == null) {

@@ -1,12 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <TextView
+    <!-- tee time layout -->
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Comming Soon"/>
+            android:layout_margin="10dp">
 
-</LinearLayout>
+        <!-- Book Tee Time Card View -->
+        <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@color/colorRed900"
+                app:cardElevation="24dp">
+
+            <!-- Book Tee Time Header -->
+            <LinearLayout
+                    android:id="@+id/book_tee_time_button"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:weightSum="1">
+
+                <ImageView
+                        android:background="@drawable/ic_event_note_white_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="0" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="Book Tee Time"
+                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!-- Empty view added to make the layout scrollable -->
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
+
+    </LinearLayout>
+
+</ScrollView>

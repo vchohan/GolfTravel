@@ -16,15 +16,23 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks,
@@ -51,12 +59,19 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
+    private Integer THRESHOLD = 2;
+
+    private DelayAutoCompleteTextView geo_autocomplete;
+
+    private ImageView geo_autocomplete_clear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity);
 
         setupAppBar();
+        setGeoCodeView();
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
@@ -88,7 +103,54 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
         });
         mBaseAppBar.setTitleText(getResources().getString(R.string.map_view_title));
         mBaseAppBar.setTitleTextColor(R.color.colorWhite);
+        mBaseAppBar.setProfilePhoto();
         mBaseAppBar.showAppBarDivider();
+    }
+
+    private void setGeoCodeView() {
+        geo_autocomplete_clear = (ImageView) findViewById(R.id.geo_autocomplete_clear);
+
+        geo_autocomplete = (DelayAutoCompleteTextView) findViewById(R.id.geo_autocomplete);
+        geo_autocomplete.setThreshold(THRESHOLD);
+        geo_autocomplete.setAdapter(new GeoAutoCompleteAdapter(this)); // 'this' is Activity instance
+
+        geo_autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                GeoSearchResult result = (GeoSearchResult) adapterView.getItemAtPosition(position);
+                geo_autocomplete.setText(result.getAddress());
+            }
+        });
+
+        geo_autocomplete.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    geo_autocomplete_clear.setVisibility(View.VISIBLE);
+                } else {
+                    geo_autocomplete_clear.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        geo_autocomplete_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                geo_autocomplete.setText("");
+            }
+        });
+
     }
 
     private boolean CheckGooglePlayServices() {
@@ -102,6 +164,44 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
             return false;
         }
         return true;
+    }
+
+    public void onMapSearch(View view) {
+
+        DelayAutoCompleteTextView locationSearch = (DelayAutoCompleteTextView) findViewById(R.id.geo_autocomplete);
+        String location = locationSearch.getText().toString();
+        List<Address> addressList = null;
+
+        if (location != null || !location.equals("")) {
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                addressList = geocoder.getFromLocationName(location, 1);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            android.location.Address address = addressList.get(0);
+            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        }
+//        EditText locationSearch = (EditText) findViewById(R.id.editText);
+//        String location = locationSearch.getText().toString();
+//        List<Address> addressList = null;
+//
+//        if (location != null || !location.equals("")) {
+//            Geocoder geocoder = new Geocoder(this);
+//            try {
+//                addressList = geocoder.getFromLocationName(location, 1);
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            android.location.Address address = addressList.get(0);
+//            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+//            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+//            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+//        }
     }
 
     /**
@@ -131,65 +231,26 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,
             mMap.setMyLocationEnabled(true);
         }
 
-        Button btnRestaurant = (Button) findViewById(R.id.btnRestaurant);
-        btnRestaurant.setOnClickListener(new View.OnClickListener() {
-            String Restaurant = "restaurant";
+//        Button btnRestaurant = (Button) findViewById(R.id.btnRestaurant);
+//        btnRestaurant.setOnClickListener(new View.OnClickListener() {
+//            String Restaurant = "restaurant";
+//
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("onClick", "Button is Clicked");
+//                mMap.clear();
+//                String url = getUrl(latitude, longitude, Restaurant);
+//                Object[] DataTransfer = new Object[2];
+//                DataTransfer[0] = mMap;
+//                DataTransfer[1] = url;
+//                Log.d("onClick", url);
+//                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+//                getNearbyPlacesData.execute(DataTransfer);
+//                Toast.makeText(MapsActivity.this, "Nearby Restaurants", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
 
-            @Override
-            public void onClick(View v) {
-                Log.d("onClick", "Button is Clicked");
-                mMap.clear();
-                String url = getUrl(latitude, longitude, Restaurant);
-                Object[] DataTransfer = new Object[2];
-                DataTransfer[0] = mMap;
-                DataTransfer[1] = url;
-                Log.d("onClick", url);
-                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-                getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(MapsActivity.this, "Nearby Restaurants", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        Button btnHospital = (Button) findViewById(R.id.btnHospital);
-        btnHospital.setOnClickListener(new View.OnClickListener() {
-            String Hospital = "hospital";
-
-            @Override
-            public void onClick(View v) {
-                Log.d("onClick", "Button is Clicked");
-                mMap.clear();
-                String url = getUrl(latitude, longitude, Hospital);
-                Object[] DataTransfer = new Object[2];
-                DataTransfer[0] = mMap;
-                DataTransfer[1] = url;
-                Log.d("onClick", url);
-                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-                getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(MapsActivity.this, "Nearby Hospitals", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        Button btnSchool = (Button) findViewById(R.id.btnSchool);
-        btnSchool.setOnClickListener(new View.OnClickListener() {
-            String School = "school";
-
-            @Override
-            public void onClick(View v) {
-                Log.d("onClick", "Button is Clicked");
-                mMap.clear();
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                }
-                String url = getUrl(latitude, longitude, School);
-                Object[] DataTransfer = new Object[2];
-                DataTransfer[0] = mMap;
-                DataTransfer[1] = url;
-                Log.d("onClick", url);
-                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-                getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(MapsActivity.this, "Nearby Schools", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     protected synchronized void buildGoogleApiClient() {

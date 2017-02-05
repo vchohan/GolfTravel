@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.vchohan.golftravel.MapsActivity">
 
-    <!-- app bar container-->
+    <!-- app bar container -->
     <com.vchohan.golftravel.BaseAppBar
             android:id="@+id/base_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+    <!-- map view container -->
     <include
-            layout="@layout/activity_maps"
+            layout="@layout/map_search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/base_app_bar" />
 
-</RelativeLayout>
+</LinearLayout>

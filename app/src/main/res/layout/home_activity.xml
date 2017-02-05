@@ -24,12 +24,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            fab:menu_colorPressed="@color/colorTeal500"
+            fab:menu_colorPressed="@color/colorRed500"
             fab:menu_animationDelayPerItem="50"
             fab:menu_backgroundColor="@android:color/transparent"
             fab:menu_buttonSpacing="0dp"
-            fab:menu_colorNormal="@color/colorTeal500"
-            fab:menu_colorRipple="@color/colorTeal900"
+            fab:menu_colorNormal="@color/colorRed500"
+            fab:menu_colorRipple="@color/colorRed900"
             fab:menu_fab_label="Menu"
             fab:menu_fab_size="normal"
             fab:menu_icon="@drawable/ic_keyboard_arrow_up_white_24dp"
@@ -58,8 +58,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_settings_white_24dp"
-                fab:fab_colorNormal="@color/colorTeal500"
-                fab:fab_colorRipple="@color/colorTeal900"
+                fab:fab_colorNormal="@color/colorRed500"
+                fab:fab_colorRipple="@color/colorRed900"
                 fab:fab_label="Settings"
                 fab:fab_size="mini" />
 
@@ -68,8 +68,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_person_white_24dp"
-                fab:fab_colorNormal="@color/colorTeal500"
-                fab:fab_colorRipple="@color/colorTeal900"
+                fab:fab_colorNormal="@color/colorRed500"
+                fab:fab_colorRipple="@color/colorRed900"
                 fab:fab_label="Profile"
                 fab:fab_size="mini" />
 
@@ -78,8 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_power_settings_new_white_24dp"
-                fab:fab_colorNormal="@color/colorTeal500"
-                fab:fab_colorRipple="@color/colorTeal900"
+                fab:fab_colorNormal="@color/colorRed500"
+                fab:fab_colorRipple="@color/colorRed900"
                 fab:fab_label="Logout"
                 fab:fab_size="mini" />
 

@@ -28,6 +28,8 @@ import java.util.List;
 
 public class HomeActivity extends BaseActivity {
 
+    private BaseAppBar mBaseAppBar;
+
     private FirebaseAuth mAuth = null;
 
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -66,6 +68,13 @@ public class HomeActivity extends BaseActivity {
     public void setupAppBar() {
         BaseAppBar appBar = getAppBar();
         appBar.setBackgroundColor(getResources().getColor(R.color.colorRed500));
+        appBar.setLeftButtonIcon(R.drawable.ic_menu_white_24dp);
+        appBar.setLeftButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Set up navigation drawer
+            }
+        });
         appBar.setTitleText(getResources().getString(R.string.home_page_title));
         appBar.setTitleTextColor(R.color.colorWhite);
         appBar.setProfilePhoto();

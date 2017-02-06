@@ -31,7 +31,7 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 
     int i;
 
-    private LinearLayout mSetGolfFactorButton, mExpandLayout, mBokkTeeTimeButton;
+    private LinearLayout mSetGolfFactorButton, mExpandLayout;
 
     private boolean isExpanded = false;
 

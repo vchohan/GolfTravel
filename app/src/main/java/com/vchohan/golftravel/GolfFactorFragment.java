@@ -1,5 +1,6 @@
 package com.vchohan.golftravel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,7 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 
     int i;
 
-    private LinearLayout mSetGolfFactorButton, mExpandLayout;
+    private LinearLayout mSetGolfFactorButton, mExpandLayout, mAddGolfRoundInfoButton;
 
     private boolean isExpanded = false;
 
@@ -62,6 +63,9 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         mExpandLayout = (LinearLayout) rootView.findViewById(R.id.golf_factor_expandable_Layout);
         mImageToggle = (ImageView) rootView.findViewById(R.id.toggle_up_down_view);
         mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
+
+        mAddGolfRoundInfoButton = (LinearLayout) rootView.findViewById(R.id.add_golf_round_info_button);
+        mAddGolfRoundInfoButton.setOnClickListener(this);
 
         mViewPager = (ViewPager) rootView.findViewById(R.id.golf_factor_view_pager);
         setupViewPager(mViewPager);
@@ -116,6 +120,10 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
             case R.id.set_golf_factor_button:
                 setGolfFactorView();
                 break;
+            case R.id.add_golf_round_info_button:
+                setAddGolfRoundInfoView();
+                break;
+
         }
     }
 
@@ -151,6 +159,20 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
             mExpandLayout.animate();
             animation.start();
         }
+    }
+
+    private void setAddGolfRoundInfoView() {
+//        // launch a fragment from a fragment
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        AddGolfRoundInfoFragment addGolfRoundInfoFragment = new AddGolfRoundInfoFragment();
+//        transaction.add(R.id.frame_container, addGolfRoundInfoFragment);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+
+        Intent golfRoundInfoIntent = new Intent(getContext(), AddGolfRoundInfoActivity.class);
+        golfRoundInfoIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(golfRoundInfoIntent);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

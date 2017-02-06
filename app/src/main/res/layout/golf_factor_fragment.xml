@@ -1,260 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-    <!-- golf factor layout -->
-    <LinearLayout
-            android:orientation="vertical"
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_height="match_parent">
 
-        <!-- weather header -->
+        <!-- golf factor layout -->
         <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:weightSum="1">
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
 
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="0"
-                    android:background="@drawable/ic_access_time_black_24dp" />
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="Current Weather" />
-
-        </LinearLayout>
-
-        <!-- weather gauge view -->
-        <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                app:cardBackgroundColor="@color/colorBlue500"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="24dp">
-
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp">
-
-                <com.vchohan.baseui.CustomGauge
-                        android:id="@+id/weather_gauge"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:gaugeEndValue="100"
-                        app:gaugePointStartColor="@color/colorBlue900"
-                        app:gaugePointEndColor="@color/colorRed900"
-                        app:gaugeStartAngle="135"
-                        app:gaugeStartValue="0"
-                        app:gaugeStrokeCap="ROUND"
-                        app:gaugeStrokeColor="@color/colorGrey100"
-                        app:gaugeStrokeWidth="10dp"
-                        app:gaugeSweepAngle="270" />
-
-                <TextView
-                        android:id="@+id/weather_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
-                        android:textColor="@color/colorGrey100" />
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <!-- golf factor header -->
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:weightSum="1">
-
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="0"
-                    android:background="@drawable/ic_access_time_black_24dp" />
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="Golf Factor" />
-
-        </LinearLayout>
-
-        <!-- golf factor gauge view -->
-        <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                app:cardBackgroundColor="@color/colorPurple500"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="24dp">
-
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp">
-
-                <com.vchohan.baseui.CustomGauge
-                        android:id="@+id/golf_factor_gauge"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:gaugeEndValue="100"
-                        app:gaugePointStartColor="@color/colorOrange500"
-                        app:gaugePointEndColor="@color/colorGreen500"
-                        app:gaugeStartAngle="180"
-                        app:gaugeStartValue="0"
-                        app:gaugeStrokeCap="BUTT"
-                        app:gaugeStrokeColor="@color/colorGrey100"
-                        app:gaugeStrokeWidth="20dp"
-                        app:gaugeSweepAngle="180"
-                        app:gaugeDividerSize="1"
-                        app:gaugeDividerColor="@color/colorBlue900"
-                        app:gaugeDividerStep="20"
-                        app:gaugeDividerDrawFirst="false"
-                        app:gaugeDividerDrawLast="true" />
-
-                <TextView
-                        android:id="@+id/golf_factor_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorGrey100"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true" />
-
-                <TextView
-                        android:id="@+id/golf_factor_header"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Golf factor is set, based on your last 5 rounds of recent golf play."
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorGrey100"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true" />
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <!-- set golf factor card view -->
-        <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/colorRed900"
-                app:cardElevation="24dp">
-
-            <!-- set golf factor header -->
+            <!-- weather header -->
             <LinearLayout
-                    android:id="@+id/set_golf_factor_button"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground"
                     android:weightSum="1">
 
                 <ImageView
-                        android:background="@drawable/ic_tune_white_24dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_weight="0" />
+                        android:layout_weight="0"
+                        android:background="@drawable/ic_access_time_black_24dp" />
 
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="Set Golf Factor"
-                        android:textColor="@color/colorWhite"
-                        android:textStyle="bold" />
-
-                <ImageView
-                        android:id="@+id/toggle_up_down_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="0" />
+                        android:text="Current Weather" />
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+            <!-- weather gauge view -->
+            <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    app:cardBackgroundColor="@color/colorBlue500"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="24dp">
 
-        <!-- set golf factor layout -->
-        <LinearLayout
-                android:id="@+id/golf_factor_expandable_Layout"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:visibility="gone"
-                android:weightSum="1">
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp">
 
-            <android.support.design.widget.TabLayout
-                    android:id="@+id/golf_factor_tab_view"
+                    <com.vchohan.baseui.CustomGauge
+                            android:id="@+id/weather_gauge"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:gaugeEndValue="100"
+                            app:gaugePointStartColor="@color/colorBlue900"
+                            app:gaugePointEndColor="@color/colorRed900"
+                            app:gaugeStartAngle="135"
+                            app:gaugeStartValue="0"
+                            app:gaugeStrokeCap="ROUND"
+                            app:gaugeStrokeColor="@color/colorGrey100"
+                            app:gaugeStrokeWidth="10dp"
+                            app:gaugeSweepAngle="270" />
+
+                    <TextView
+                            android:id="@+id/weather_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/colorGrey100" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!-- golf factor header -->
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    app:tabBackground="@drawable/tab_color_selector"
-                    app:tabTextColor="@color/colorRed500"
-                    app:tabSelectedTextColor="@color/colorWhite"
-                    app:tabMaxWidth="0dp"
-                    app:tabMode="fixed"
-                    app:tabGravity="fill" />
+                    android:gravity="center"
+                    android:weightSum="1">
 
-            <android.support.v4.view.ViewPager
-                    android:id="@+id/golf_factor_view_pager"
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="0"
+                        android:background="@drawable/ic_access_time_black_24dp" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="Golf Factor" />
+
+            </LinearLayout>
+
+            <!-- golf factor gauge view -->
+            <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    app:cardBackgroundColor="@color/colorPurple500"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="24dp">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp">
+
+                    <com.vchohan.baseui.CustomGauge
+                            android:id="@+id/golf_factor_gauge"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:gaugeEndValue="100"
+                            app:gaugePointStartColor="@color/colorOrange500"
+                            app:gaugePointEndColor="@color/colorGreen500"
+                            app:gaugeStartAngle="180"
+                            app:gaugeStartValue="0"
+                            app:gaugeStrokeCap="BUTT"
+                            app:gaugeStrokeColor="@color/colorGrey100"
+                            app:gaugeStrokeWidth="20dp"
+                            app:gaugeSweepAngle="180"
+                            app:gaugeDividerSize="1"
+                            app:gaugeDividerColor="@color/colorBlue900"
+                            app:gaugeDividerStep="20"
+                            app:gaugeDividerDrawFirst="false"
+                            app:gaugeDividerDrawLast="true" />
+
+                    <TextView
+                            android:id="@+id/golf_factor_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorGrey100"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true" />
+
+                    <TextView
+                            android:id="@+id/golf_factor_header"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Golf factor is set, based on your last 5 rounds of recent golf play."
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorGrey100"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!-- set golf factor card view -->
+            <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="@color/colorRed900"
+                    app:cardElevation="24dp">
+
+                <!-- set golf factor header -->
+                <LinearLayout
+                        android:id="@+id/set_golf_factor_button"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:weightSum="1">
+
+                    <ImageView
+                            android:background="@drawable/ic_tune_white_24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0" />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="Set Golf Factor"
+                            android:textColor="@color/colorWhite"
+                            android:textStyle="bold" />
+
+                    <ImageView
+                            android:id="@+id/toggle_up_down_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="0" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!-- set golf factor expandable layout -->
+            <LinearLayout
+                    android:id="@+id/golf_factor_expandable_Layout"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="gone"
+                    android:weightSum="1">
+
+                <!-- add golf round info button layout -->
+                <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:cardBackgroundColor="@color/colorRed500"
+                        app:cardElevation="24dp">
+
+                    <!-- add golf round info header -->
+                    <LinearLayout
+                            android:id="@+id/add_golf_round_info_button"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:clickable="true"
+                            android:background="?attr/selectableItemBackground"
+                            android:weightSum="1">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Add Golf Round Info"
+                                android:textColor="@color/colorWhite"
+                                android:textStyle="bold"
+                                android:layout_weight="1" />
+
+                        <ImageView
+                                android:src="@drawable/ic_playlist_add_white_24dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <View
+                        android:background="@color/colorWhite"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp" />
+
+                <android.support.design.widget.TabLayout
+                        android:id="@+id/golf_factor_tab_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        app:tabBackground="@drawable/tab_color_selector"
+                        app:tabTextColor="@color/colorRed500"
+                        app:tabSelectedTextColor="@color/colorWhite"
+                        app:tabIndicatorColor="@color/colorWhite"
+                        app:tabMaxWidth="0dp"
+                        app:tabMode="fixed"
+                        app:tabGravity="fill" />
+
+                <android.support.v4.view.ViewPager
+                        android:id="@+id/golf_factor_view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            </LinearLayout>
+
+            <!-- Empty view added to make the layout scrollable -->
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
 
         </LinearLayout>
 
-        <!-- Empty view added to make the layout scrollable -->
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
+    </ScrollView>
 
-    </LinearLayout>
-
-</ScrollView>
+</android.support.design.widget.CoordinatorLayout>

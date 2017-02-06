@@ -11,6 +11,7 @@
     <string name="login_page_title">Login</string>
     <string name="register_page_title">Register</string>
     <string name="map_view_title">Golf Course</string>
+    <string name="add_golf_round_info_title">Add Golf Round Info</string>
 
     <!-- welcome page -->
     <string name="intro_page_title_one">Hi I am title ONE</string>

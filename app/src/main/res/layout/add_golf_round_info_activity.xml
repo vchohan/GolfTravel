@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/add_golf_round_info_activity"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.vchohan.golftravel.AddGolfRoundInfoActivity">
+
+    <!-- app bar container-->
+    <com.vchohan.golftravel.BaseAppBar
+            android:id="@+id/base_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay" />
+
+    <FrameLayout
+            android:id="@+id/add_golf_round_info_frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    </FrameLayout>
+
+</LinearLayout>

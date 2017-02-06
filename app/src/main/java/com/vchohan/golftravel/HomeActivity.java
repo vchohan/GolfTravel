@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
@@ -206,12 +207,12 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-    }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

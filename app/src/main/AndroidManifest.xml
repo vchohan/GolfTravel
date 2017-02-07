@@ -100,6 +100,7 @@
                 android:name=".GolfCourseFinderActivity"
                 android:label="@string/title_activity_maps" />
         <activity android:name=".AddGolfRoundInfoActivity" />
+        <activity android:name=".NewAlarmFormActivity"/>
     </application>
 
 </manifest>

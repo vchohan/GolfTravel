@@ -67,19 +67,19 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void setupAppBar() {
-        BaseAppBar appBar = getAppBar();
-        appBar.setBackgroundColor(getResources().getColor(R.color.colorRed500));
-        appBar.setLeftButtonIcon(R.drawable.ic_menu_white_24dp);
-        appBar.setLeftButtonClickListener(new View.OnClickListener() {
+        mBaseAppBar = getAppBar();
+        mBaseAppBar.setBackgroundColor(getResources().getColor(R.color.colorRed500));
+        mBaseAppBar.setLeftButtonIcon(R.drawable.ic_menu_white_24dp);
+        mBaseAppBar.setLeftButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: Set up navigation drawer
             }
         });
-        appBar.setTitleText(getResources().getString(R.string.home_page_title));
-        appBar.setTitleTextColor(R.color.colorWhite);
-        appBar.setProfilePhoto();
-        appBar.showAppBarDivider();
+        mBaseAppBar.setTitleText(getResources().getString(R.string.home_page_title));
+        mBaseAppBar.setTitleTextColor(R.color.colorWhite);
+        mBaseAppBar.setProfilePhoto();
+        mBaseAppBar.showAppBarDivider();
     }
 
     private void setupViewPager(ViewPager viewPager) {

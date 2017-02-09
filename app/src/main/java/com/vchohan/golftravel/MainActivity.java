@@ -8,6 +8,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +23,9 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -30,6 +37,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,7 +45,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.vchohan.baseui.CircleTransform;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -59,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private CoordinatorLayout coordinatorLayout;
 
+    private FloatingActionMenu mFloatingActionMenu;
+
+    private FloatingActionButton mSettings, mProfile, mLogout;
+
     private ViewPager mViewPager;
 
     private TabLayout mTabLayout;
@@ -72,24 +89,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setContentView(R.layout.main_activity);
 
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        setupViewPager(mViewPager);
+
+        mTabLayout = (TabLayout) findViewById(R.id.tab_view);
+        mTabLayout.setupWithViewPager(mViewPager);
+
         initializeFirebase();
         setupToolBarAndNavigationDrawer();
+
+        setupFloatingActionMenu();
+        createCustomAnimation();
         logoutFacebook();
+
         requestLocationPermission();
         locationPermission();
-
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
-
-        // Set an Adapter on the ViewPager
-        mViewPager.setAdapter(new SomeViewPagerAdapter(getSupportFragmentManager()));
-
-        // Set a PageTransformer
-        mViewPager.setPageTransformer(false, new SomePageTransformer());
-
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mTabLayout.setupWithViewPager(mViewPager, true);
     }
-
 
     private void initializeFirebase() {
         mAuth = FirebaseAuth.getInstance();
@@ -214,6 +229,97 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new GolfFactorFragment(), "Golf Factor");
+        adapter.addFragment(new TeeTimeFragment(), "Tee Time");
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
+    private void setupFloatingActionMenu() {
+        mFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
+        mSettings = (FloatingActionButton) findViewById(R.id.menu_settings);
+        mProfile = (FloatingActionButton) findViewById(R.id.menu_profile);
+        mLogout = (FloatingActionButton) findViewById(R.id.mwnu_logout);
+
+        mSettings.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu first item clicked
+            }
+        });
+        mProfile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu second item clicked
+            }
+        });
+        mLogout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                logout();
+            }
+        });
+    }
+
+    private void createCustomAnimation() {
+        AnimatorSet set = new AnimatorSet();
+
+        ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(mFloatingActionMenu.getMenuIconView(), "scaleX", 1.0f, 0.2f);
+        ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(mFloatingActionMenu.getMenuIconView(), "scaleY", 1.0f, 0.2f);
+
+        ObjectAnimator scaleInX = ObjectAnimator.ofFloat(mFloatingActionMenu.getMenuIconView(), "scaleX", 0.2f, 1.0f);
+        ObjectAnimator scaleInY = ObjectAnimator.ofFloat(mFloatingActionMenu.getMenuIconView(), "scaleY", 0.2f, 1.0f);
+
+        scaleOutX.setDuration(50);
+        scaleOutY.setDuration(50);
+
+        scaleInX.setDuration(150);
+        scaleInY.setDuration(150);
+
+        scaleInX.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                mFloatingActionMenu.getMenuIconView().setImageResource(mFloatingActionMenu.isOpened()
+                    ? R.drawable.ic_keyboard_arrow_down_white_24dp : R.drawable.ic_keyboard_arrow_up_white_24dp);
+            }
+        });
+
+        set.play(scaleOutX).with(scaleOutY);
+        set.play(scaleInX).with(scaleInY).after(scaleOutX);
+        set.setInterpolator(new OvershootInterpolator(2));
+
+        mFloatingActionMenu.setIconToggleAnimatorSet(set);
     }
 
     private void logout() {

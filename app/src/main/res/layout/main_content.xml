@@ -1,130 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/content_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/main_app_bar"
         tools:context="com.vchohan.golftravel.MainActivity">
 
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    <android.support.design.widget.TabLayout
+            android:id="@+id/tab_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabBackground="@color/colorWhite"
+            app:tabTextColor="@color/colorRed300"
+            app:tabSelectedTextColor="@color/colorRed900"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabGravity="fill" />
 
-            <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp">
+    <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tab_view"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <android.support.v4.view.ViewPager
-                        android:id="@+id/view_pager"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+    <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/material_design_android_floating_action_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            fab:menu_colorPressed="@color/colorRed500"
+            fab:menu_animationDelayPerItem="50"
+            fab:menu_backgroundColor="@android:color/transparent"
+            fab:menu_buttonSpacing="0dp"
+            fab:menu_colorNormal="@color/colorRed500"
+            fab:menu_colorRipple="@color/colorRed900"
+            fab:menu_fab_label="Menu"
+            fab:menu_fab_size="normal"
+            fab:menu_icon="@drawable/ic_keyboard_arrow_up_white_24dp"
+            fab:menu_labels_colorNormal="@color/colorGrey700"
+            fab:menu_labels_colorRipple="@color/colorGrey900"
+            fab:menu_labels_cornerRadius="3dp"
+            fab:menu_labels_ellipsize="none"
+            fab:menu_labels_margin="0dp"
+            fab:menu_labels_maxLines="-1"
+            fab:menu_labels_padding="8dp"
+            fab:menu_labels_position="left"
+            fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+            fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+            fab:menu_labels_showShadow="true"
+            fab:menu_labels_singleLine="false"
+            fab:menu_labels_textColor="#f2f1f1"
+            fab:menu_labels_textSize="15sp"
+            fab:menu_openDirection="up"
+            fab:menu_shadowColor="#444">
 
-                </android.support.v4.view.ViewPager>
+        <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/menu_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_settings_white_24dp"
+                fab:fab_colorNormal="@color/colorRed500"
+                fab:fab_colorRipple="@color/colorRed900"
+                fab:fab_label="Settings"
+                fab:fab_size="mini" />
 
-                <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true">
+        <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/menu_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_person_white_24dp"
+                fab:fab_colorNormal="@color/colorRed500"
+                fab:fab_colorRipple="@color/colorRed900"
+                fab:fab_label="Profile"
+                fab:fab_size="mini" />
 
-                    <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:weightSum="1">
+        <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/mwnu_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_power_settings_new_white_24dp"
+                fab:fab_colorNormal="@color/colorRed500"
+                fab:fab_colorRipple="@color/colorRed900"
+                fab:fab_label="Logout"
+                fab:fab_size="mini" />
 
-                        <android.support.design.widget.TabLayout
-                                android:id="@+id/tab_layout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                app:tabBackground="@drawable/tab_selector"
-                                app:tabGravity="center"
-                                app:tabIndicatorHeight="0dp"
-                                android:layout_weight="1" />
+    </com.github.clans.fab.FloatingActionMenu>
 
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp">
-
-                <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    <com.vchohan.baseui.CustomGauge
-                            android:id="@+id/weather_gauge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="150dp"
-                            android:layout_centerHorizontal="true"
-                            app:gaugeEndValue="800"
-                            app:gaugePointEndColor="@color/colorRed500"
-                            app:gaugePointStartColor="@color/colorBlue500"
-                            app:gaugeStartAngle="135"
-                            app:gaugeStartValue="200"
-                            app:gaugeStrokeCap="ROUND"
-                            app:gaugeStrokeColor="@color/colorGrey500"
-                            app:gaugeStrokeWidth="10dp"
-                            app:gaugeSweepAngle="270" />
-
-                    <TextView
-                            android:id="@+id/weather_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="30dp"
-                            android:textStyle="bold"
-                            android:layout_centerVertical="true"
-                            android:layout_centerHorizontal="true" />
-
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp">
-
-                <com.vchohan.baseui.CustomGauge
-                        android:id="@+id/golf_factor_gauge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="200dp"
-                        android:layout_marginBottom="-80dp"
-                        app:gaugeEndValue="100"
-                        app:gaugePointEndColor="@color/colorGreen500"
-                        app:gaugePointStartColor="@color/colorYellow500"
-                        app:gaugeStartAngle="180"
-                        app:gaugeStartValue="0"
-                        app:gaugeStrokeCap="BUTT"
-                        app:gaugeStrokeColor="@color/colorGrey500"
-                        app:gaugeStrokeWidth="20dp"
-                        app:gaugeSweepAngle="180"
-                        app:gaugeDividerSize="1"
-                        app:gaugeDividerColor="@color/colorOrange500"
-                        app:gaugeDividerStep="10"
-                        app:gaugeDividerDrawFirst="false"
-                        app:gaugeDividerDrawLast="true" />
-
-            </android.support.v7.widget.CardView>
-
-            <Button
-                    android:id="@+id/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/toolbar"
-                    android:text="Click" />
-
-        </LinearLayout>
-
-</ScrollView>
+</RelativeLayout>

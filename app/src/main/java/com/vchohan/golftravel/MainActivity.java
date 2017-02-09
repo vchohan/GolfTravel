@@ -12,26 +12,18 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -39,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -52,9 +45,7 @@ import com.vchohan.baseui.CircleTransform;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private FirebaseAuth mAuth = null;
 
@@ -68,10 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private TextView navProfileName, navProfileEmail;
 
-    private static final int PERMISSION_REQUEST_CODE = 200;
-
-    private CoordinatorLayout coordinatorLayout;
-
     private FloatingActionMenu mFloatingActionMenu;
 
     private FloatingActionButton mSettings, mProfile, mLogout;
@@ -79,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager mViewPager;
 
     private TabLayout mTabLayout;
+
+    private RelativeLayout mWeatherInfoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +87,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initializeFirebase();
         setupToolBarAndNavigationDrawer();
 
+        setupWeatherView();
+
         setupFloatingActionMenu();
         createCustomAnimation();
         logoutFacebook();
-
-        requestLocationPermission();
-        locationPermission();
     }
 
     private void initializeFirebase() {
@@ -345,6 +333,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
     }
 
+    private void setupWeatherView() {
+        mWeatherInfoButton = (RelativeLayout) findViewById(R.id.weather_info_container);
+        mWeatherInfoButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(final View v) {
+        switch (v.getId()) {
+            case R.id.weather_info_container:
+                setWeatherInfoView();
+                break;
+        }
+    }
+
+    private void setWeatherInfoView() {
+        Intent weatherIntent = new Intent(MainActivity.this, WeatherActivity.class);
+        weatherIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(weatherIntent);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -360,74 +368,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onDestroy();
     }
 
-    private void locationPermission() {
-        if (checkLocationPermission()) {
-            Snackbar.make(coordinatorLayout, "Permission already granted.", Snackbar.LENGTH_LONG).show();
-        } else {
-            Snackbar.make(coordinatorLayout, "Please request permission.", Snackbar.LENGTH_LONG).show();
-        }
-
-        if (!checkLocationPermission()) {
-            requestLocationPermission();
-        } else {
-            Snackbar.make(coordinatorLayout, "Permission already granted.", Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    private void requestLocationPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
-    }
-
-    private boolean checkLocationPermission() {
-        int result = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION);
-        return result == PackageManager.PERMISSION_GRANTED;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0) {
-
-                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-
-                    if (locationAccepted) {
-                        Snackbar.make(coordinatorLayout, "Permission Granted, GolfTravel can now access location data.",
-                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                    } else {
-                        Snackbar.make(coordinatorLayout, "Permission Denied, GolfTravel cannot access location data.",
-                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
-                                showMessageOKCancel("Allow access to location permission in order to retrieve accurate data.",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions(new String[]{ACCESS_FINE_LOCATION},
-                                                    PERMISSION_REQUEST_CODE);
-                                            }
-                                        }
-                                    });
-                                return;
-                            }
-                        }
-
-                    }
-                }
-
-                break;
-        }
-    }
-
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(MainActivity.this)
-            .setMessage(message)
-            .setPositiveButton("OK", okListener)
-            .setNegativeButton("Cancel", null)
-            .create()
-            .show();
-    }
 }

@@ -7,24 +7,67 @@
         tools:showIn="@layout/main_app_bar"
         tools:context="com.vchohan.golftravel.MainActivity">
 
-    <android.support.design.widget.TabLayout
-            android:id="@+id/tab_view"
+    <!-- weather view -->
+    <RelativeLayout
+            android:id="@+id/weather_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:background="@color/colorRed500">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:gravity="center">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="75"
+                    android:textSize="50sp"
+                    android:textColor="@color/colorWhite" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Today's forecast is Sunny" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- view pager view -->
+    <RelativeLayout
+            android:id="@+id/view_pager_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@color/colorWhite"
-            app:tabTextColor="@color/colorRed300"
-            app:tabSelectedTextColor="@color/colorRed900"
-            app:tabMaxWidth="0dp"
-            app:tabMode="fixed"
-            app:tabGravity="fill" />
+            android:background="@color/colorGrey100"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-    <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorGrey300"
-            android:layout_below="@+id/tab_view"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <android.support.design.widget.TabLayout
+                android:id="@+id/tab_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabBackground="@color/colorWhite"
+                app:tabTextColor="@color/colorRed300"
+                app:tabSelectedTextColor="@color/colorRed900"
+                app:tabMaxWidth="0dp"
+                app:tabMode="fixed"
+                app:tabGravity="fill" />
+
+        <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tab_view"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </RelativeLayout>
 
     <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/material_design_android_floating_action_menu"

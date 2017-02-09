@@ -20,7 +20,7 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 
     public static final String TAG = GolfFactorFragment.class.getSimpleName();
 
-    private RelativeLayout mWeatherInfoButton, mAddGolfRoundInfoButton;
+    private RelativeLayout mAddGolfRoundInfoButton;
 
     private LinearLayout mViewGolfRoundInfoButton, mGolfRoundInfoLayout;
 
@@ -50,9 +50,6 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.golf_factor_fragment, container, false);
         setupGaugeView(rootView);
-
-        mWeatherInfoButton = (RelativeLayout) rootView.findViewById(R.id.weather_info_button);
-        mWeatherInfoButton.setOnClickListener(this);
 
         mAddGolfRoundInfoButton = (RelativeLayout) rootView.findViewById(R.id.add_golf_round_info_button);
         mAddGolfRoundInfoButton.setOnClickListener(this);
@@ -97,9 +94,6 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-            case R.id.weather_info_button:
-                setWeatherInfoView();
-                break;
             case R.id.add_golf_round_info_button:
                 setAddGolfRoundInfoView();
                 break;
@@ -107,12 +101,6 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
                 setGolfFactorView();
                 break;
         }
-    }
-
-    private void setWeatherInfoView() {
-        Intent weatherIntent = new Intent(getContext(), WeatherActivity.class);
-        weatherIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(weatherIntent);
     }
 
     private void setGolfFactorView() {

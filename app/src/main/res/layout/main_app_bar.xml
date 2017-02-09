@@ -8,27 +8,27 @@
         android:fitsSystemWindows="true"
         tools:context="com.vchohan.golftravel.MainActivity">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <android.support.design.widget.AppBarLayout
-                android:layout_height="wrap_content"
+        <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:theme="@style/AppTheme.AppBarOverlay">
+                android:layout_height="match_parent">
 
-            <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+            <android.support.design.widget.AppBarLayout
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+                    android:theme="@style/AppTheme.AppBarOverlay">
 
-        </android.support.design.widget.AppBarLayout>
+                <android.support.v7.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="?attr/colorPrimary"
+                        app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <include layout="@layout/main_content" />
+            </android.support.design.widget.AppBarLayout>
 
-    </LinearLayout>
+            <include layout="@layout/main_content" />
+
+        </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -22,6 +22,7 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorGrey300"
             android:layout_below="@+id/tab_view"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -29,7 +30,7 @@
             android:id="@+id/material_design_android_floating_action_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
+            android:layout_margin="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             fab:menu_colorPressed="@color/colorRed500"

@@ -20,7 +20,7 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 
     public static final String TAG = GolfFactorFragment.class.getSimpleName();
 
-    private RelativeLayout mAddGolfRoundInfoButton;
+    private RelativeLayout mWeatherInfoButton, mAddGolfRoundInfoButton;
 
     private LinearLayout mViewGolfRoundInfoButton, mGolfRoundInfoLayout;
 
@@ -51,13 +51,15 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         View rootView = inflater.inflate(R.layout.golf_factor_fragment, container, false);
         setupGaugeView(rootView);
 
+        mWeatherInfoButton = (RelativeLayout) rootView.findViewById(R.id.weather_info_button);
+        mWeatherInfoButton.setOnClickListener(this);
 
         mAddGolfRoundInfoButton = (RelativeLayout) rootView.findViewById(R.id.add_golf_round_info_button);
         mAddGolfRoundInfoButton.setOnClickListener(this);
 
         mViewGolfRoundInfoButton = (LinearLayout) rootView.findViewById(R.id.view_golf_round_info_button);
         mViewGolfRoundInfoButton.setOnClickListener(this);
-        mGolfRoundInfoLayout = (LinearLayout) rootView.findViewById(R.id.golf_fround_info_Layout);
+        mGolfRoundInfoLayout = (LinearLayout) rootView.findViewById(R.id.golf_round_info_Layout);
         mImageToggle = (ImageView) rootView.findViewById(R.id.toggle_up_down_view);
         mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
 
@@ -95,14 +97,22 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-            case R.id.view_golf_round_info_button:
-                setGolfFactorView();
+            case R.id.weather_info_button:
+                setWeatherInfoView();
                 break;
             case R.id.add_golf_round_info_button:
                 setAddGolfRoundInfoView();
                 break;
-
+            case R.id.view_golf_round_info_button:
+                setGolfFactorView();
+                break;
         }
+    }
+
+    private void setWeatherInfoView() {
+        Intent weatherIntent = new Intent(getContext(), WeatherActivity.class);
+        weatherIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(weatherIntent);
     }
 
     private void setGolfFactorView() {

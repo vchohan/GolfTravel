@@ -10,8 +10,9 @@
     <string name="home_page_title">Golf Travel</string>
     <string name="login_page_title">Login</string>
     <string name="register_page_title">Register</string>
-    <string name="map_view_title">Golf Course</string>
-    <string name="add_golf_round_info_title">Add Golf Round Info</string>
+    <string name="weather_page_title">Weather</string>
+    <string name="golf_round_info_title">Golf Round Info</string>
+    <string name="golf_course_finder_page_title">Golf Course Finder</string>
 
     <!-- welcome page -->
     <string name="intro_page_title_one">Hi I am title ONE</string>
@@ -156,5 +157,6 @@
     <string name="vertical_form_stepper_form_info_will_be_lost_alarm">All the information about this new alarm will be lost</string>
     <string name="vertical_form_stepper_form_confirm_button_alarm">Add alarm</string>
     <string name="vertical_form_stepper_form_sending_data_message">Adding new alarm…</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

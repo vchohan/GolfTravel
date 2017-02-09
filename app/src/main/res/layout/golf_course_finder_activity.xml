@@ -6,12 +6,6 @@
         android:layout_height="match_parent"
         tools:context="com.vchohan.golftravel.GolfCourseFinderActivity">
 
-    <!-- app bar container -->
-    <com.vchohan.golftravel.BaseAppBar
-            android:id="@+id/base_app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
     <!-- map view container -->
     <include
             layout="@layout/golf_course_map_search_view"

@@ -98,9 +98,27 @@
 
         <activity
                 android:name=".GolfCourseFinderActivity"
-                android:label="@string/title_activity_maps" />
+                android:label="@string/golf_course_finder_page_title"
+                android:parentActivityName=".MainActivity" />
         <activity android:name=".AddGolfRoundInfoActivity" />
-        <activity android:name=".NewAlarmFormActivity"/>
+
+        <activity android:name=".NewAlarmFormActivity"
+                android:label="@string/golf_round_info_title"
+                android:parentActivityName=".MainActivity"
+                android:theme="@style/AppTheme">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.vchohan.golftravel.MainActivity" />
+        </activity>
+        <activity
+                android:name=".WeatherActivity"
+                android:label="@string/weather_page_title"
+                android:parentActivityName=".MainActivity"
+                android:theme="@style/AppTheme">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.vchohan.golftravel.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

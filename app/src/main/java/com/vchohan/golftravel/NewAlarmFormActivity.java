@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -22,11 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-public class NewAlarmFormActivity extends BaseActivity implements VerticalStepperForm {
+public class NewAlarmFormActivity extends AppCompatActivity implements VerticalStepperForm {
 
     public static final String TAG = NewAlarmFormActivity.class.getSimpleName();
-
-    private BaseAppBar mBaseAppBar;
 
     public static final String NEW_ALARM_ADDED = "new_alarm_added";
 
@@ -80,24 +80,11 @@ public class NewAlarmFormActivity extends BaseActivity implements VerticalSteppe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertical_stepper_form);
 
-        setupAppBar();
-        initializeActivity();
-    }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    public void setupAppBar() {
-        mBaseAppBar = getAppBar();
-        mBaseAppBar.setBackgroundColor(getResources().getColor(R.color.colorRed500));
-        mBaseAppBar.setLeftButtonIcon(R.drawable.ic_clear_white_24dp);
-        mBaseAppBar.setLeftButtonClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        mBaseAppBar.setTitleText(getResources().getString(R.string.add_golf_round_info_title));
-        mBaseAppBar.setTitleTextColor(R.color.colorWhite);
-        mBaseAppBar.setProfilePhoto();
-        mBaseAppBar.showAppBarDivider();
+        initializeActivity();
     }
 
     private void initializeActivity() {

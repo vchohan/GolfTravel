@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,12 +39,10 @@ import com.github.clans.fab.FloatingActionButton;
 import java.io.IOException;
 import java.util.List;
 
-public class GolfCourseFinderActivity extends BaseActivity implements OnMapReadyCallback,
+public class GolfCourseFinderActivity extends AppCompatActivity implements OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
-
-    private BaseAppBar mBaseAppBar;
 
     private GoogleMap mMap;
 
@@ -76,7 +75,6 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
         super.onCreate(savedInstanceState);
         setContentView(R.layout.golf_course_finder_activity);
 
-        setupAppBar();
         setGeoCodeView();
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -95,22 +93,6 @@ public class GolfCourseFinderActivity extends BaseActivity implements OnMapReady
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
             .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
-
-    public void setupAppBar() {
-        mBaseAppBar = getAppBar();
-        mBaseAppBar.setBackgroundColor(getResources().getColor(R.color.colorRed500));
-        mBaseAppBar.setLeftButtonIcon(R.drawable.ic_arrow_back_white_24dp);
-        mBaseAppBar.setLeftButtonClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GolfCourseFinderActivity.super.onBackPressed();
-            }
-        });
-        mBaseAppBar.setTitleText(getResources().getString(R.string.map_view_title));
-        mBaseAppBar.setTitleTextColor(R.color.colorWhite);
-        mBaseAppBar.setProfilePhoto();
-        mBaseAppBar.showAppBarDivider();
     }
 
     private void setGeoCodeView() {

@@ -12,6 +12,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,12 +25,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,6 +45,7 @@ import com.facebook.login.LoginManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.vchohan.baseui.CircleTransform;
+import com.vchohan.golftravel.weather.activities.WeatherActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.main_activity);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, new WeatherFragment())
+                .commit();
+        }
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(mViewPager);
@@ -186,6 +197,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_change_city) {
+            showInputDialog();
+            return false;
         } else if (id == R.id.action_logout) {
             logout();
             return true;
@@ -308,6 +322,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         set.setInterpolator(new OvershootInterpolator(2));
 
         mFloatingActionMenu.setIconToggleAnimatorSet(set);
+    }
+
+    private void showInputDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Change city");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+        builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changeCity(input.getText().toString());
+            }
+        });
+        builder.show();
+    }
+
+    public void changeCity(String city) {
+        WeatherFragment wf = (WeatherFragment) getSupportFragmentManager()
+            .findFragmentById(R.id.container);
+        wf.changeCity(city);
+        new CityPreference(this).setCity(city);
     }
 
     private void logout() {

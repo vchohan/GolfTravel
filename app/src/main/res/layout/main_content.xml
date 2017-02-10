@@ -23,17 +23,22 @@
                 android:layout_marginBottom="30dp"
                 android:gravity="center">
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="75"
-                    android:textSize="50sp"
-                    android:textColor="@color/colorWhite" />
+            <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="75"-->
+                    <!--android:textSize="50sp"-->
+                    <!--android:textColor="@color/colorWhite" />-->
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Today's forecast is Sunny" />
+            <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Today's forecast is Sunny" />-->
+
+            <FrameLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
         </LinearLayout>
 

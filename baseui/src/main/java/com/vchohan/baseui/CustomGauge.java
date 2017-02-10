@@ -69,7 +69,7 @@ public class CustomGauge extends View {
 
         // stroke style
         setStrokeWidth(a.getDimension(R.styleable.CustomGauge_gaugeStrokeWidth, 10));
-        setStrokeColor(a.getColor(R.styleable.CustomGauge_gaugeStrokeColor, ContextCompat.getColor(context, android.R.color.darker_gray)));
+        setStrokeColor(a.getColor(R.styleable.CustomGauge_gaugeStrokeColor, ContextCompat.getColor(context, R.color.colorGreen500)));
         setStrokeCap(a.getString(R.styleable.CustomGauge_gaugeStrokeCap));
 
         // angle start and sweep (opposite direction 0, 270, 180, 90)

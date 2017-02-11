@@ -145,7 +145,7 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 //        transaction.addToBackStack(null);
 //        transaction.commit();
 
-        Intent golfRoundInfoIntent = new Intent(getContext(), NewAlarmFormActivity.class);
+        Intent golfRoundInfoIntent = new Intent(getContext(), GolfRoundInfoActivity.class);
         golfRoundInfoIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(golfRoundInfoIntent);
 

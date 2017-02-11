@@ -24,9 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-public class NewAlarmFormActivity extends AppCompatActivity implements VerticalStepperForm {
+public class GolfRoundInfoActivity extends AppCompatActivity implements VerticalStepperForm {
 
-    public static final String TAG = NewAlarmFormActivity.class.getSimpleName();
+    public static final String TAG = GolfRoundInfoActivity.class.getSimpleName();
 
     public static final String NEW_ALARM_ADDED = "new_alarm_added";
 
@@ -78,7 +78,7 @@ public class NewAlarmFormActivity extends AppCompatActivity implements VerticalS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vertical_stepper_form);
+        setContentView(R.layout.golf_round_info_activity);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

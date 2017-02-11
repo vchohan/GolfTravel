@@ -132,7 +132,7 @@ public class WeatherActivity extends AppCompatActivity implements LocationListen
 
         // Initiate activity
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scrolling);
+        setContentView(R.layout.weather_activity);
         appView = findViewById(R.id.viewApp);
 
         progressDialog = new ProgressDialog(WeatherActivity.this);

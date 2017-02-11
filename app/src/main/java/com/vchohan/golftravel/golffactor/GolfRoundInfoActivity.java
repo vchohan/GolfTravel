@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.golffactor;
 
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -23,6 +23,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.vchohan.golftravel.R;
 
 public class GolfRoundInfoActivity extends AppCompatActivity implements VerticalStepperForm {
 

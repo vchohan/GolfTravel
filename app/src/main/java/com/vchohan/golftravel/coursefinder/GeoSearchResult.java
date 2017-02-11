@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.coursefinder;
 
 import android.location.Address;
 

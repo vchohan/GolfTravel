@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.golffactor;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,6 +28,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.vchohan.golftravel.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;

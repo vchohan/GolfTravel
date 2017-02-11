@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.golffactor;
 
 import android.view.View;
 

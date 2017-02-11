@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:showIn="@layout/main_app_bar"
-        tools:context="com.vchohan.golftravel.MainActivity">
+        tools:context="com.vchohan.golftravel.mainhome.MainActivity">
 
     <!-- weather view -->
     <RelativeLayout

@@ -26,7 +26,7 @@
                 android:value="@string/facebook_app_id" />
 
         <activity
-                android:name=".SplashActivity"
+                android:name=".splashintro.SplashActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -36,19 +36,19 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".IntroActivity"
+                android:name=".splashintro.IntroActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-                android:name=".LoginRegisterActivity"
+                android:name=".loginregister.LoginRegisterActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-                android:name=".LoginActivity"
+                android:name=".loginregister.LoginActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-                android:name=".RegisterActivity"
+                android:name=".loginregister.RegisterActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -75,7 +75,7 @@
 
         <!-- App Pages -->
         <activity
-                android:name=".MainActivity"
+                android:name=".mainhome.MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme" />
         <activity
@@ -95,35 +95,35 @@
                 android:value="@string/google_maps_key" />
 
         <activity
-                android:name=".GolfCourseFinderActivity"
+                android:name=".coursefinder.GolfCourseFinderActivity"
                 android:label="@string/golf_course_finder_page_title"
-                android:parentActivityName=".MainActivity" />
+                android:parentActivityName=".mainhome.MainActivity" />
         <activity
-                android:name=".GolfRoundInfoActivity"
+                android:name=".golffactor.GolfRoundInfoActivity"
                 android:label="@string/golf_round_info_title"
-                android:parentActivityName=".MainActivity"
+                android:parentActivityName=".mainhome.MainActivity"
                 android:theme="@style/AppTheme">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.vchohan.golftravel.MainActivity" />
+                    android:value="com.vchohan.golftravel.mainhome.MainActivity" />
         </activity>
 
         <activity
                 android:name=".weather.activities.WeatherActivity"
                 android:label="@string/weather_page_title"
-                android:parentActivityName=".MainActivity"
+                android:parentActivityName=".mainhome.MainActivity"
                 android:theme="@style/AppTheme">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.vchohan.golftravel.MainActivity" />
+                    android:value="com.vchohan.golftravel.mainhome.MainActivity" />
         </activity>
         <activity
                 android:name=".weather.activities.SettingsActivity"
-                android:parentActivityName=".MainActivity"
+                android:parentActivityName=".mainhome.MainActivity"
                 android:theme="@style/AppTheme">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.vchohan.golftravel.MainActivity" />
+                    android:value="com.vchohan.golftravel.mainhome.MainActivity" />
         </activity>
 
         <receiver android:name=".weather.widgets.ExtensiveWidgetProvider">

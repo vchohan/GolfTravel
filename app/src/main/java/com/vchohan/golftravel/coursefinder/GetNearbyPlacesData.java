@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.coursefinder;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

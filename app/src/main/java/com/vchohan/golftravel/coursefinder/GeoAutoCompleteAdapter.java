@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.coursefinder;
 
 import android.content.Context;
 import android.location.Geocoder;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
+import com.vchohan.golftravel.R;
 
 import java.io.IOException;
 import java.util.ArrayList;

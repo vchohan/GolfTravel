@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.splashintro;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.vchohan.golftravel.loginregister.LoginRegisterActivity;
+import com.vchohan.golftravel.R;
 
 public class IntroActivity extends AppCompatActivity {
 

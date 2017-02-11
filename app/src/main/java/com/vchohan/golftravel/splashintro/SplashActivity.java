@@ -1,9 +1,11 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.splashintro;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+
+import com.vchohan.golftravel.R;
 
 public class SplashActivity extends AppCompatActivity {
 

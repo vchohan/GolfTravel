@@ -1,7 +1,9 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.splashintro;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;
+
+import com.vchohan.golftravel.R;
 
 public class IntroPageTransformer implements ViewPager.PageTransformer {
 

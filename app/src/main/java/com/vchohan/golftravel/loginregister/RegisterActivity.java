@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.loginregister;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +35,10 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.vchohan.baseui.CameraUtility;
 import com.vchohan.baseui.CircleTransform;
+import com.vchohan.golftravel.BaseActivity;
+import com.vchohan.golftravel.BaseAppBar;
+import com.vchohan.golftravel.mainhome.MainActivity;
+import com.vchohan.golftravel.R;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;

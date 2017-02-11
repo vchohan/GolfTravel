@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.coursefinder;
 
 import android.content.Context;
 import android.os.Handler;

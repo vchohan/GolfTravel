@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="com.vchohan.golftravel.GolfRoundInfoActivity">
+        tools:context="com.vchohan.golftravel.golffactor.GolfRoundInfoActivity">
 
     <ScrollView
             android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             </android.support.design.widget.AppBarLayout>
 
 
-            <com.vchohan.golftravel.VerticalStepperFormLayout
+            <com.vchohan.golftravel.golffactor.VerticalStepperFormLayout
                     android:id="@+id/vertical_stepper_form"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

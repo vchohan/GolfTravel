@@ -4,7 +4,7 @@
         android:id="@+id/login_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.vchohan.golftravel.LoginActivity">
+        tools:context="com.vchohan.golftravel.loginregister.LoginActivity">
 
     <!-- layout image background-->
     <ImageView

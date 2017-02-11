@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.splashintro;
 
 import android.content.Context;
 import android.content.SharedPreferences;

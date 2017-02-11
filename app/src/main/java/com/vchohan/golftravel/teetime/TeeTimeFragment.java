@@ -1,4 +1,4 @@
-package com.vchohan.golftravel;
+package com.vchohan.golftravel.teetime;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -19,6 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.vchohan.golftravel.coursefinder.GolfCourseFinderActivity;
+import com.vchohan.golftravel.R;
 
 import java.util.ArrayList;
 import java.util.List;

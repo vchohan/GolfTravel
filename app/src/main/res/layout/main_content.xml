@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -6,110 +6,124 @@
         tools:showIn="@layout/main_app_bar"
         tools:context="com.vchohan.golftravel.mainhome.MainActivity">
 
-    <!-- weather view -->
-    <RelativeLayout
-            android:id="@+id/weather_info_container"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:background="@color/colorCyan500">
+ <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:fillViewport="true">
 
-        <include
-                layout="@layout/main_weather"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+     <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
-    </RelativeLayout>
+         <!-- weather view -->
+         <RelativeLayout
+                 android:id="@+id/weather_info_container"
+                 android:layout_width="match_parent"
+                 android:layout_height="150dp"
+                 android:foreground="?android:attr/selectableItemBackground"
+                 android:clickable="true"
+                 android:background="@color/colorCyan500">
 
-    <!-- forecast container -->
-    <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="24dp">
+             <include
+                     layout="@layout/main_weather"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent" />
 
-        <LinearLayout
-                android:id="@+id/forecast_container"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorGrey300"
-                android:layout_centerHorizontal="true"
-                android:baselineAligned="false">
+         </RelativeLayout>
 
-            <fragment
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
-                    android:id="@+id/forecast_0"
-                    android:layout_weight="1"
-                    tools:layout="@layout/fragment_weather_condition" />
+         <!-- forecast container -->
+         <android.support.v7.widget.CardView
+                 android:layout_width="match_parent"
+                 android:layout_height="150dp"
+                 android:layout_marginTop="100dp"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginRight="10dp"
+                 android:foreground="?android:attr/selectableItemBackground"
+                 android:clickable="true"
+                 app:cardCornerRadius="10dp"
+                 app:cardElevation="24dp">
 
-            <fragment
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
-                    android:id="@+id/forecast_1"
-                    android:layout_weight="1"
-                    tools:layout="@layout/fragment_weather_condition" />
+             <LinearLayout
+                     android:id="@+id/forecast_container"
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:background="@color/colorGrey300"
+                     android:layout_centerHorizontal="true"
+                     android:baselineAligned="false"
+                     android:weightSum="5">
 
-            <fragment
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
-                    android:id="@+id/forecast_2"
-                    android:layout_weight="1"
-                    tools:layout="@layout/fragment_weather_condition" />
+                 <fragment
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
+                         android:id="@+id/forecast_0"
+                         android:layout_weight="1"
+                         tools:layout="@layout/fragment_weather_condition" />
 
-            <fragment
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
-                    android:id="@+id/forecast_3"
-                    android:layout_weight="1"
-                    tools:layout="@layout/fragment_weather_condition" />
+                 <fragment
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
+                         android:id="@+id/forecast_1"
+                         android:layout_weight="1"
+                         tools:layout="@layout/fragment_weather_condition" />
 
-            <fragment
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
-                    android:id="@+id/forecast_4"
-                    android:layout_weight="1"
-                    tools:layout="@layout/fragment_weather_condition" />
-        </LinearLayout>
+                 <fragment
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
+                         android:id="@+id/forecast_2"
+                         android:layout_weight="1"
+                         tools:layout="@layout/fragment_weather_condition" />
 
-    </android.support.v7.widget.CardView>
+                 <fragment
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
+                         android:id="@+id/forecast_3"
+                         android:layout_weight="1"
+                         tools:layout="@layout/fragment_weather_condition" />
 
-    <!-- view pager view -->
-    <RelativeLayout
-            android:id="@+id/view_pager_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="250dp">
+                 <fragment
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:name="com.vchohan.golftravel.yahooweather.WeatherConditionFragment"
+                         android:id="@+id/forecast_4"
+                         android:layout_weight="1"
+                         tools:layout="@layout/fragment_weather_condition" />
+             </LinearLayout>
 
-        <android.support.design.widget.TabLayout
-                android:id="@+id/tab_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabTextColor="@color/colorRed300"
-                app:tabSelectedTextColor="@color/colorRed900"
-                app:tabMaxWidth="0dp"
-                app:tabMode="fixed"
-                app:tabGravity="fill" />
+         </android.support.v7.widget.CardView>
 
-        <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tab_view"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+         <!-- view pager view -->
+         <RelativeLayout
+                 android:id="@+id/view_pager_container"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:layout_marginTop="250dp">
 
-    </RelativeLayout>
+             <android.support.design.widget.TabLayout
+                     android:id="@+id/tab_view"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     app:tabTextColor="@color/colorRed300"
+                     app:tabSelectedTextColor="@color/colorRed900"
+                     app:tabMaxWidth="0dp"
+                     app:tabMode="fixed"
+                     app:tabGravity="fill" />
 
-</RelativeLayout>
+             <android.support.v4.view.ViewPager
+                     android:id="@+id/view_pager"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_below="@+id/tab_view"
+                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+         </RelativeLayout>
+
+     </RelativeLayout>
+
+ </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

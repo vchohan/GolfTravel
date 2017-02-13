@@ -11,7 +11,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vchohan.golftravel.CustomGauge;
@@ -21,7 +20,7 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 
     public static final String TAG = GolfFactorFragment.class.getSimpleName();
 
-    private RelativeLayout mAddGolfRoundInfoButton;
+    private ImageView mAddGolfRoundInfoButton;
 
     private LinearLayout mViewGolfRoundInfoButton, mGolfRoundInfoLayout;
 
@@ -52,7 +51,7 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         View rootView = inflater.inflate(R.layout.golf_factor_fragment, container, false);
         setupGaugeView(rootView);
 
-        mAddGolfRoundInfoButton = (RelativeLayout) rootView.findViewById(R.id.add_golf_round_info_button);
+        mAddGolfRoundInfoButton = (ImageView) rootView.findViewById(R.id.add_golf_round_info_button);
         mAddGolfRoundInfoButton.setOnClickListener(this);
 
         mViewGolfRoundInfoButton = (LinearLayout) rootView.findViewById(R.id.view_golf_round_info_button);

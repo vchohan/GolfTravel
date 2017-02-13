@@ -54,7 +54,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.vchohan.baseui.CircleTransform;
+import com.vchohan.golftravel.CircleTransform;
 import com.vchohan.golftravel.R;
 import com.vchohan.golftravel.golffactor.GolfFactorFragment;
 import com.vchohan.golftravel.loginregister.LoginActivity;

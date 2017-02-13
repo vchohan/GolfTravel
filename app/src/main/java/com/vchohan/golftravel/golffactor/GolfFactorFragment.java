@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.vchohan.baseui.CustomGauge;
+import com.vchohan.golftravel.CustomGauge;
 import com.vchohan.golftravel.R;
 
 public class GolfFactorFragment extends Fragment implements View.OnClickListener {

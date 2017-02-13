@@ -1,4 +1,4 @@
-package com.vchohan.baseui;
+package com.vchohan.golftravel;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -65,33 +65,34 @@ public class CustomGauge extends View {
 
     public CustomGauge(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomGauge, 0, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, com.vchohan.baseui.R.styleable.CustomGauge, 0, 0);
 
         // stroke style
-        setStrokeWidth(a.getDimension(R.styleable.CustomGauge_gaugeStrokeWidth, 10));
-        setStrokeColor(a.getColor(R.styleable.CustomGauge_gaugeStrokeColor, ContextCompat.getColor(context, R.color.colorGreen500)));
-        setStrokeCap(a.getString(R.styleable.CustomGauge_gaugeStrokeCap));
+        setStrokeWidth(a.getDimension(com.vchohan.baseui.R.styleable.CustomGauge_gaugeStrokeWidth, 10));
+        setStrokeColor(a.getColor(
+            com.vchohan.baseui.R.styleable.CustomGauge_gaugeStrokeColor, ContextCompat.getColor(context, com.vchohan.baseui.R.color.colorGreen500)));
+        setStrokeCap(a.getString(com.vchohan.baseui.R.styleable.CustomGauge_gaugeStrokeCap));
 
         // angle start and sweep (opposite direction 0, 270, 180, 90)
-        setStartAngle(a.getInt(R.styleable.CustomGauge_gaugeStartAngle, 0));
-        setSweepAngle(a.getInt(R.styleable.CustomGauge_gaugeSweepAngle, 360));
+        setStartAngle(a.getInt(com.vchohan.baseui.R.styleable.CustomGauge_gaugeStartAngle, 0));
+        setSweepAngle(a.getInt(com.vchohan.baseui.R.styleable.CustomGauge_gaugeSweepAngle, 360));
 
         // scale (from mStartValue to mEndValue)
-        setStartValue(a.getInt(R.styleable.CustomGauge_gaugeStartValue, 0));
-        setEndValue(a.getInt(R.styleable.CustomGauge_gaugeEndValue, 100));
+        setStartValue(a.getInt(com.vchohan.baseui.R.styleable.CustomGauge_gaugeStartValue, 0));
+        setEndValue(a.getInt(com.vchohan.baseui.R.styleable.CustomGauge_gaugeEndValue, 100));
 
         // pointer size and color
-        setPointSize(a.getInt(R.styleable.CustomGauge_gaugePointSize, 0));
+        setPointSize(a.getInt(com.vchohan.baseui.R.styleable.CustomGauge_gaugePointSize, 0));
         setPointStartColor(
-            a.getColor(R.styleable.CustomGauge_gaugePointStartColor, ContextCompat.getColor(context, android.R.color.white)));
-        setPointEndColor(a.getColor(R.styleable.CustomGauge_gaugePointEndColor, ContextCompat.getColor(context, android.R.color.white)));
+            a.getColor(com.vchohan.baseui.R.styleable.CustomGauge_gaugePointStartColor, ContextCompat.getColor(context, android.R.color.white)));
+        setPointEndColor(a.getColor(com.vchohan.baseui.R.styleable.CustomGauge_gaugePointEndColor, ContextCompat.getColor(context, android.R.color.white)));
 
         // divider options
-        int dividerSize = a.getInt(R.styleable.CustomGauge_gaugeDividerSize, 0);
-        setDividerColor(a.getColor(R.styleable.CustomGauge_gaugeDividerColor, ContextCompat.getColor(context, android.R.color.white)));
-        int dividerStep = a.getInt(R.styleable.CustomGauge_gaugeDividerStep, 0);
-        setDividerDrawFirst(a.getBoolean(R.styleable.CustomGauge_gaugeDividerDrawFirst, true));
-        setDividerDrawLast(a.getBoolean(R.styleable.CustomGauge_gaugeDividerDrawLast, true));
+        int dividerSize = a.getInt(com.vchohan.baseui.R.styleable.CustomGauge_gaugeDividerSize, 0);
+        setDividerColor(a.getColor(com.vchohan.baseui.R.styleable.CustomGauge_gaugeDividerColor, ContextCompat.getColor(context, android.R.color.white)));
+        int dividerStep = a.getInt(com.vchohan.baseui.R.styleable.CustomGauge_gaugeDividerStep, 0);
+        setDividerDrawFirst(a.getBoolean(com.vchohan.baseui.R.styleable.CustomGauge_gaugeDividerDrawFirst, true));
+        setDividerDrawLast(a.getBoolean(com.vchohan.baseui.R.styleable.CustomGauge_gaugeDividerDrawLast, true));
 
         // calculating one point sweep
         mPointAngle = ((double) Math.abs(mSweepAngle) / (mEndValue - mStartValue));

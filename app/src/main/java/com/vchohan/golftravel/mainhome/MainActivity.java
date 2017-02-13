@@ -8,15 +8,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,6 +36,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -33,6 +46,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -46,11 +60,22 @@ import com.vchohan.golftravel.golffactor.GolfFactorFragment;
 import com.vchohan.golftravel.loginregister.LoginActivity;
 import com.vchohan.golftravel.teetime.TeeTimeFragment;
 import com.vchohan.golftravel.weather.activities.WeatherActivity;
+import com.vchohan.golftravel.yahooweather.Channel;
+import com.vchohan.golftravel.yahooweather.Condition;
+import com.vchohan.golftravel.yahooweather.GeocodingServiceListener;
+import com.vchohan.golftravel.yahooweather.GoogleMapsGeocodingService;
+import com.vchohan.golftravel.yahooweather.LocationResult;
+import com.vchohan.golftravel.yahooweather.Units;
+import com.vchohan.golftravel.yahooweather.WeatherCacheService;
+import com.vchohan.golftravel.yahooweather.WeatherConditionFragment;
+import com.vchohan.golftravel.yahooweather.WeatherServiceListener;
+import com.vchohan.golftravel.yahooweather.YahooWeatherService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+    View.OnClickListener, WeatherServiceListener, GeocodingServiceListener, LocationListener {
 
     private FirebaseAuth mAuth = null;
 
@@ -74,6 +99,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private RelativeLayout mWeatherInfoButton;
 
+    public static int GET_WEATHER_FROM_CURRENT_LOCATION = 0x00001;
+
+    private ImageView weatherIconImageView;
+
+    private TextView temperatureTextView;
+
+    private TextView conditionTextView;
+
+    private TextView locationTextView;
+
+    private YahooWeatherService weatherService;
+
+    private GoogleMapsGeocodingService geocodingService;
+
+    private WeatherCacheService cacheService;
+
+    private ProgressDialog loadingDialog;
+
+    // weather service fail flag
+    private boolean weatherServicesHasFailed = false;
+
+    private SharedPreferences preferences = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.main_activity);
-
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//                .add(R.id.container, new WeatherFragment())
-//                .commit();
-//        }
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(mViewPager);
@@ -99,10 +141,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupToolBarAndNavigationDrawer();
 
         setupWeatherView();
+        setupWeatherDetailsView();
 
         setupFloatingActionMenu();
         createCustomAnimation();
         logoutFacebook();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        loadingDialog = new ProgressDialog(this);
+        loadingDialog.setMessage(getString(R.string.loading));
+        loadingDialog.setCancelable(false);
+        loadingDialog.show();
+
+        String location = null;
+
+        if (preferences.getBoolean(getString(R.string.pref_geolocation_enabled), true)) {
+            String locationCache = preferences.getString(getString(R.string.pref_cached_location), null);
+
+            if (locationCache == null) {
+                getWeatherFromCurrentLocation();
+            } else {
+                location = locationCache;
+            }
+        } else {
+            location = preferences.getString(getString(R.string.pref_manual_location), null);
+        }
+
+        if (location != null) {
+            weatherService.refreshWeather(location);
+        }
     }
 
     private void initializeFirebase() {
@@ -196,10 +267,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startWeatherSettingsActivity();
             return true;
-        } else if (id == R.id.action_change_city) {
-//            showInputDialog();
-            return false;
+        } else if (id == R.id.action_current_location) {
+            loadingDialog.show();
+            getWeatherFromCurrentLocation();
+            return true;
         } else if (id == R.id.action_logout) {
             logout();
             return true;
@@ -324,28 +397,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFloatingActionMenu.setIconToggleAnimatorSet(set);
     }
 
-//    private void showInputDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Change city");
-//        final EditText input = new EditText(this);
-//        input.setInputType(InputType.TYPE_CLASS_TEXT);
-//        builder.setView(input);
-//        builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                changeCity(input.getText().toString());
-//            }
-//        });
-//        builder.show();
-//    }
-//
-//    public void changeCity(String city) {
-//        WeatherFragment wf = (WeatherFragment) getSupportFragmentManager()
-//            .findFragmentById(R.id.container);
-//        wf.changeCity(city);
-//        new CityPreference(this).setCity(city);
-//    }
-
     private void logout() {
         mAuth.signOut();
         LoginManager.getInstance().logOut();
@@ -369,9 +420,167 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
     }
 
-    private void setupWeatherView() {
+    private void setupWeatherDetailsView() {
         mWeatherInfoButton = (RelativeLayout) findViewById(R.id.weather_info_container);
         mWeatherInfoButton.setOnClickListener(this);
+    }
+
+    private void setupWeatherView() {
+
+        weatherIconImageView = (ImageView) findViewById(R.id.weatherIconImageView);
+        temperatureTextView = (TextView) findViewById(R.id.temperature_text);
+        conditionTextView = (TextView) findViewById(R.id.condition_text);
+        locationTextView = (TextView) findViewById(R.id.location_text);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        weatherService = new YahooWeatherService(this);
+        weatherService.setTemperatureUnit(preferences.getString(getString(R.string.pref_temperature_unit), null));
+
+        geocodingService = new GoogleMapsGeocodingService(this);
+        cacheService = new WeatherCacheService(this);
+
+        if (preferences.getBoolean(getString(R.string.pref_needs_setup), true)) {
+            startWeatherSettingsActivity();
+        }
+    }
+
+    private void getWeatherFromCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            }, GET_WEATHER_FROM_CURRENT_LOCATION);
+
+            return;
+        }
+
+        // system's LocationManager
+        final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        Criteria locationCriteria = new Criteria();
+
+        if (isNetworkEnabled) {
+            locationCriteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        } else if (isGPSEnabled) {
+            locationCriteria.setAccuracy(Criteria.ACCURACY_FINE);
+        }
+
+        locationManager.requestSingleUpdate(locationCriteria, this, null);
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == MainActivity.GET_WEATHER_FROM_CURRENT_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getWeatherFromCurrentLocation();
+            } else {
+                loadingDialog.hide();
+
+                AlertDialog messageDialog = new AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.location_permission_needed))
+                    .setPositiveButton(getString(R.string.disable_geolocation), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startWeatherSettingsActivity();
+                        }
+                    })
+                    .create();
+
+                messageDialog.show();
+            }
+        }
+    }
+
+
+    private void startWeatherSettingsActivity() {
+        Intent intent = new Intent(this, WeatherSettingsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void serviceSuccess(Channel channel) {
+        loadingDialog.hide();
+
+        Condition condition = channel.getItem().getCondition();
+        Units units = channel.getUnits();
+        Condition[] forecast = channel.getItem().getForecast();
+
+        int weatherIconImageResource = getResources().getIdentifier("icon_" + condition.getCode(), "drawable", getPackageName());
+
+        weatherIconImageView.setImageResource(weatherIconImageResource);
+        temperatureTextView.setText(getString(R.string.temperature_output, condition.getTemperature(), units.getTemperature()));
+        conditionTextView.setText(condition.getDescription());
+        locationTextView.setText(channel.getLocation());
+
+        for (int day = 0; day < forecast.length; day++) {
+            if (day >= 5) {
+                break;
+            }
+
+            Condition currentCondition = forecast[day];
+
+            int viewId = getResources().getIdentifier("forecast_" + day, "id", getPackageName());
+            WeatherConditionFragment fragment = (WeatherConditionFragment) getSupportFragmentManager().findFragmentById(viewId);
+
+            if (fragment != null) {
+                fragment.loadForecast(currentCondition, channel.getUnits());
+            }
+        }
+
+        cacheService.save(channel);
+    }
+
+    @Override
+    public void serviceFailure(Exception exception) {
+        // display error if this is the second failure
+        if (weatherServicesHasFailed) {
+            loadingDialog.hide();
+            Toast.makeText(this, exception.getMessage(), Toast.LENGTH_LONG).show();
+        } else {
+            // error doing reverse geocoding, load weather data from cache
+            weatherServicesHasFailed = true;
+            // OPTIONAL: let the user know an error has occurred then fallback to the cached data
+            Toast.makeText(this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+
+            cacheService.load(this);
+        }
+    }
+
+    @Override
+    public void geocodeSuccess(LocationResult location) {
+        // completed geocoding successfully
+        weatherService.refreshWeather(location.getAddress());
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(getString(R.string.pref_cached_location), location.getAddress());
+        editor.apply();
+    }
+
+    @Override
+    public void geocodeFailure(Exception exception) {
+        // GeoCoding failed, try loading weather data from the cache
+        cacheService.load(this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        geocodingService.refreshLocation(location);
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+        // OPTIONAL: implement your custom logic here
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+        // OPTIONAL: implement your custom logic here
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+        // OPTIONAL: implement your custom logic here
     }
 
     @Override

@@ -36,8 +36,8 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.vchohan.golftravel.BaseActivity;
 import com.vchohan.golftravel.BaseAppBar;
-import com.vchohan.golftravel.mainhome.MainActivity;
 import com.vchohan.golftravel.R;
+import com.vchohan.golftravel.mainhome.MainActivity;
 
 public class LoginActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 

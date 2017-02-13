@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorRed500"
+        tools:context=".yahooweather.YahooWeatherActivity">
+
+    <!-- weather view container -->
+    <LinearLayout
+            android:id="@+id/weather_view_container"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:weightSum="2">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1">
+
+            <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/weatherIconImageView"
+                    android:src="@drawable/icon_na" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/temperature_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/temperature"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    android:layout_alignTop="@+id/weatherIconImageView"
+                    android:layout_toStartOf="@+id/weatherIconImageView" />
+
+            <TextView
+                    android:id="@+id/condition_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/condition"
+                    android:textColor="@color/colorWhite"
+                    android:layout_below="@+id/temperature_text"
+                    android:layout_centerHorizontal="true" />
+
+            <TextView
+                    android:id="@+id/location_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/location"
+                    android:textColor="@color/colorWhite"
+                    android:layout_below="@+id/condition_text"
+                    android:layout_centerHorizontal="true"
+                    android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_current_location"
+            android:title="@string/update_location"
+            android:icon="@drawable/icon_location"
+            app:showAsAction="ifRoom|withText" />
+
     <item
             android:id="@+id/action_settings"
             android:title="@string/action_settings"
             android:orderInCategory="100"
             app:showAsAction="never" />
-
-    <item
-            android:id="@+id/action_change_city"
-            android:orderInCategory="1"
-            android:title="@string/change_city"
-            app:showAsAction="never"/>
 
     <item
             android:id="@+id/action_logout"

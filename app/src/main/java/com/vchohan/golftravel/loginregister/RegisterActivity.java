@@ -37,7 +37,7 @@ import com.vchohan.golftravel.CameraUtility;
 import com.vchohan.golftravel.CircleTransform;
 import com.vchohan.golftravel.BaseActivity;
 import com.vchohan.golftravel.BaseAppBar;
-import com.vchohan.golftravel.mainhome.MainActivity;
+import com.vchohan.golftravel.main.MainActivity;
 import com.vchohan.golftravel.R;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;

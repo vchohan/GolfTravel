@@ -1,4 +1,4 @@
-package com.vchohan.golftravel.mainhome;
+package com.vchohan.golftravel.main;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

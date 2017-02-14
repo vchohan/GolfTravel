@@ -47,10 +47,6 @@ public class SettingsActivity extends PreferenceActivity {
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
 

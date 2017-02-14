@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <!--recipe user input container-->
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:weightSum="1">
+
+            <!--recipe image view container-->
+            <LinearLayout
+                    android:id="@+id/recipe_image_view_container"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:background="@drawable/border_view_rectangle"
+                    android:layout_weight="1">
+
+                <ImageView
+                        android:id="@+id/recipe_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"/>
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_menu_camera"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Click here to add an image."/>
+
+            </LinearLayout>
+
+            <!--meal category spinner container-->
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/border_view_rectangle"
+                    android:layout_weight="1">
+
+                <!-- Text Label -->
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/spinner_title"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorIndigo500"/>
+
+                <!-- Spinner Element -->
+                <Spinner
+                        android:id="@+id/recipe_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:prompt="@string/spinner_title"/>
+
+            </LinearLayout>
+
+            <!--recipe user input container-->
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/border_view_rectangle">
+
+                <!-- recipe title container -->
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorIndigo300"/>
+
+                    <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp">
+
+                        <EditText
+                                android:id="@+id/recipe_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:hint="Recipe Title"
+                                android:inputType="text|textCapCharacters|textCapWords"
+                                android:textStyle="bold"
+                                android:maxLines="1"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <!-- recipe ingredients container -->
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorIndigo300"/>
+
+                    <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp">
+
+                        <MultiAutoCompleteTextView
+                                android:id="@+id/recipe_ingredients"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Recipe Ingredients"
+                                android:inputType="text|textMultiLine|textCapWords"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <!-- recipe method container -->
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorIndigo300"/>
+
+                    <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp">
+
+                        <MultiAutoCompleteTextView
+                                android:id="@+id/recipe_method"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Recipe Method"
+                                android:inputType="text|textMultiLine|textCapSentences"
+                                android:ems="10"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- recipe save button container -->
+        <LinearLayout
+                android:id="@+id/recipe_save_button"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+            <Button
+                    android:id="@+id/save_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="SAVE"
+                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorIndigo500"
+                    android:layout_alignParentBottom="true"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

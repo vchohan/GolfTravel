@@ -243,7 +243,6 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
                     viewHolder.setDate(model.getDate());
                     viewHolder.setTime(model.getTime());
 
-
                     viewHolder.setLikeButton(golfRoundInfoKey);
 
                     viewHolder.mView.setOnClickListener(new View.OnClickListener() {

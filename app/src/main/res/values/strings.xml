@@ -54,6 +54,7 @@
 
     <!-- other strings-->
     <string name="progress_bar_loading">Loading</string>
+    <string name="set_your_location">Set Your Current Location</string>
 
     <!-- firebase auth string -->
     <string name="label_google_sign_in">Firebase + Google Sign In</string>

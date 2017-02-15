@@ -1,9 +1,15 @@
 package com.vchohan.golftravel.teetime;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -15,6 +21,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +31,13 @@ import android.widget.TextView;
 
 import com.vchohan.golftravel.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.Context.LOCATION_SERVICE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class TeeTimeFragment extends Fragment implements View.OnClickListener {
@@ -65,7 +75,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
         mSetLocationButton.setOnClickListener(this);
 
         mCurrentLocationText = (TextView) rootView.findViewById(R.id.current_location_text);
-        mCurrentLocationText.setText("Set Your Current Location");
+        mCurrentLocationText.setText(getString(R.string.set_your_location));
 
         mAddCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.add_current_location_icon);
         mAddCurrentLocationIcon.setVisibility(View.VISIBLE);
@@ -135,11 +145,51 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setCurrentLocation(View rootView) {
-        mAddCurrentLocationIcon.setVisibility(View.GONE);
-        mCurrentLocationIcon.setVisibility(View.VISIBLE);
+        //Location Manager is used to figure out which location provider needs to be used.
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
-        requestLocationPermission();
-        locationPermission(rootView);
+        //Best location provider is decided by the criteria
+        Criteria criteria = new Criteria();
+
+        //location manager will take the best location from the criteria
+        locationManager.getBestProvider(criteria, true);
+
+        //nce you know the name of the LocationProvider, you can call getLastKnownPosition() to find out where you were recently.
+        if (ActivityCompat.checkSelfPermission(getContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(getContext(),
+            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            // requestPermissions
+            requestLocationPermission();
+            locationPermission(rootView);
+
+            return;
+        }
+
+        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
+
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        Log.d("Tag", "1");
+        List<Address> addresses;
+
+        try {
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses.size() > 0) {
+                //while(locTextView.getText().toString()=="Location") {
+                String locationName = addresses.get(0).getLocality().toString() + ", " +
+                    addresses.get(0).getAdminArea().toString() + " " +
+                    addresses.get(0).getCountryName().toString();
+                mCurrentLocationText.setText(locationName);
+                mAddCurrentLocationIcon.setVisibility(View.GONE);
+                mCurrentLocationIcon.setVisibility(View.VISIBLE);
+                // }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
     }
 
     private void requestLocationPermission() {

@@ -112,7 +112,7 @@
                 android:parentActivityName=".main.MainActivity" />
 
         <activity
-                android:name=".coursefinder.GolfCourseFinderActivity"
+                android:name=".teetime.GolfCourseFinderMapActivity"
                 android:label="@string/golf_course_finder_page_title"
                 android:parentActivityName=".main.MainActivity" />
 

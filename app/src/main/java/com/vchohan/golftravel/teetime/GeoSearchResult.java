@@ -1,4 +1,4 @@
-package com.vchohan.golftravel.coursefinder;
+package com.vchohan.golftravel.teetime;
 
 import android.location.Address;
 

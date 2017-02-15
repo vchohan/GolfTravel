@@ -1,4 +1,4 @@
-package com.vchohan.golftravel.coursefinder;
+package com.vchohan.golftravel.teetime;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -40,7 +40,7 @@ import com.vchohan.golftravel.R;
 import java.io.IOException;
 import java.util.List;
 
-public class GolfCourseFinderActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class GolfCourseFinderMapActivity extends AppCompatActivity implements OnMapReadyCallback,
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener,
     LocationListener {
@@ -239,7 +239,7 @@ public class GolfCourseFinderActivity extends AppCompatActivity implements OnMap
 
         LinearLayout btnRestaurant = (LinearLayout) findViewById(R.id.search_nearby);
         btnRestaurant.setOnClickListener(new View.OnClickListener() {
-            String Restaurant = "restaurant";
+            String Restaurant = "golf";
             @Override
             public void onClick(View v) {
                 Log.d("onClick", "Button is Clicked");
@@ -251,7 +251,7 @@ public class GolfCourseFinderActivity extends AppCompatActivity implements OnMap
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(GolfCourseFinderActivity.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
+                Toast.makeText(GolfCourseFinderMapActivity.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -317,7 +317,7 @@ public class GolfCourseFinderActivity extends AppCompatActivity implements OnMap
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-        Toast.makeText(GolfCourseFinderActivity.this, "Your Current Location", Toast.LENGTH_LONG).show();
+        Toast.makeText(GolfCourseFinderMapActivity.this, "Your Current Location", Toast.LENGTH_LONG).show();
 
         Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
 

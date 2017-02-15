@@ -18,9 +18,10 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.vchohan.golftravel.coursefinder.GolfCourseFinderActivity;
 import com.vchohan.golftravel.R;
 
 import java.util.ArrayList;
@@ -38,6 +39,10 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
     private ViewPager mViewPager;
 
     private LinearLayout mSetLocationButton, mBookTeeTimeButton;
+
+    private TextView mCurrentLocationText;
+
+    private ImageView mAddCurrentLocationIcon, mCurrentLocationIcon;
 
     private static final int PERMISSION_REQUEST_CODE = 200;
 
@@ -58,6 +63,13 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
 
         mSetLocationButton = (LinearLayout) rootView.findViewById(R.id.set_location_button);
         mSetLocationButton.setOnClickListener(this);
+
+        mCurrentLocationText = (TextView) rootView.findViewById(R.id.current_location_text);
+        mCurrentLocationText.setText("Set Your Current Location");
+
+        mAddCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.add_current_location_icon);
+        mAddCurrentLocationIcon.setVisibility(View.VISIBLE);
+        mCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.current_location_icon);
 
         mViewPager = (ViewPager) rootView.findViewById(R.id.golf_factor_view_pager);
         setupViewPager(mViewPager);
@@ -114,8 +126,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
     public void onClick(final View rootView) {
         switch (rootView.getId()) {
             case R.id.set_location_button:
-                requestLocationPermission();
-                locationPermission(rootView);
+                setCurrentLocation(rootView);
                 break;
             case R.id.book_tee_time_button:
                 launchBookTeeTime();
@@ -123,10 +134,16 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void launchBookTeeTime() {
-        Intent bookTeeTimeIntent = new Intent(getContext(), GolfCourseFinderActivity.class);
-        bookTeeTimeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(bookTeeTimeIntent);
+    private void setCurrentLocation(View rootView) {
+        mAddCurrentLocationIcon.setVisibility(View.GONE);
+        mCurrentLocationIcon.setVisibility(View.VISIBLE);
+
+        requestLocationPermission();
+        locationPermission(rootView);
+    }
+
+    private void requestLocationPermission() {
+        ActivityCompat.requestPermissions((Activity) getContext(), new String[]{ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
     }
 
     private void locationPermission(View rootView) {
@@ -141,10 +158,6 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
         } else {
             Snackbar.make(rootView, "Permission already granted.", Snackbar.LENGTH_LONG).show();
         }
-    }
-
-    private void requestLocationPermission() {
-        ActivityCompat.requestPermissions((Activity) getContext(), new String[]{ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
     }
 
     private boolean checkLocationPermission() {
@@ -198,5 +211,11 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
             .setNegativeButton("Cancel", null)
             .create()
             .show();
+    }
+
+    private void launchBookTeeTime() {
+        Intent bookTeeTimeIntent = new Intent(getContext(), GolfCourseFinderMapActivity.class);
+        bookTeeTimeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(bookTeeTimeIntent);
     }
 }

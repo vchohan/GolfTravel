@@ -45,9 +45,9 @@ public class GolfRoundInfoViewHolder extends RecyclerView.ViewHolder {
         Glide.with(context).load(image).into(golfCourseImage);
     }
 
-    public void setName(String title) {
-        TextView golfCourseTitle = (TextView) mView.findViewById(R.id.golf_course_name);
-        golfCourseTitle.setText(title);
+    public void setName(String name) {
+        TextView golfCourseName = (TextView) mView.findViewById(R.id.golf_course_name);
+        golfCourseName.setText(name);
     }
 
     public void setDate(String date) {

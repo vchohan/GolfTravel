@@ -4,7 +4,11 @@ public class GolfRoundInfoUtils {
 
     private String image;
 
-    private String title;
+    private String name;
+
+    private String date;
+
+    private String time;
 
     private String username;
 
@@ -12,9 +16,9 @@ public class GolfRoundInfoUtils {
 
     }
 
-    public GolfRoundInfoUtils(String Image, String Title, String Username) {
+    public GolfRoundInfoUtils(String Image, String name, String Username) {
         this.image = Image;
-        this.title = Title;
+        this.name = name;
         this.username = Username;
 
     }
@@ -27,12 +31,28 @@ public class GolfRoundInfoUtils {
         this.image = image;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getUsername() {

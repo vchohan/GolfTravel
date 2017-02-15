@@ -6,9 +6,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -55,15 +57,13 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
 
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    private DatabaseReference mDatabaseGolfRoundInfo;
+    private DatabaseReference mDatabaseGolfRoundInfo, mDatabaseUsers, mDatabaseLikes;
 
-    private DatabaseReference mDatabaseUsers;
+    private StorageReference mStorageGolfCourseImage;
 
-    private DatabaseReference mDatabaseLikes;
+    private Uri mImageUri = null;
 
     private boolean mProcessLike = false;
-
-    private ProgressDialog mProgressDialog;
 
     public GolfFactorFragment() {
         // Required empty public constructor
@@ -93,6 +93,8 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         initializeFirebaseAuth();
         initializeFirebaseDatabase();
         initializeRecyclerView(rootView);
+
+        mStorageGolfCourseImage = FirebaseStorage.getInstance().getReference();
 
         return rootView;
     }
@@ -224,8 +226,6 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
     }
 
     private void setupFirebaseRecyclerView() {
-        showProgressDialog();
-
         mAuth.addAuthStateListener(mAuthListener);
 
         // user mDatabaseGolfRoundInfo for all users, else mQueryCurrentUser for logged in single user
@@ -283,7 +283,14 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
                             });
                         }
                     });
-                    hideProgressDialog();
+
+                    viewHolder.mRemoveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDatabaseGolfRoundInfo.child(golfRoundInfoKey).removeValue();
+
+                        }
+                    });
                 }
             };
 
@@ -305,21 +312,6 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
             }
         });
         mGolfRoundInfoRecyclerView.setAdapter(firebaseRecyclerAdapter);
-    }
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getContext());
-            mProgressDialog.setMessage("Loading...");
-            mProgressDialog.setIndeterminate(true);
-        }
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
     }
 
 }

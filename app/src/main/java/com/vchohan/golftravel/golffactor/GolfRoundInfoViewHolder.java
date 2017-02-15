@@ -22,7 +22,7 @@ public class GolfRoundInfoViewHolder extends RecyclerView.ViewHolder {
 
     ImageView mRemoveButton, mLikeButton;
 
-    DatabaseReference mDatabaseLikes;
+    DatabaseReference mDatabaseLikes, mDatabaseRemove;
 
     FirebaseAuth mAuth;
 
@@ -31,7 +31,6 @@ public class GolfRoundInfoViewHolder extends RecyclerView.ViewHolder {
         mView = itemView;
 
         mRemoveButton = (ImageView) mView.findViewById(R.id.remove_button);
-
         mLikeButton = (ImageView) mView.findViewById(R.id.like_button);
 
         mDatabaseLikes = FirebaseDatabase.getInstance().getReference().child("Likes");
@@ -78,4 +77,5 @@ public class GolfRoundInfoViewHolder extends RecyclerView.ViewHolder {
             }
         });
     }
+
 }

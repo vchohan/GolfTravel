@@ -140,12 +140,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initializeFirebase();
         setupToolBarAndNavigationDrawer();
 
-        setupWeatherView();
-        setupWeatherDetailsView();
+        setupWeatherSummaryView();
+        initializeWeatherDetailsView();
 
         setupFloatingActionMenu();
         createCustomAnimation();
         logoutFacebook();
+
     }
 
     @Override
@@ -420,13 +421,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
     }
 
-    private void setupWeatherDetailsView() {
+    private void initializeWeatherDetailsView() {
         mWeatherInfoButton = (RelativeLayout) findViewById(R.id.weather_info_container);
         mWeatherInfoButton.setOnClickListener(this);
     }
 
-    private void setupWeatherView() {
-
+    private void setupWeatherSummaryView() {
         weatherIconImageView = (ImageView) findViewById(R.id.weatherIconImageView);
         temperatureTextView = (TextView) findViewById(R.id.temperature_text);
         conditionTextView = (TextView) findViewById(R.id.condition_text);
@@ -551,7 +551,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void geocodeSuccess(LocationResult location) {
         // completed geocoding successfully
         weatherService.refreshWeather(location.getAddress());
-
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(getString(R.string.pref_cached_location), location.getAddress());
         editor.apply();
@@ -587,12 +586,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.weather_info_container:
-                setWeatherInfoView();
+                setupWeatherDetailsView();
                 break;
         }
     }
 
-    private void setWeatherInfoView() {
+    private void setupWeatherDetailsView() {
         Intent weatherIntent = new Intent(MainActivity.this, WeatherActivity.class);
         weatherIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(weatherIntent);

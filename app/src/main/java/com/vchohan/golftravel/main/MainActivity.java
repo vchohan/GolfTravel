@@ -23,9 +23,11 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -42,9 +44,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +78,7 @@ import com.vchohan.golftravel.yahooweather.YahooWeatherService;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
     View.OnClickListener, WeatherServiceListener, GeocodingServiceListener, LocationListener {
 
@@ -88,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView navProfilePhoto;
 
     private TextView navProfileName, navProfileEmail;
+
+    private ScrollView mScrollView;
+
+    private int mPreviousVisibleItem;
 
     private FloatingActionMenu mFloatingActionMenu;
 
@@ -122,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private SharedPreferences preferences = null;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupFloatingActionMenu();
         createCustomAnimation();
         logoutFacebook();
-
     }
 
     @Override
@@ -347,6 +356,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupFloatingActionMenu() {
         mFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
+        mFloatingActionMenu.setMenuButtonShowAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.show_from_bottom));
+
+        mScrollView = (ScrollView) findViewById(R.id.main_scroll_view);
+        mScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                scrollX = mScrollView.getScrollX();
+                scrollY = mScrollView.getScrollY();
+                if (scrollX >= scrollY) {
+                    mFloatingActionMenu.hideMenu(true);
+                    mFloatingActionMenu
+                        .setMenuButtonHideAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.hide_to_bottom));
+                } else if (scrollX <= scrollY){
+                    mFloatingActionMenu.showMenu(true);
+                    mFloatingActionMenu
+                        .setMenuButtonShowAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.show_from_bottom));
+                }
+
+            }
+        });
+
         mSettings = (FloatingActionButton) findViewById(R.id.menu_settings);
         mProfile = (FloatingActionButton) findViewById(R.id.menu_profile);
         mLogout = (FloatingActionButton) findViewById(R.id.mwnu_logout);

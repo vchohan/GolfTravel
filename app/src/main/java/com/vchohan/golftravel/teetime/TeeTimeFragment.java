@@ -39,7 +39,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -108,7 +107,6 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
         setupCurrentDate(rootView);
 
         mImageToggle = (ImageView) rootView.findViewById(R.id.toggle_up_down_view);
-        mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
 
         return rootView;
     }
@@ -275,9 +273,6 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
 
     private void setupCurrentDate(View rootView) {
         mSetDateText = (TextView) rootView.findViewById(R.id.calendar_date_text);
-        //TODO set current date here
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE" + "MM/dd/yyyy");
-        String currentDateandTime = simpleDateFormat.format(new Date(date));
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("EEEE" + ", " + "MMMM dd" + ", " + "yyyy");

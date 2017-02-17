@@ -88,7 +88,6 @@ public class GolfFactorFragment extends Fragment implements View.OnClickListener
         mViewGolfRoundInfoButton.setOnClickListener(this);
         mGolfRoundInfoLayout = (LinearLayout) rootView.findViewById(R.id.golf_round_info_Layout);
         mImageToggle = (ImageView) rootView.findViewById(R.id.toggle_up_down_view);
-        mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
 
         initializeFirebaseAuth();
         initializeFirebaseDatabase();

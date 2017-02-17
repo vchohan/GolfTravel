@@ -53,7 +53,8 @@
     <string name="fb_login_protocol_scheme">fb704463803043979</string>
 
     <!-- tee time strings-->
-    <string name="set_current_location">Set Current Location</string>
+    <string name="current_location">Current Location</string>
+    <string name="change_location">Change Location</string>
     <string name="set_calendar_date">Set Your Date</string>
 
     <!-- other strings-->

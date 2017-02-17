@@ -1,6 +1,7 @@
 package com.vchohan.golftravel.teetime;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.transition.TransitionManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,12 +28,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vchohan.golftravel.R;
 
@@ -55,11 +56,11 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
 
     private ViewPager mViewPager;
 
-    private LinearLayout mSetLocationButton, mSetDateButton, mCalendarLayout, mBookTeeTimeButton;
+    private LinearLayout mCurrentLocationButton, mChangeLocationLayout, mSetDateButton;
 
-    private TextView mCurrentLocationText, mCalendarDateText;
+    private TextView mCurrentLocationText, mChangeLocationText, mCalendarDateText;
 
-    private ImageView mAddCurrentLocationIcon, mCurrentLocationIcon;
+    private ImageView mCurrentLocationIcon, mChangeLocationIcon;
 
     private ImageView mImageToggle;
 
@@ -84,14 +85,17 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.teetime_fragment, container, false);
 
-        mSetLocationButton = (LinearLayout) rootView.findViewById(R.id.set_location_button);
-        mSetLocationButton.setOnClickListener(this);
+        mCurrentLocationButton = (LinearLayout) rootView.findViewById(R.id.current_location_button);
+        mCurrentLocationButton.setOnClickListener(this);
+        setupCurrentLocation(rootView);
 
-        mCurrentLocationText = (TextView) rootView.findViewById(R.id.current_location_text);
+        mChangeLocationLayout = (LinearLayout) rootView.findViewById(R.id.change_location_layout);
+        mChangeLocationLayout.setOnClickListener(this);
 
-        mAddCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.add_current_location_icon);
-        mAddCurrentLocationIcon.setVisibility(View.VISIBLE);
-        mCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.current_location_icon);
+        mChangeLocationIcon = (ImageView) rootView.findViewById(R.id.change_location_icon);
+        mChangeLocationIcon.setVisibility(View.VISIBLE);
+
+        mChangeLocationText = (TextView) rootView.findViewById(R.id.change_location_text);
 
 //        mTabLayout = (TabLayout) rootView.findViewById(R.id.golf_factor_tab_view);
 //        mTabLayout.setupWithViewPager(mViewPager);
@@ -109,8 +113,6 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
 
         mImageToggle = (ImageView) rootView.findViewById(R.id.toggle_up_down_view);
         mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
-
-        mCalendarLayout = (LinearLayout) rootView.findViewById(R.id.calendar_Layout);
 
         return rootView;
     }
@@ -175,12 +177,14 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
     @Override
     public void onClick(final View rootView) {
         switch (rootView.getId()) {
-            case R.id.set_location_button:
-                setCurrentLocation(rootView);
+            case R.id.current_location_button:
+                setupChangeLocationCardView();
+                break;
+            case R.id.change_location_layout:
+                Toast.makeText(getContext(), "asdfas", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.set_date_button:
                 showDatePickerDialog();
-//                setCalendarDate();
                 break;
             case R.id.book_tee_time_button:
                 launchBookTeeTime();
@@ -188,7 +192,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
         }
     }
 
-    private void setCurrentLocation(View rootView) {
+    private void setupCurrentLocation(View rootView) {
         //Location Manager is used to figure out which location provider needs to be used.
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
@@ -224,9 +228,12 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
                 String locationName = addresses.get(0).getLocality().toString() + ", " +
                     addresses.get(0).getAdminArea().toString() + " " +
                     addresses.get(0).getCountryName().toString();
-                mCurrentLocationText.setText(locationName);
-                mAddCurrentLocationIcon.setVisibility(View.GONE);
+
+                mCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.current_location_icon);
                 mCurrentLocationIcon.setVisibility(View.VISIBLE);
+
+                mCurrentLocationText = (TextView) rootView.findViewById(R.id.current_location_text);
+                mCurrentLocationText.setText(locationName);
                 // }
             }
 
@@ -307,7 +314,8 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
             .show();
     }
 
-    private void setCalendarDate() {
+
+    private void setupChangeLocationCardView() {
         if (isExpanded) {
             mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
             animateCollapseLayout();
@@ -315,29 +323,25 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
             mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_up_white_24dp);
             animateExpandLayout();
         }
+
     }
 
     public void animateExpandLayout() {
-        if (mCalendarLayout != null) {
+        if (mChangeLocationLayout != null) {
             isExpanded = true;
-            mCalendarLayout.setVisibility(LinearLayout.VISIBLE);
-            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.jump_from_down);
-            animation.setDuration(500);
-            mCalendarLayout.setAnimation(animation);
-            mCalendarLayout.animate();
-            animation.start();
+            TransitionManager.beginDelayedTransition(mChangeLocationLayout);
+            mChangeLocationLayout.setVisibility(LinearLayout.VISIBLE);
+            ObjectAnimator animation = ObjectAnimator.ofInt(mChangeLocationLayout, "max", mChangeLocationLayout.getScrollY());
+            animation.setDuration(500).start();
         }
     }
 
     public void animateCollapseLayout() {
-        if (mCalendarLayout != null) {
+        if (mChangeLocationLayout != null) {
             isExpanded = false;
-            mCalendarLayout.setVisibility(LinearLayout.GONE);
-            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.jump_to_down);
-            animation.setDuration(500);
-            mCalendarLayout.setAnimation(animation);
-            mCalendarLayout.animate();
-            animation.start();
+            mChangeLocationLayout.setVisibility(LinearLayout.GONE);
+            ObjectAnimator animation = ObjectAnimator.ofInt(mChangeLocationLayout, "max", mChangeLocationLayout.getScrollY());
+            animation.setDuration(500).start();
         }
     }
 

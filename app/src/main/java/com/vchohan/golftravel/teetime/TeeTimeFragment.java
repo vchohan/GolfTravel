@@ -2,8 +2,9 @@ package com.vchohan.golftravel.teetime;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,23 +13,20 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,9 +42,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.Context.LOCATION_SERVICE;
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class TeeTimeFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
@@ -69,6 +65,8 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
 
     private static final int PERMISSION_REQUEST_CODE = 200;
+
+    private Context mContext;
 
     public TeeTimeFragment() {
         // Required empty public constructor
@@ -117,10 +115,138 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
         return rootView;
     }
 
+    @Override
+    public void onClick(final View rootView) {
+        switch (rootView.getId()) {
+            case R.id.current_location_button:
+                setupChangeLocationCardView();
+                break;
+            case R.id.change_location_layout:
+                Toast.makeText(getContext(), "asdfas", Toast.LENGTH_SHORT).show();
+                setupChangeLocationDialog();
+                break;
+            case R.id.set_date_button:
+                showDatePickerDialog();
+                break;
+            case R.id.book_tee_time_button:
+                launchBookTeeTime();
+                break;
+        }
+    }
+
+    private void setupCurrentLocation(View rootView) {
+        //Location Manager is used to figure out which location provider needs to be used.
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+
+        //Best location provider is decided by the criteria
+        Criteria criteria = new Criteria();
+
+        //location manager will take the best location from the criteria
+        locationManager.getBestProvider(criteria, true);
+
+        //nce you know the name of the LocationProvider, you can call getLastKnownPosition() to find out where you were recently.
+        if (ActivityCompat.checkSelfPermission(getContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
+
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        Log.d("Tag", "1");
+        List<Address> addresses;
+
+        try {
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses.size() > 0) {
+                //while(locTextView.getText().toString()=="Location") {
+                String locationName = addresses.get(0).getLocality().toString() + ", " +
+                    addresses.get(0).getAdminArea().toString() + " " +
+                    addresses.get(0).getCountryName().toString();
+
+                mCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.current_location_icon);
+                mCurrentLocationIcon.setVisibility(View.VISIBLE);
+
+                mCurrentLocationText = (TextView) rootView.findViewById(R.id.current_location_text);
+                mCurrentLocationText.setText(locationName);
+                // }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    private void setupChangeLocationCardView() {
+        if (isExpanded) {
+            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
+            animateCollapseLayout();
+        } else {
+            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_up_white_24dp);
+            animateExpandLayout();
+        }
+
+    }
+
+    public void animateExpandLayout() {
+        if (mChangeLocationLayout != null) {
+            isExpanded = true;
+            TransitionManager.beginDelayedTransition(mChangeLocationLayout);
+            mChangeLocationLayout.setVisibility(LinearLayout.VISIBLE);
+            ObjectAnimator animation = ObjectAnimator.ofInt(mChangeLocationLayout, "max", mChangeLocationLayout.getScrollY());
+            animation.setDuration(500).start();
+        }
+    }
+
+    public void animateCollapseLayout() {
+        if (mChangeLocationLayout != null) {
+            isExpanded = false;
+            mChangeLocationLayout.setVisibility(LinearLayout.GONE);
+            ObjectAnimator animation = ObjectAnimator.ofInt(mChangeLocationLayout, "max", mChangeLocationLayout.getScrollY());
+            animation.setDuration(500).start();
+        }
+    }
+
+    private void setupChangeLocationDialog() {
+
+        final TextView mTitle;
+
+        final EditText mUserInput;
+
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getActivity());
+        View mView = layoutInflaterAndroid.inflate(R.layout.dialog_fragment, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
+        alertDialogBuilderUserInput.setView(mView);
+
+        mTitle = (TextView) mView.findViewById(R.id.dialog_title);
+        mTitle.setText(getString(R.string.enter_city_zip_code));
+
+        mUserInput = (EditText) mView.findViewById(R.id.user_input);
+
+        alertDialogBuilderUserInput.setCancelable(false).setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogBox, int id) {
+                // ToDo get user input here
+                String newLocation = mUserInput.getText().toString();
+                mChangeLocationText.setText(newLocation);
+            }
+        }).setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        dialogBox.cancel();
+                    }
+                });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+    }
+
     // attach to an onclick handler to show the date picker
     public void showDatePickerDialog() {
-        DatePickerFragment newFragment = new DatePickerFragment();
-        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 
     // handle the date selected
@@ -172,177 +298,6 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
             return mFragmentTitleList.get(position);
         }
 
-    }
-
-    @Override
-    public void onClick(final View rootView) {
-        switch (rootView.getId()) {
-            case R.id.current_location_button:
-                setupChangeLocationCardView();
-                break;
-            case R.id.change_location_layout:
-                Toast.makeText(getContext(), "asdfas", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.set_date_button:
-                showDatePickerDialog();
-                break;
-            case R.id.book_tee_time_button:
-                launchBookTeeTime();
-                break;
-        }
-    }
-
-    private void setupCurrentLocation(View rootView) {
-        //Location Manager is used to figure out which location provider needs to be used.
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-
-        //Best location provider is decided by the criteria
-        Criteria criteria = new Criteria();
-
-        //location manager will take the best location from the criteria
-        locationManager.getBestProvider(criteria, true);
-
-        //nce you know the name of the LocationProvider, you can call getLastKnownPosition() to find out where you were recently.
-        if (ActivityCompat.checkSelfPermission(getContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(getContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            // requestPermissions
-            requestLocationPermission();
-            locationPermission(rootView);
-
-            return;
-        }
-
-        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
-
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        Log.d("Tag", "1");
-        List<Address> addresses;
-
-        try {
-            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            if (addresses.size() > 0) {
-                //while(locTextView.getText().toString()=="Location") {
-                String locationName = addresses.get(0).getLocality().toString() + ", " +
-                    addresses.get(0).getAdminArea().toString() + " " +
-                    addresses.get(0).getCountryName().toString();
-
-                mCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.current_location_icon);
-                mCurrentLocationIcon.setVisibility(View.VISIBLE);
-
-                mCurrentLocationText = (TextView) rootView.findViewById(R.id.current_location_text);
-                mCurrentLocationText.setText(locationName);
-                // }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-    private void requestLocationPermission() {
-        ActivityCompat.requestPermissions((Activity) getContext(), new String[]{ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
-    }
-
-    private void locationPermission(View rootView) {
-        if (checkLocationPermission()) {
-            Snackbar.make(rootView, "Permission already granted.", Snackbar.LENGTH_LONG).show();
-        } else {
-            Snackbar.make(rootView, "Please request permission.", Snackbar.LENGTH_LONG).show();
-        }
-
-        if (!checkLocationPermission()) {
-            requestLocationPermission();
-        } else {
-            Snackbar.make(rootView, "Permission already granted.", Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    private boolean checkLocationPermission() {
-        int result = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION);
-        return result == PackageManager.PERMISSION_GRANTED;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0) {
-
-                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    View rootView = null;
-
-                    if (locationAccepted) {
-                        Snackbar.make(rootView, "Permission Granted, GolfTravel can now access location data.",
-                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                    } else {
-                        Snackbar.make(rootView, "Permission Denied, GolfTravel cannot access location data.",
-                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
-                                showMessageOKCancel("Allow access to location permission in order to retrieve accurate data.",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions(new String[]{ACCESS_FINE_LOCATION},
-                                                    PERMISSION_REQUEST_CODE);
-                                            }
-                                        }
-                                    });
-                                return;
-                            }
-                        }
-
-                    }
-                }
-
-                break;
-        }
-    }
-
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(getContext())
-            .setMessage(message)
-            .setPositiveButton("OK", okListener)
-            .setNegativeButton("Cancel", null)
-            .create()
-            .show();
-    }
-
-
-    private void setupChangeLocationCardView() {
-        if (isExpanded) {
-            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
-            animateCollapseLayout();
-        } else {
-            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_up_white_24dp);
-            animateExpandLayout();
-        }
-
-    }
-
-    public void animateExpandLayout() {
-        if (mChangeLocationLayout != null) {
-            isExpanded = true;
-            TransitionManager.beginDelayedTransition(mChangeLocationLayout);
-            mChangeLocationLayout.setVisibility(LinearLayout.VISIBLE);
-            ObjectAnimator animation = ObjectAnimator.ofInt(mChangeLocationLayout, "max", mChangeLocationLayout.getScrollY());
-            animation.setDuration(500).start();
-        }
-    }
-
-    public void animateCollapseLayout() {
-        if (mChangeLocationLayout != null) {
-            isExpanded = false;
-            mChangeLocationLayout.setVisibility(LinearLayout.GONE);
-            ObjectAnimator animation = ObjectAnimator.ofInt(mChangeLocationLayout, "max", mChangeLocationLayout.getScrollY());
-            animation.setDuration(500).start();
-        }
     }
 
     private void launchBookTeeTime() {

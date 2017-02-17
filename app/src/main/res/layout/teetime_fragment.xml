@@ -28,24 +28,23 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:layout_gravity="center"
                         android:clickable="true"
                         android:background="?attr/selectableItemBackground"
                         android:weightSum="1">
 
                     <ImageView
                             android:id="@+id/current_location_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
                             android:src="@drawable/ic_location_on_white_24dp"
-                            android:visibility="gone"
                             android:layout_weight="0" />
 
                     <TextView
                             android:id="@+id/current_location_text"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:text="@string/current_location"
                             android:textSize="16sp"
@@ -55,9 +54,10 @@
 
                     <ImageView
                             android:id="@+id/toggle_up_down_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_keyboard_arrow_down_white_24dp"
                             android:layout_weight="0" />
 
                 </LinearLayout>
@@ -73,15 +73,22 @@
                     android:layout_marginTop="-10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:clickable="true"
                     android:visibility="gone"
-                    android:background="@color/colorRed500">
+                    android:background="@color/colorRed500"
+                    android:weightSum="1">
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:layout_weight="0" />
 
                 <TextView
                         android:id="@+id/change_location_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="@string/change_location"
                         android:textSize="16sp"
@@ -91,11 +98,10 @@
 
                 <ImageView
                         android:id="@+id/change_location_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
                         android:src="@drawable/ic_add_location_white_24dp"
-                        android:visibility="gone"
                         android:layout_weight="0" />
 
             </LinearLayout>
@@ -113,29 +119,35 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:layout_gravity="center"
                         android:clickable="true"
                         android:background="?attr/selectableItemBackground"
                         android:weightSum="1">
 
                     <ImageView
                             android:id="@+id/calendar_date_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
                             android:src="@drawable/ic_date_range_white_24dp"
                             android:layout_weight="0" />
 
                     <TextView
                             android:id="@+id/calendar_date_text"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:text="@string/set_calendar_date"
                             android:textSize="16sp"
                             android:textColor="@color/colorWhite"
                             android:textStyle="bold"
                             android:layout_weight="1" />
+
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:layout_weight="0" />
 
                 </LinearLayout>
 

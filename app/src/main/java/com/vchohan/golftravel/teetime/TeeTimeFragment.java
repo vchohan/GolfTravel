@@ -12,6 +12,7 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ParseException;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.transition.TransitionManager;
@@ -34,8 +35,11 @@ import android.widget.Toast;
 import com.vchohan.golftravel.R;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,13 +55,19 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
 
     private LinearLayout mCurrentLocationButton, mChangeLocationLayout, mSetDateButton;
 
-    private TextView mCurrentLocationText, mChangeLocationText, mCalendarDateText;
+    private TextView mCurrentLocationText, mSetDateText;
 
     private ImageView mCurrentLocationIcon, mChangeLocationIcon;
 
     private ImageView mImageToggle;
 
     private boolean isExpanded = false;
+
+    private long date;
+
+    private DateFormat format;
+
+    private String currentDateandTime;
 
     public TeeTimeFragment() {
         // Required empty public constructor
@@ -84,8 +94,6 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
         mChangeLocationIcon = (ImageView) rootView.findViewById(R.id.change_location_icon);
         mChangeLocationIcon.setVisibility(View.VISIBLE);
 
-        mChangeLocationText = (TextView) rootView.findViewById(R.id.change_location_text);
-
 //        mTabLayout = (TabLayout) rootView.findViewById(R.id.golf_factor_tab_view);
 //        mTabLayout.setupWithViewPager(mViewPager);
 //
@@ -97,8 +105,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
 
         mSetDateButton = (LinearLayout) rootView.findViewById(R.id.set_date_button);
         mSetDateButton.setOnClickListener(this);
-
-        mCalendarDateText = (TextView) rootView.findViewById(R.id.calendar_date_text);
+        setupCurrentDate(rootView);
 
         mImageToggle = (ImageView) rootView.findViewById(R.id.toggle_up_down_view);
         mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
@@ -235,6 +242,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
                             Toast.makeText(getContext(), locationName, Toast.LENGTH_LONG).show();
 
                             mCurrentLocationText.setText(locationName);
+                            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
                             animateCollapseLayout();
                         }
 
@@ -263,6 +271,21 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
 
         AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();
+    }
+
+    private void setupCurrentDate(View rootView) {
+        mSetDateText = (TextView) rootView.findViewById(R.id.calendar_date_text);
+        //TODO set current date here
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE" + "MM/dd/yyyy");
+        String currentDateandTime = simpleDateFormat.format(new Date(date));
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("EEEE" + ", " + "MMMM dd" + ", " + "yyyy");
+        try {
+            mSetDateText.setText(format.format(calendar.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     // attach to an onclick handler to show the date picker

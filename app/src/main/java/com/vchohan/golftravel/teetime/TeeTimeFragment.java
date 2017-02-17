@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -44,7 +46,7 @@ import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class TeeTimeFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class TeeTimeFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = TeeTimeFragment.class.getSimpleName();
 
@@ -52,7 +54,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
 
     private ViewPager mViewPager;
 
-    private LinearLayout mCurrentLocationButton, mChangeLocationLayout, mSetDateButton;
+    private LinearLayout mCurrentLocationButton, mChangeLocationLayout, mSetDateButton, mBookTeeTimeButton;
 
     private TextView mCurrentLocationText, mSetDateText;
 
@@ -61,6 +63,8 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
     private ImageView mImageToggle;
 
     private boolean isExpanded = false;
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     private long date;
 
@@ -99,8 +103,8 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
 //        mViewPager = (ViewPager) rootView.findViewById(R.id.golf_factor_view_pager);
 //        setupViewPager(mViewPager);
 //
-//        mBookTeeTimeButton = (LinearLayout) rootView.findViewById(R.id.book_tee_time_button);
-//        mBookTeeTimeButton.setOnClickListener(this);
+        mBookTeeTimeButton = (LinearLayout) rootView.findViewById(R.id.book_tee_time_button);
+        mBookTeeTimeButton.setOnClickListener(this);
 
         mSetDateButton = (LinearLayout) rootView.findViewById(R.id.set_date_button);
         mSetDateButton.setOnClickListener(this);
@@ -281,23 +285,37 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
     }
 
-    // attach to an onclick handler to show the date picker
     public void showDatePickerDialog() {
-        DatePickerFragment datePickerFragment = new DatePickerFragment();
-        datePickerFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 
-    // handle the date selected
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
+    public static class DatePickerFragment extends DialogFragment
+        implements DatePickerDialog.OnDateSetListener {
 
-        // store the values selected into a Calendar instance
-        final Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day);
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
+            SimpleDateFormat format = new SimpleDateFormat("EEEE" + ", " + "MMMM dd" + ", " + "yyyy");
+
+            String selectedDate = String.valueOf(month + 1) + "/" + String.valueOf(day) + "/" + String.valueOf(year);
+
+            Toast.makeText(getContext(), selectedDate, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {

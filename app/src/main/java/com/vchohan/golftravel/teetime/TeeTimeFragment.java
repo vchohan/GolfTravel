@@ -4,7 +4,6 @@ import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,8 +34,6 @@ import android.widget.Toast;
 import com.vchohan.golftravel.R;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -61,12 +58,6 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
     private ImageView mImageToggle;
 
     private boolean isExpanded = false;
-
-    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
-
-    private static final int PERMISSION_REQUEST_CODE = 200;
-
-    private Context mContext;
 
     public TeeTimeFragment() {
         // Required empty public constructor
@@ -211,9 +202,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
     }
 
     private void setupChangeLocationDialog() {
-
         final TextView mTitle;
-
         final EditText mUserInput;
 
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getActivity());
@@ -230,14 +219,47 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener, D
             public void onClick(DialogInterface dialogBox, int id) {
                 // ToDo get user input here
                 String newLocation = mUserInput.getText().toString();
-                mChangeLocationText.setText(newLocation);
-            }
-        }).setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogBox, int id) {
-                        dialogBox.cancel();
+
+                final Geocoder geocoder = new Geocoder(getContext());
+                final String zipCode = newLocation;
+                try {
+                    List<Address> addresses = geocoder.getFromLocationName(zipCode, 1);
+                    if (addresses != null && !addresses.isEmpty()) {
+                        Address address = addresses.get(0);
+
+                        if (addresses.size() > 0) {
+                            String locationName = addresses.get(0).getLocality().toString() + ", " +
+                                addresses.get(0).getAdminArea().toString() + " " +
+                                addresses.get(0).getCountryName().toString();
+
+                            Toast.makeText(getContext(), locationName, Toast.LENGTH_LONG).show();
+
+                            mCurrentLocationText.setText(locationName);
+                            animateCollapseLayout();
+                        }
+
+                        // below is for Latitude and Longitude
+//                        String message = String.format("Latitude: %f, Longitude: %f",
+//                            address.getLatitude(), address.getLongitude());
+//                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+//
+//                        mCurrentLocationText.setText(message);
+//                        animateCollapseLayout();
+
+                    } else {
+                        // Display appropriate message when Geocoder services are not available
+                        Toast.makeText(getContext(), "Unable to geocode zipcode", Toast.LENGTH_LONG).show();
                     }
-                });
+                } catch (IOException e) {
+                    // handle exception
+                }
+
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogBox, int id) {
+                dialogBox.cancel();
+            }
+        });
 
         AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();

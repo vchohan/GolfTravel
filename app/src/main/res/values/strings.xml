@@ -52,9 +52,13 @@
     <string name="facebook_app_id">704463803043979</string>
     <string name="fb_login_protocol_scheme">fb704463803043979</string>
 
+    <!-- tee time strings-->
+    <string name="set_current_location">Set Current Location</string>
+    <string name="set_calendar_date">Set Your Date</string>
+
     <!-- other strings-->
     <string name="progress_bar_loading">Loading</string>
-    <string name="set_your_location">Set Your Current Location</string>
+
 
     <!-- firebase auth string -->
     <string name="label_google_sign_in">Firebase + Google Sign In</string>

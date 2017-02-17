@@ -2,6 +2,7 @@ package com.vchohan.golftravel.teetime;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +26,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +36,10 @@ import android.widget.TextView;
 import com.vchohan.golftravel.R;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,7 +47,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.Context.LOCATION_SERVICE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class TeeTimeFragment extends Fragment implements View.OnClickListener {
+public class TeeTimeFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = TeeTimeFragment.class.getSimpleName();
 
@@ -48,11 +55,17 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
 
     private ViewPager mViewPager;
 
-    private LinearLayout mSetLocationButton, mBookTeeTimeButton;
+    private LinearLayout mSetLocationButton, mSetDateButton, mCalendarLayout, mBookTeeTimeButton;
 
-    private TextView mCurrentLocationText;
+    private TextView mCurrentLocationText, mCalendarDateText;
 
     private ImageView mAddCurrentLocationIcon, mCurrentLocationIcon;
+
+    private ImageView mImageToggle;
+
+    private boolean isExpanded = false;
+
+    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
 
     private static final int PERMISSION_REQUEST_CODE = 200;
 
@@ -69,28 +82,54 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.tee_time_fragment, container, false);
+        final View rootView = inflater.inflate(R.layout.teetime_fragment, container, false);
 
         mSetLocationButton = (LinearLayout) rootView.findViewById(R.id.set_location_button);
         mSetLocationButton.setOnClickListener(this);
 
         mCurrentLocationText = (TextView) rootView.findViewById(R.id.current_location_text);
-        mCurrentLocationText.setText(getString(R.string.set_your_location));
 
         mAddCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.add_current_location_icon);
         mAddCurrentLocationIcon.setVisibility(View.VISIBLE);
         mCurrentLocationIcon = (ImageView) rootView.findViewById(R.id.current_location_icon);
 
-        mViewPager = (ViewPager) rootView.findViewById(R.id.golf_factor_view_pager);
-        setupViewPager(mViewPager);
+//        mTabLayout = (TabLayout) rootView.findViewById(R.id.golf_factor_tab_view);
+//        mTabLayout.setupWithViewPager(mViewPager);
+//
+//        mViewPager = (ViewPager) rootView.findViewById(R.id.golf_factor_view_pager);
+//        setupViewPager(mViewPager);
+//
+//        mBookTeeTimeButton = (LinearLayout) rootView.findViewById(R.id.book_tee_time_button);
+//        mBookTeeTimeButton.setOnClickListener(this);
 
-        mTabLayout = (TabLayout) rootView.findViewById(R.id.golf_factor_tab_view);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mSetDateButton = (LinearLayout) rootView.findViewById(R.id.set_date_button);
+        mSetDateButton.setOnClickListener(this);
 
-        mBookTeeTimeButton = (LinearLayout) rootView.findViewById(R.id.book_tee_time_button);
-        mBookTeeTimeButton.setOnClickListener(this);
+        mCalendarDateText = (TextView) rootView.findViewById(R.id.calendar_date_text);
+
+        mImageToggle = (ImageView) rootView.findViewById(R.id.toggle_up_down_view);
+        mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
+
+        mCalendarLayout = (LinearLayout) rootView.findViewById(R.id.calendar_Layout);
 
         return rootView;
+    }
+
+    // attach to an onclick handler to show the date picker
+    public void showDatePickerDialog() {
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+    }
+
+    // handle the date selected
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+
+        // store the values selected into a Calendar instance
+        final Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -130,6 +169,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
     }
 
     @Override
@@ -137,6 +177,10 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
         switch (rootView.getId()) {
             case R.id.set_location_button:
                 setCurrentLocation(rootView);
+                break;
+            case R.id.set_date_button:
+                showDatePickerDialog();
+//                setCalendarDate();
                 break;
             case R.id.book_tee_time_button:
                 launchBookTeeTime();
@@ -158,7 +202,7 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
         if (ActivityCompat.checkSelfPermission(getContext(),
             Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(getContext(),
-            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             // requestPermissions
             requestLocationPermission();
@@ -261,6 +305,40 @@ public class TeeTimeFragment extends Fragment implements View.OnClickListener {
             .setNegativeButton("Cancel", null)
             .create()
             .show();
+    }
+
+    private void setCalendarDate() {
+        if (isExpanded) {
+            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_down_white_24dp);
+            animateCollapseLayout();
+        } else {
+            mImageToggle.setImageResource(R.drawable.ic_keyboard_arrow_up_white_24dp);
+            animateExpandLayout();
+        }
+    }
+
+    public void animateExpandLayout() {
+        if (mCalendarLayout != null) {
+            isExpanded = true;
+            mCalendarLayout.setVisibility(LinearLayout.VISIBLE);
+            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.jump_from_down);
+            animation.setDuration(500);
+            mCalendarLayout.setAnimation(animation);
+            mCalendarLayout.animate();
+            animation.start();
+        }
+    }
+
+    public void animateCollapseLayout() {
+        if (mCalendarLayout != null) {
+            isExpanded = false;
+            mCalendarLayout.setVisibility(LinearLayout.GONE);
+            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.jump_to_down);
+            animation.setDuration(500);
+            mCalendarLayout.setAnimation(animation);
+            mCalendarLayout.animate();
+            animation.start();
+        }
     }
 
     private void launchBookTeeTime() {
